@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
+import { FactorialService } from './services/factorial.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -16,7 +18,9 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [
+    FactorialService
+  ],
   bootstrap: [
     AppComponent
   ]
