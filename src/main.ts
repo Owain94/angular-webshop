@@ -1,3 +1,4 @@
+import { bootloader } from './bootloader';
 import 'zone.js/dist/zone';
 
 import { enableProdMode } from '@angular/core';
@@ -10,4 +11,8 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppBrowserModule);
+const bootstrap = () => {
+  return platformBrowserDynamic().bootstrapModule(AppBrowserModule);
+};
+
+bootloader(bootstrap);
