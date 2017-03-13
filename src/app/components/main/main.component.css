@@ -1,19 +1,19 @@
-div label{
+div label {
   display: block;
 }
 
-.header{
+.header {
   padding: 5px;
   padding-bottom: 20px;
   font-size: 20px;
 }
 
-button:disabled{
+button:disabled {
   color: #aaa;
   background-color: #777;
 }
 
-button{
+button {
   padding: 10px;
   border: none;
   background-color: #333;
@@ -21,12 +21,12 @@ button{
   margin: 5px;
 }
 
-input{
+input {
   padding: 8px;
   margin: 5px;
 }
 
-.items{
+.items {
   font-size: 20px;
   color: #333;
   padding: 20px;

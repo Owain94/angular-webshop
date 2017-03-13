@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TransferState } from './modules/transfer-state/transfer-state';
+import { TransferState } from '../../modules/transfer-state/transfer-state';
 
-import { FactorialService } from './services/factorial.service';
+import { FactorialService } from '../../services/factorial.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.css']
 })
-export class AppComponent implements OnInit {
+export class MainComponent implements OnInit {
 
 // tslint:disable-next-line:no-inferrable-types
   public items = [];
