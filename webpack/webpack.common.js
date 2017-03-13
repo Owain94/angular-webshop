@@ -1,12 +1,12 @@
-const path = require('path');
-const ProgressPlugin = require('webpack/lib/ProgressPlugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
-const postcssUrl = require('postcss-url');
-const webpack = require('webpack');
+const path = require("path");
+const ProgressPlugin = require("webpack/lib/ProgressPlugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const autoprefixer = require("autoprefixer");
+const postcssUrl = require("postcss-url");
+const webpack = require("webpack");
 
-const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require('@angular/cli/plugins/webpack');
-const { AotPlugin } = require('@ngtools/webpack');
+const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require("@angular/cli/plugins/webpack");
+const { AotPlugin } = require("@ngtools/webpack");
 
 const baseHref = undefined;
 const deployUrl = undefined;

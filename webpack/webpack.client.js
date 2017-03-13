@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 const webpack = require("webpack");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const { CommonsChunkPlugin } = require('webpack').optimize;
+const { CommonsChunkPlugin } = require("webpack").optimize;
 
-const nodeModules = path.join(process.cwd(), 'node_modules');
+const nodeModules = path.join(process.cwd(), "node_modules");
 const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"];
 
 /**

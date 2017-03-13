@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
-const postcssUrl = require('postcss-url');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const autoprefixer = require("autoprefixer");
+const postcssUrl = require("postcss-url");
 
-const { LoaderOptionsPlugin } = require('webpack');
+const { LoaderOptionsPlugin } = require("webpack");
 
 /**
  * This is a prod config to be merged with the Client config
