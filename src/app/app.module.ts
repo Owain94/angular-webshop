@@ -22,19 +22,19 @@ import { FactorialService } from './services/factorial.service';
     HttpModule,
     TransferHttpModule,
     RouterModule.forRoot([
-        {
-          path: '',
-          component: HomeViewComponent,
-          pathMatch: 'full'
-        },
-        {
-          path: 'lazy',
-          loadChildren: './+lazy/lazy.module#LazyModule'
-        }
-      ], {
-        useHash: false,
-        preloadingStrategy: PreloadAllModules
-      })
+      {
+        path: '',
+        component: HomeViewComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'lazy',
+        loadChildren: './+lazy/lazy.module#LazyModule'
+      }
+    ], {
+      useHash: false,
+      preloadingStrategy: PreloadAllModules
+    })
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/'},
