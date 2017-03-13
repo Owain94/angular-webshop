@@ -1,7 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
+import { TransferHttpModule } from './modules/transfer-http/transfer-http.module';
 
 import { AppComponent } from './app.component';
 
@@ -12,16 +14,16 @@ import { FactorialService } from './services/factorial.service';
     AppComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({
-        appId: 'cli-universal'
-    }),
+    CommonModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    TransferHttpModule,
   ],
   providers: [
+    { provide: APP_BASE_HREF, useValue: '/'},
     FactorialService
   ],
-  bootstrap: [
+  exports: [
     AppComponent
   ]
 })
