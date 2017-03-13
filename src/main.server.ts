@@ -25,13 +25,13 @@ app.engine('html', ngExpressEngine({
 }));
 
 app.set('view engine', 'html');
-app.set('views', '.');
+app.set('views', 'dist');
 
 app.get('/', (req, res) => {
   res.render('index', {req});
 });
 
-app.use('/', express.static('.', {index: false}));
+app.use('/', express.static('dist', {index: false}));
 
 ROUTES.forEach(route => {
   app.get(route, (req, res) => {
