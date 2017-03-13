@@ -8,9 +8,6 @@ const webpack = require("webpack");
 const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require("@angular/cli/plugins/webpack");
 const { AotPlugin } = require("@ngtools/webpack");
 
-const baseHref = undefined;
-const deployUrl = undefined;
-
 module.exports = {
   "devtool": "source-map",
   "resolve": {
