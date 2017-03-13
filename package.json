@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "webpack-dev-server",
     "build": "npm run build:client",
-    "build:all": "npm run clean:all && npm run build:client && npm run build:server",
+    "build:all": "npm run clean:all && npm run build:client & npm run build:server",
     "build:client": "webpack",
     "build:server": "ngc -p tsconfig.server.json && webpack --progress --config webpack.server.config.js && npm run clean:build",
     "clean:all": "rimraf dist && rimraf src/aot",
