@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.transferState.set('cached', true);
-    console.log('injected transfer state');
   }
 
   public computeFactorials() {

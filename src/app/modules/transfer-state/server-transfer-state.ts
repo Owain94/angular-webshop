@@ -21,8 +21,13 @@ export class ServerTransferState extends TransferState {
         data: {}
       });
 
-      const head = document.children[0].children[0];
-      if (head.name !== 'head') {
+      let head: any;
+
+      if (document.children[0].name === 'html') {
+        head = document.children[0].children[0];
+      } else if (document.children[1].name === 'html') {
+        head = document.children[1].children[0];
+      } else {
         throw new Error('Please have <head> as the first element in your document');
       }
 
