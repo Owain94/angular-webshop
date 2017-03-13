@@ -10,6 +10,7 @@ import { AppServerModuleNgFactory } from './aot/src/app/app.server.module.ngfact
 import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
+import { App } from './api/app';
 import { ROUTES } from './routes';
 
 const port = 8000;
@@ -18,6 +19,7 @@ const baseUrl = `http://localhost:${port}`;
 enableProdMode();
 
 const app = express();
+const api = new App();
 
 app.engine('html', ngExpressEngine({
   aot: true,
@@ -44,6 +46,14 @@ ROUTES.forEach(route => {
     // tslint:disable-next-line:no-console
     console.timeEnd(`GET: ${req.originalUrl}`);
   });
+});
+
+app.get('/data', (req, res) => {
+  // tslint:disable-next-line:no-console
+  console.time(`GET: ${req.originalUrl}`);
+  res.json(api.getData());
+  // tslint:disable-next-line:no-console
+  console.timeEnd(`GET: ${req.originalUrl}`);
 });
 
 app.listen(port, () => {
