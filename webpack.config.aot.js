@@ -8,6 +8,7 @@ const webpack = require('webpack');
 
 const { NoEmitOnErrorsPlugin, LoaderOptionsPlugin } = require('webpack');
 const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require('@angular/cli/plugins/webpack');
+const { CommonsChunkPlugin } = require('webpack').optimize;
 const { AotPlugin } = require('@ngtools/webpack');
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
@@ -17,7 +18,6 @@ const deployUrl = undefined;
 
 module.exports = {
   "devtool": "source-map",
-  "target": 'node',
   "resolve": {
     "extensions": [
       ".ts",
@@ -34,13 +34,19 @@ module.exports = {
   },
   "entry": {
     "main": [
-      "./src/main.server.ts"
+      "./src/main.ts"
+    ],
+    "polyfills": [
+      "./src/polyfills.ts"
+    ],
+    "styles": [
+      "./src/styles.css"
     ]
   },
   "output": {
     "path": path.join(process.cwd(), "dist"),
-    "filename": "[name].server.bundle.js",
-    "chunkFilename": "[id].server.chunk.js"
+    "filename": "[name].bundle.js",
+    "chunkFilename": "[id].chunk.js"
   },
   "module": {
     "rules": [
@@ -75,7 +81,7 @@ module.exports = {
         "test": /\.css$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader"
         ]
       },
@@ -86,7 +92,7 @@ module.exports = {
         "test": /\.scss$|\.sass$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader",
           "sass-loader"
         ]
@@ -98,7 +104,7 @@ module.exports = {
         "test": /\.less$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader",
           "less-loader"
         ]
@@ -110,9 +116,9 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader",
-          "stylus-loader?{\"sourceMap\":true,\"paths\":[]}"
+          "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
         ]
       },
       {
@@ -122,7 +128,7 @@ module.exports = {
         "test": /\.css$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader"
           ],
           "fallback": "style-loader",
@@ -136,7 +142,7 @@ module.exports = {
         "test": /\.scss$|\.sass$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader",
             "sass-loader"
           ],
@@ -151,7 +157,7 @@ module.exports = {
         "test": /\.less$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader",
             "less-loader"
           ],
@@ -166,9 +172,9 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader",
-            "stylus-loader?{\"sourceMap\":true,\"paths\":[]}"
+            "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
           ],
           "fallback": "style-loader",
           "publicPath": ""
@@ -181,6 +187,12 @@ module.exports = {
     ]
   },
   "plugins": [
+    new webpack.DefinePlugin({
+      "process.env": {
+        "ENV": JSON.stringify("production")
+      }
+    }),
+    new NoEmitOnErrorsPlugin(),
     new GlobCopyWebpackPlugin({
       "patterns": [
         "assets",
@@ -193,13 +205,52 @@ module.exports = {
       }
     }),
     new ProgressPlugin(),
+    new HtmlWebpackPlugin({
+      "template": "./src/index.html",
+      "filename": "./index.html",
+      "hash": false,
+      "inject": true,
+      "compile": true,
+      "favicon": false,
+      "minify": false,
+      "cache": true,
+      "showErrors": true,
+      "chunks": "all",
+      "excludeChunks": [],
+      "title": "Webpack App",
+      "xhtml": true,
+      "chunksSortMode": function sort(left, right) {
+        let leftIndex = entryPoints.indexOf(left.names[0]);
+        let rightindex = entryPoints.indexOf(right.names[0]);
+        if (leftIndex > rightindex) {
+            return 1;
+        }
+        else if (leftIndex < rightindex) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    }
+    }),
     new BaseHrefWebpackPlugin({}),
+    new CommonsChunkPlugin({
+      "name": "inline",
+      "minChunks": null
+    }),
+    new CommonsChunkPlugin({
+      "name": "vendor",
+      "minChunks": (module) => module.resource && module.resource.startsWith(nodeModules),
+      "chunks": [
+        "main"
+      ]
+    }),
     new ExtractTextPlugin({
       "filename": "[name].bundle.css",
       "disable": true
     }),
     new LoaderOptionsPlugin({
-      "sourceMap": true,
+      "sourceMap": false,
       "options": {
         "postcss": [
           autoprefixer(),
@@ -214,24 +265,25 @@ module.exports = {
         }})
         ],
         "sassLoader": {
-          "sourceMap": true,
+          "sourceMap": false,
           "includePaths": []
         },
         "lessLoader": {
-          "sourceMap": true
+          "sourceMap": false
         },
         "context": ""
       }
     }),
     new AotPlugin({
-      "entryModule": __dirname + "/src/app/app.server.module.ts#AppServerModule",
+      "mainPath": "src/main.ts",
       "hostReplacementPaths": {
         "environments/environment.ts": "environments/environment.ts"
       },
       "exclude": [],
-      "tsConfigPath": "./tsconfig.server.json",
-      "skipCodeGeneration": true
-    })
+      "tsConfigPath": "./tsconfig.app.json",
+      "skipCodeGeneration": false
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   "node": {
     "fs": "empty",

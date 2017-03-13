@@ -34,7 +34,7 @@ module.exports = {
   },
   "entry": {
     "main": [
-      "./src/main.server.ts"
+      "./src/main.server.aot.ts"
     ]
   },
   "output": {
@@ -75,7 +75,7 @@ module.exports = {
         "test": /\.css$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader"
         ]
       },
@@ -86,7 +86,7 @@ module.exports = {
         "test": /\.scss$|\.sass$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader",
           "sass-loader"
         ]
@@ -98,7 +98,7 @@ module.exports = {
         "test": /\.less$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader",
           "less-loader"
         ]
@@ -110,9 +110,9 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
           "postcss-loader",
-          "stylus-loader?{\"sourceMap\":true,\"paths\":[]}"
+          "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
         ]
       },
       {
@@ -122,7 +122,7 @@ module.exports = {
         "test": /\.css$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader"
           ],
           "fallback": "style-loader",
@@ -136,7 +136,7 @@ module.exports = {
         "test": /\.scss$|\.sass$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader",
             "sass-loader"
           ],
@@ -151,7 +151,7 @@ module.exports = {
         "test": /\.less$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader",
             "less-loader"
           ],
@@ -166,9 +166,9 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
             "postcss-loader",
-            "stylus-loader?{\"sourceMap\":true,\"paths\":[]}"
+            "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
           ],
           "fallback": "style-loader",
           "publicPath": ""
@@ -181,6 +181,11 @@ module.exports = {
     ]
   },
   "plugins": [
+    new webpack.DefinePlugin({
+      "process.env": {
+        "ENV": JSON.stringify("production")
+      }
+    }),
     new GlobCopyWebpackPlugin({
       "patterns": [
         "assets",
@@ -199,7 +204,7 @@ module.exports = {
       "disable": true
     }),
     new LoaderOptionsPlugin({
-      "sourceMap": true,
+      "sourceMap": false,
       "options": {
         "postcss": [
           autoprefixer(),
@@ -214,11 +219,11 @@ module.exports = {
         }})
         ],
         "sassLoader": {
-          "sourceMap": true,
+          "sourceMap": false,
           "includePaths": []
         },
         "lessLoader": {
-          "sourceMap": true
+          "sourceMap": false
         },
         "context": ""
       }
@@ -230,8 +235,9 @@ module.exports = {
       },
       "exclude": [],
       "tsConfigPath": "./tsconfig.server.json",
-      "skipCodeGeneration": true
-    })
+      "skipCodeGeneration": false
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   "node": {
     "fs": "empty",

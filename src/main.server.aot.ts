@@ -5,7 +5,8 @@ import 'reflect-metadata';
 import 'rxjs/Rx';
 
 import { platformServer, renderModuleFactory } from '@angular/platform-server';
-import { AppServerModule } from './app/app.server.module';
+import { enableProdMode } from '@angular/core';
+import { AppServerModuleNgFactory } from './aot/src/app/app.server.module.ngfactory';
 import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
@@ -15,12 +16,14 @@ import { ROUTES } from './routes';
 const port = 8000;
 const baseUrl = `http://localhost:${port}`;
 
+enableProdMode();
+
 const app = express();
 const api = new App();
 
 app.engine('html', ngExpressEngine({
-  aot: false,
-  bootstrap: AppServerModule
+  aot: true,
+  bootstrap: AppServerModuleNgFactory
 }));
 
 app.set('view engine', 'html');
