@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { TransferState } from './modules/transfer-state/transfer-state';
 
 import { FactorialService } from './services/factorial.service';
 
@@ -7,7 +9,8 @@ import { FactorialService } from './services/factorial.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
 // tslint:disable-next-line:no-inferrable-types
   public items = [];
   // tslint:disable-next-line:no-inferrable-types
@@ -19,7 +22,13 @@ export class AppComponent {
   // tslint:disable-next-line:no-inferrable-types
   public numberOfFactorials: number = 50;
 
-  constructor(private factorialService: FactorialService) {}
+  constructor(private factorialService: FactorialService,
+              private transferState: TransferState) {}
+
+  ngOnInit(): void {
+    this.transferState.set('cached', true);
+    console.log('injected transfer state');
+  }
 
   public computeFactorials() {
     this.items = [];
@@ -33,7 +42,7 @@ export class AppComponent {
 
   private getFactorialForN(i: number) {
     return () => {
-      let value = this.factorialService.factorial(i);
+      const value = this.factorialService.factorial(i);
       this.items = [...this.items, `${i} - ${value}`];
       this.progress += 100.0 / this.numberOfFactorials;
       console.log('progress: ', this.progress);
