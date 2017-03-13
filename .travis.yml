@@ -2,6 +2,7 @@
 
 sudo: required
 dist: trusty
+cache: yarn
 
 language: node_js
 node_js:
@@ -26,12 +27,12 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 before_script:
-  - npm install -g @angular/cli
-  - npm install -g karma
+  - yarn global add @angular/cli
+  - yarn global add karma
 
 install:
-  - npm install
+  - yarn install
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then npm run build:all:aot; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then npm run build:all:aot; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then yarn run build:all:aot; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then yarn run build:all:aot; fi'
