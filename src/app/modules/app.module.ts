@@ -9,8 +9,6 @@ import { TransferHttpModule } from './transfer-http/transfer-http.module';
 import { MainComponent } from '../components/main/main.component';
 import { HomeViewComponent } from '../components/home/home.component';
 
-import { FactorialService } from '../services/factorial.service';
-
 @NgModule({
   declarations: [
     MainComponent,
@@ -37,8 +35,7 @@ import { FactorialService } from '../services/factorial.service';
     })
   ],
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/'},
-    FactorialService
+    { provide: APP_BASE_HREF, useValue: '/'}
   ],
   exports: [
     MainComponent
