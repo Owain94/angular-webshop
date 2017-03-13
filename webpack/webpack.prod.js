@@ -1,73 +1,17 @@
-const path = require('path');
-const ProgressPlugin = require('webpack/lib/ProgressPlugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
-const postcssUrl = require('postcss-url');
-const webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const autoprefixer = require("autoprefixer");
+const postcssUrl = require("postcss-url");
 
-const { NoEmitOnErrorsPlugin, LoaderOptionsPlugin } = require('webpack');
-const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require('@angular/cli/plugins/webpack');
-const { AotPlugin } = require('@ngtools/webpack');
+const { NoEmitOnErrorsPlugin, LoaderOptionsPlugin } = require("webpack");
 
-const nodeModules = path.join(process.cwd(), 'node_modules');
-const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"];
-const baseHref = undefined;
-const deployUrl = undefined;
-
+/**
+ * This is a prod config to be merged with the Client config
+ */
 module.exports = {
-  "devtool": "source-map",
-  "target": 'node',
-  "resolve": {
-    "extensions": [
-      ".ts",
-      ".js"
-    ],
-    "modules": [
-      "./node_modules"
-    ]
-  },
-  "resolveLoader": {
-    "modules": [
-      "./node_modules"
-    ]
-  },
-  "entry": {
-    "main": [
-      "./src/main.server.aot.ts"
-    ]
-  },
-  "output": {
-    "path": path.join(process.cwd(), "dist"),
-    "filename": "[name].server.bundle.js",
-    "chunkFilename": "[id].server.chunk.js"
-  },
   "module": {
     "rules": [
-      {
-        "enforce": "pre",
-        "test": /\.js$/,
-        "loader": "source-map-loader",
-        "exclude": [
-          /\/node_modules\//
-        ]
-      },
-      {
-        "test": /\.json$/,
-        "loader": "json-loader"
-      },
-      {
-        "test": /\.html$/,
-        "loader": "raw-loader"
-      },
-      {
-        "test": /\.(eot|svg)$/,
-        "loader": "file-loader?name=[name].[hash:20].[ext]"
-      },
-      {
-        "test": /\.(jpg|png|gif|otf|ttf|woff|woff2|cur|ani)$/,
-        "loader": "url-loader?name=[name].[hash:20].[ext]&limit=10000"
-      },
       {
         "exclude": [
           path.join(process.cwd(), "src/styles.css")
@@ -173,36 +117,10 @@ module.exports = {
           "fallback": "style-loader",
           "publicPath": ""
         })
-      },
-      {
-        "test": /\.ts$/,
-        "loader": "@ngtools/webpack"
       }
     ]
   },
   "plugins": [
-    new webpack.DefinePlugin({
-      "process.env": {
-        "ENV": JSON.stringify("production")
-      }
-    }),
-    new GlobCopyWebpackPlugin({
-      "patterns": [
-        "assets",
-        "favicon.ico"
-      ],
-      "globOptions": {
-        "cwd": "/Users/Owain/angular/angular-cli-universal/src",
-        "dot": true,
-        "ignore": "**/.gitkeep"
-      }
-    }),
-    new ProgressPlugin(),
-    new BaseHrefWebpackPlugin({}),
-    new ExtractTextPlugin({
-      "filename": "[name].bundle.css",
-      "disable": true
-    }),
     new LoaderOptionsPlugin({
       "sourceMap": false,
       "options": {
@@ -210,13 +128,11 @@ module.exports = {
           autoprefixer(),
           postcssUrl({"url": (URL) => {
             // Only convert absolute URLs, which CSS-Loader won't process into require().
-            if (!URL.startsWith('/')) {
+            if (!URL.startsWith("/")) {
                 return URL;
             }
-            // Join together base-href, deploy-url and the original URL.
-            // Also dedupe multiple slashes into single ones.
-            return `/${baseHref || ''}/${deployUrl || ''}/${URL}`.replace(/\/\/+/g, '/');
-        }})
+            return `${URL}`.replace(/\/\/+/g, "/");
+          }})
         ],
         "sassLoader": {
           "sourceMap": false,
@@ -228,26 +144,20 @@ module.exports = {
         "context": ""
       }
     }),
-    new AotPlugin({
-      "entryModule": __dirname + "/src/app/app.server.module.ts#AppServerModule",
-      "hostReplacementPaths": {
-        "environments/environment.ts": "environments/environment.ts"
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      "mangle": {
+        "keep_fnames": true,
+        "screw_ie8": true
       },
-      "exclude": [],
-      "tsConfigPath": "./tsconfig.server.json",
-      "skipCodeGeneration": false
+      compress: {
+        "warnings" : false
+      }
     }),
-    new webpack.optimize.UglifyJsPlugin()
-  ],
-  "node": {
-    "fs": "empty",
-    "global": true,
-    "crypto": "empty",
-    "tls": "empty",
-    "net": "empty",
-    "process": true,
-    "module": false,
-    "clearImmediate": false,
-    "setImmediate": false
-  }
+    new webpack.DefinePlugin({
+      "process.env": {
+        "ENV": JSON.stringify("production")
+      }
+    })
+  ]
 };
