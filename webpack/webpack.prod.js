@@ -131,10 +131,8 @@ module.exports = {
             if (!URL.startsWith("/")) {
                 return URL;
             }
-            // Join together base-href, deploy-url and the original URL.
-            // Also dedupe multiple slashes into single ones.
-            return `/${baseHref || ""}/${deployUrl || ""}/${URL}`.replace(/\/\/+/g, "/");
-        }})
+            return `${URL}`.replace(/\/\/+/g, "/");
+          }})
         ],
         "sassLoader": {
           "sourceMap": false,
