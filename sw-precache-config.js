@@ -1,11 +1,11 @@
 module.exports = {
-  navigateFallback: '/index.html',
-  stripPrefix: 'dist',
-  root: 'dist/',
+  navigateFallback: "/index.html",
+  stripPrefix: "dist",
+  root: "dist/",
   staticFileGlobs: [
-    'dist/index.html',
-    'dist/**.js',
-    'dist/**.css',
-    'dist/**.ico'
+    "dist/index.html",
+    "dist/**.js",
+    "dist/**.css",
+    "dist/**.ico"
   ]
 };
