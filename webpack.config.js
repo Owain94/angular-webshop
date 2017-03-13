@@ -81,7 +81,7 @@ module.exports = {
         "test": /\.css$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
           "postcss-loader"
         ]
       },
@@ -92,7 +92,7 @@ module.exports = {
         "test": /\.scss$|\.sass$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
           "postcss-loader",
           "sass-loader"
         ]
@@ -104,7 +104,7 @@ module.exports = {
         "test": /\.less$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
           "postcss-loader",
           "less-loader"
         ]
@@ -116,9 +116,9 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+          "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
           "postcss-loader",
-          "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
+          "stylus-loader?{\"sourceMap\":true,\"paths\":[]}"
         ]
       },
       {
@@ -128,7 +128,7 @@ module.exports = {
         "test": /\.css$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
             "postcss-loader"
           ],
           "fallback": "style-loader",
@@ -142,7 +142,7 @@ module.exports = {
         "test": /\.scss$|\.sass$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
             "postcss-loader",
             "sass-loader"
           ],
@@ -157,7 +157,7 @@ module.exports = {
         "test": /\.less$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
             "postcss-loader",
             "less-loader"
           ],
@@ -172,9 +172,9 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+            "css-loader?{\"sourceMap\":true,\"importLoaders\":1}",
             "postcss-loader",
-            "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
+            "stylus-loader?{\"sourceMap\":true,\"paths\":[]}"
           ],
           "fallback": "style-loader",
           "publicPath": ""
@@ -245,7 +245,7 @@ module.exports = {
       "disable": true
     }),
     new LoaderOptionsPlugin({
-      "sourceMap": false,
+      "sourceMap": true,
       "options": {
         "postcss": [
           autoprefixer(),
@@ -260,11 +260,11 @@ module.exports = {
         }})
         ],
         "sassLoader": {
-          "sourceMap": false,
+          "sourceMap": true,
           "includePaths": []
         },
         "lessLoader": {
-          "sourceMap": false
+          "sourceMap": true
         },
         "context": ""
       }
@@ -276,9 +276,8 @@ module.exports = {
       },
       "exclude": [],
       "tsConfigPath": "./tsconfig.app.json",
-      "skipCodeGeneration": false
-    }),
-    new webpack.optimize.UglifyJsPlugin()
+      "skipCodeGeneration": true
+    })
   ],
   "node": {
     "fs": "empty",
