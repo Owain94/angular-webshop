@@ -15,6 +15,6 @@
   },
   "angularCompilerOptions": {
     "genDir": "src/aot",
-    "entryModule": "./src/app/app.server.module#AppServerModule"
+    "entryModule": "./src/app/modules/app.server.module#AppServerModule"
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { TransferHttp } from './../modules/transfer-http/transfer-http';
+import { TransferHttp } from '../../modules/transfer-http/transfer-http';
 
 @Component({
   selector: 'app-home',

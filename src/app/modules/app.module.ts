@@ -4,16 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 
-import { TransferHttpModule } from './modules/transfer-http/transfer-http.module';
+import { TransferHttpModule } from './transfer-http/transfer-http.module';
 
-import { AppComponent } from './app.component';
-import { HomeViewComponent } from './home/home.component';
-
-import { FactorialService } from './services/factorial.service';
+import { MainComponent } from '../components/main/main.component';
+import { HomeViewComponent } from '../components/home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    MainComponent,
     HomeViewComponent
   ],
   imports: [
@@ -29,7 +27,7 @@ import { FactorialService } from './services/factorial.service';
       },
       {
         path: 'lazy',
-        loadChildren: './+lazy/lazy.module#LazyModule'
+        loadChildren: '../components/+lazy/lazy.module#LazyModule'
       }
     ], {
       useHash: false,
@@ -37,11 +35,10 @@ import { FactorialService } from './services/factorial.service';
     })
   ],
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/'},
-    FactorialService
+    { provide: APP_BASE_HREF, useValue: '/'}
   ],
   exports: [
-    AppComponent
+    MainComponent
   ]
 })
 export class AppModule { }

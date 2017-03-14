@@ -1,5 +1,6 @@
 # AngularCliUniversal
 
+[![Build Status](https://travis-ci.org/Owain94/angular-cli-universal.svg?branch=master)](https://travis-ci.org/Owain94/angular-cli-universal)
 [![Greenkeeper badge](https://badges.greenkeeper.io/Owain94/angular-cli-universal.svg)](https://greenkeeper.io/)
 [![dependencies Status](https://david-dm.org/Owain94/angular-cli-universal/status.svg)](https://david-dm.org/Owain94/angular-cli-universal)
 [![devDependencies Status](https://david-dm.org/Owain94/angular-cli-universal/dev-status.svg)](https://david-dm.org/Owain94/angular-cli-universal?type=dev)
@@ -7,26 +8,46 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.1.
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Development mode
+* Terminal 1: ```npm run watch:all```
+* Wait for the build to finish
+* Terminal 2: ```npm run server```
 
-## Code scaffolding
+## Build with AoT
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+```
+npm run build:all:aot
+npm run server
+```
 
-## Build
+## Build with AoT and serviceworker
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Add this script to the body of your index.html
+```html
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+      console.log('Service Worker registered');
+    }).catch(function(err) {
+      console.log('Service Worker registration failed: ', err);
+    });
+  }
+</script>
+```
 
-## Running unit tests
+And run these commands
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+npm run build:all:aot
+npm run sw
+npm run server
+```
 
-## Running end-to-end tests
+Based on and huge thanks to [@FrozenPandaz][1]: [FrozenPandaz/ng-universal-demo][2]
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+Based on and huge thanks to [@robwormald][3]: [robwormald/ng-universal-demo][4]
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+[1]: https://github.com/FrozenPandaz
+[2]: https://github.com/FrozenPandaz/ng-universal-demo
+[3]: https://github.com/robwormald/
+[4]: https://github.com/robwormald/ng-universal-demo
