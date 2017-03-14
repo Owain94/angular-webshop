@@ -42,3 +42,12 @@ npm run build:all:aot
 npm run sw
 npm run server
 ```
+
+Based on and huge thanks to [@FrozenPandaz][1]: [FrozenPandaz/ng-universal-demo][2]
+
+Based on and huge thanks to [@robwormald][3]: [robwormald/ng-universal-demo][4]
+
+[1]: https://github.com/FrozenPandaz
+[2]: https://github.com/FrozenPandaz/ng-universal-demo
+[3]: https://github.com/robwormald/
+[4]: https://github.com/robwormald/ng-universal-demo
