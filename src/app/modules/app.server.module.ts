@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServerModule } from '@angular/platform-server';
 
-import { ServerTransferStateModule } from './modules/transfer-state/server-transfer-state.module';
+import { ServerTransferStateModule } from './transfer-state/server-transfer-state.module';
 import { AppModule } from './app.module';
 
-import { TransferState } from './modules/transfer-state/transfer-state';
+import { TransferState } from './transfer-state/transfer-state';
 
-import { AppComponent } from './app.component';
+import { MainComponent } from '../components/main/main.component';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { AppComponent } from './app.component';
     AppModule
   ],
   bootstrap: [
-    AppComponent
+    MainComponent
   ]
 })
 export class AppServerModule {

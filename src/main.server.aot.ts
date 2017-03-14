@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 
 import { platformServer, renderModuleFactory } from '@angular/platform-server';
 import { enableProdMode } from '@angular/core';
-import { AppServerModuleNgFactory } from './aot/src/app/app.server.module.ngfactory';
+import { AppServerModuleNgFactory } from './aot/src/app/modules/app.server.module.ngfactory';
 import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
