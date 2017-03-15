@@ -11,13 +11,12 @@ const routes: Routes = [
     path: '',
     component: HomeViewComponent,
     pathMatch: 'full'
-  }, {
-    path: 'lazy',
-    loadChildren: '../../components/+lazy/lazy.module#LazyModule'
-  }, {
+  },
+  {
     path: '404',
     loadChildren: '../../components/notfound/notfound.module#NotFoundModule'
-  }, {
+  },
+  {
     path: '**',
     redirectTo: '/404'
   }
