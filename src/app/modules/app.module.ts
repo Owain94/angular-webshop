@@ -23,7 +23,10 @@ import { HomeViewComponent } from '../components/home/home.component';
     RoutingModule
   ],
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/'}
+    {
+      provide: APP_BASE_HREF,
+      useValue: '/'
+    }
   ],
   exports: [
     MainComponent

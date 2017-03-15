@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './../../components/notfound/notfound.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -10,10 +11,12 @@ const routes: Routes = [
     path: '',
     component: HomeViewComponent,
     pathMatch: 'full'
-  },
-  {
+  }, {
     path: 'lazy',
     loadChildren: '../../components/+lazy/lazy.module#LazyModule'
+  }, {
+    path: '404',
+    loadChildren: '../../components/notfound/notfound.module#NotFoundModule'
   }, {
     path: '**',
     redirectTo: '/404'
@@ -23,7 +26,13 @@ const routes: Routes = [
 @NgModule({
   imports: [
     IdlePreloadModule.forRoot(),
-    RouterModule.forRoot(routes, {useHash: false, preloadingStrategy: IdlePreload})
+    RouterModule.forRoot(
+      routes,
+      {
+        useHash: false,
+        preloadingStrategy: IdlePreload
+      }
+    )
   ],
   providers: [
 
