@@ -1,6 +1,7 @@
 import { NgModule, RendererFactory2 } from '@angular/core';
-import { TransferState } from './transfer-state';
 import { PlatformState } from '@angular/platform-server';
+
+import { TransferState } from './transfer-state';
 
 export function getTransferState(): TransferState {
   const transferState = new TransferState();
@@ -16,6 +17,4 @@ export function getTransferState(): TransferState {
     }
   ]
 })
-export class BrowserTransferStateModule {
-
-}
+export class BrowserTransferStateModule {}

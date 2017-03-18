@@ -1,16 +1,23 @@
-import { NotFoundComponent } from './../../components/notfound/notfound.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IdlePreloadModule, IdlePreload } from './idle.preload.module';
 
-import { HomeViewComponent } from '../../components/home/home.component';
+import { HomeComponent } from '../../components/home/home.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeViewComponent,
+    component: HomeComponent,
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    loadChildren: '../../components/login/login.module#LoginModule'
+  },
+  {
+    path: 'register',
+    loadChildren: '../../components/register/register.module#RegisterModule'
   },
   {
     path: '404',
@@ -41,5 +48,4 @@ const routes: Routes = [
   ]
 })
 
-export class RoutingModule {
-}
+export class RoutingModule {}

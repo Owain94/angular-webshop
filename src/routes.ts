@@ -1,4 +1,8 @@
 export const ROUTES: string[] = [
   '/',
-  '/lazy'
+  '/lazy',
+  '/404',
+  '/login',
+  '/register',
+  '/profile',
 ];

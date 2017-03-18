@@ -1,6 +1,7 @@
 import { Injectable, Optional, RendererFactory2, ViewEncapsulation } from '@angular/core';
-import { TransferState } from './transfer-state';
 import { PlatformState } from '@angular/platform-server';
+
+import { TransferState } from './transfer-state';
 
 export function isTag(tagName: string, node: any): boolean {
   return node.type === 'tag' && node.name === tagName;

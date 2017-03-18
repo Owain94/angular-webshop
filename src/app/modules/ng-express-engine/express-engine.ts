@@ -1,7 +1,23 @@
 import * as fs from 'fs';
-import { Request, Response, Send } from 'express';
-import { Provider, NgModuleFactory, NgModuleRef, PlatformRef, ApplicationRef, Type } from '@angular/core';
-import { platformServer, platformDynamicServer, PlatformState, INITIAL_CONFIG } from '@angular/platform-server';
+import {
+  Provider,
+  NgModuleFactory,
+  NgModuleRef,
+  PlatformRef,
+  ApplicationRef,
+  Type
+} from '@angular/core';
+import {
+  platformServer,
+  platformDynamicServer,
+  PlatformState,
+  INITIAL_CONFIG
+} from '@angular/platform-server';
+import {
+  Request,
+  Response,
+  Send
+} from 'express';
 
 /**
  * These are the allowed options for the engine

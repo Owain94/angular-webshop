@@ -1,0 +1,57 @@
+import { AuthGuard } from '../../guards/auth.guard';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  Validators,
+  FormBuilder,
+  AbstractControl,
+  ValidatorFn,
+  FormGroup
+} from '@angular/forms';
+
+import { UserService } from '../../services/user.service';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+    // tslint:disable-next-line:no-inferrable-types
+  public disabled: boolean = false;
+  // tslint:disable-next-line:no-inferrable-types
+  public msg: string = '';
+  public loginForm: FormGroup;
+
+  constructor(private router: Router,
+              private formBuilder: FormBuilder,
+              private userService: UserService,
+              private authGuard: AuthGuard) {
+
+  }
+
+  ngOnInit(): void {
+    if (this.authGuard.check()) {
+      this.router.navigateByUrl('/');
+    }
+
+    this.loginForm = this.formBuilder.group({
+      'email': [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)]],
+      'password': [null, [Validators.required, Validators.minLength(6)]]
+    });
+  }
+
+  public submitForm(value: Object): void {
+    this.disabled = true;
+    this.userService.login(value).subscribe(
+      (res: any) => {
+        this.disabled = false;
+        if (res.error === 'false') {
+          localStorage.setItem('user', JSON.stringify({ token: res.data }));
+          this.router.navigateByUrl('/');
+        } else {
+          this.msg = res.msg;
+        }
+      });
+  }
+}

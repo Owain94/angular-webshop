@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ConnectionBackend, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
+import {
+  ConnectionBackend,
+  Http,
+  Request,
+  RequestOptions,
+  RequestOptionsArgs,
+  Response
+} from '@angular/http';
+import { TransferState } from '../transfer-state/transfer-state';
+
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { TransferState } from '../transfer-state/transfer-state';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';

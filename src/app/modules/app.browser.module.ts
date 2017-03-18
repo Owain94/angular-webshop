@@ -18,4 +18,4 @@ import { MainComponent } from '../components/main/main.component';
     MainComponent
   ]
 })
-export class AppBrowserModule { }
+export class AppBrowserModule {}

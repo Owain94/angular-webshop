@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
-import { TransferHttp } from '../../modules/transfer-http/transfer-http';
+import { AuthGuard } from '../../guards/auth.guard';
 
 @Component({
   selector: 'app-home',
-  template: `<h3>{{subs | async}}</h3>`
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class HomeViewComponent implements OnInit {
-  public subs: Observable<string>;
+export class HomeComponent implements OnInit {
+  public loggedIn: boolean;
 
-  constructor(private http: TransferHttp) {}
+  constructor(private authGuard: AuthGuard) {}
 
-  ngOnInit() {
-    this.subs = this.http.get('http://localhost:8000/data').map(data => {
-      return `${data.greeting} ${data.name}`;
-    });
+  ngOnInit(): void {
+    this.loggedIn = this.authGuard.check();
   }
 }

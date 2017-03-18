@@ -1,0 +1,22 @@
+<header id="header">
+  <div class="row">
+    <div class="columns" [class.large-8]="headerImage === 0" [class.push-4]="headerImage === 0" [class.large-7]="headerImage === 1" [class.push-5]="headerImage === 1" [class.large-12]="headerImage === 2" [class.align-center]="headerImage === 2">
+      <h1 [innerText]="headerHeading[0]"></h1>
+      <span class="subheading" [innerText]="headerHeading[1]"></span>
+      <a class="button white radius large" *ngIf="headerButton" [routerLink]="headerButton[0]" [innerText]="headerButton[1]">Aanmelden</a>
+      <img src="assets/img/header-macbook.png" alt="iPhone App" *ngIf="headerImage === 2">
+    </div>
+    <div class="large-4 pull-8 columns" *ngIf="headerImage === 0 || headerImage === 1" [class.large-4]="headerImage === 0" [class.pull-8]="headerImage === 0" [class.large-5]="headerImage === 1" [class.pull-7]="headerImage === 1">
+      <img src="assets/img/header-iphone.png" alt="" *ngIf="headerImage === 0">
+      <img src="assets/img/header-ipad.png" alt="" *ngIf="headerImage === 1">
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+
