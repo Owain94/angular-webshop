@@ -1,4 +1,4 @@
-import { CommonModule, APP_BASE_HREF } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
@@ -32,10 +32,6 @@ import { AuthGuard } from '../guards/auth.guard';
     HeaderModule
   ],
   providers: [
-    {
-      provide: APP_BASE_HREF,
-      useValue: '/'
-    },
     UserService,
     AuthGuard
   ],
