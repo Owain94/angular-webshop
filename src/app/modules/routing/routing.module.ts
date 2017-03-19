@@ -45,7 +45,8 @@ const routes: Routes = [
       routes,
       {
         useHash: false,
-        preloadingStrategy: IdlePreload
+        preloadingStrategy: IdlePreload,
+        initialNavigation: 'enabled'
       }
     )
   ],
