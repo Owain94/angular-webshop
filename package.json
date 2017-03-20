@@ -106,6 +106,16 @@
   },
   "pre-commit": "lint-staged",
   "stylelint": {
-    "extends": "stylelint-config-standard"
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "selector-type-no-unknown": [
+        true,
+        {
+          "ignoreTypes": [
+            "/^app-/"
+          ]
+        }
+      ]
+    }
   }
 }

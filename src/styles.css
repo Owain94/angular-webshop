@@ -30,6 +30,10 @@ a {
   text-align: center;
 }
 
+button:focus {
+  outline: 0;
+}
+
 .button {
   padding-left: 40px;
   padding-right: 40px;

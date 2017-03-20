@@ -5,6 +5,8 @@ import { IdlePreloadModule, IdlePreload } from './idle.preload.module';
 
 import { HomeComponent } from '../../components/home/home.component';
 
+import { AuthGuard } from '../../guards/auth.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +20,13 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: '../../components/register/register.module#RegisterModule'
+  },
+  {
+    path: 'profile',
+    loadChildren: '../../components/profile/profile.module#ProfileModule',
+    canActivate: [
+      AuthGuard
+    ]
   },
   {
     path: '404',

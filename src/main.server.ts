@@ -26,7 +26,7 @@ const app = express();
 const pww = credential();
 const api = new App();
 
-function capitalizeFirstLetter(string) {
+function capitalizeFirstLetter(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -48,23 +48,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 ROUTES.forEach(route => {
   app.get(route, (req, res) => {
-    // tslint:disable-next-line:no-console
-    console.time(`GET: ${req.originalUrl}`);
     res.render('index', {
       req: req,
       res: res
     });
-    // tslint:disable-next-line:no-console
-    console.timeEnd(`GET: ${req.originalUrl}`);
   });
 });
 
 app.get('/data', (req, res) => {
-  // tslint:disable-next-line:no-console
-  console.time(`GET: ${req.originalUrl}`);
   res.json(api.getData());
-  // tslint:disable-next-line:no-console
-  console.timeEnd(`GET: ${req.originalUrl}`);
 });
 
 app.post('/api/register', (req, res) => {
@@ -143,6 +135,84 @@ app.post('/api/login', (req, res) => {
         res.json({'error': 'true', 'msg': 'Inlog gegevens incorrect'});
       }
     });
+  });
+});
+
+app.post('/api/get_profile', (req, res) => {
+  jwt.verify(req.body.token, JWTKey, function(err, decoded) {
+    if (err) {
+      res.json({'verify': 'false'});
+      return;
+    } else {
+      db.collection('users', function (err2, collection) {
+        if (err2) {
+          res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+          return;
+        }
+
+        collection.findOne({email: decoded.data.toLowerCase()}, function(err3, doc) {
+          if (err3) {
+            res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+            return;
+          }
+
+          if (doc) {
+            res.json({'error': 'false', 'data': doc});
+            return;
+          } else {{
+            res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+            return;
+          }}
+        });
+      });
+    }
+  });
+});
+
+app.post('/api/save_profile', (req, res) => {
+  console.log(JSON.parse(req.body[0])['token']);
+
+  jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, function(err, decoded) {
+    if (err) {
+      res.json({'verify': 'false'});
+      return;
+    } else {
+      db.collection('users', function (err2, collection) {
+        if (err2) {
+          res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+          return;
+        }
+
+        collection.update({email: decoded.data.toLowerCase()}, { $set: {
+            firstname: capitalizeFirstLetter(req.body[1].firstname.toLowerCase()),
+            surname_prefix: req.body[1].surname_prefix.toLowerCase(),
+            surname: capitalizeFirstLetter(req.body[1].surname.toLowerCase()),
+            streetname: req.body[1].streetname.toLowerCase(),
+            house_number: req.body[1].house_number,
+            postal_code: req.body[1].postal_code,
+            city: req.body[1].city,
+            country: req.body[1].country
+          }
+        }, function(err3) {
+          if (err3) {
+            res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+            return;
+          }
+
+          res.json({'error': 'false', 'data': 'Uw account is succesvol geüpdatet!'});
+          return;
+        });
+      });
+    }
+  });
+});
+
+app.post('/api/verify', (req, res) => {
+  jwt.verify(req.body.token, JWTKey, function(err, decoded) {
+    if (err) {
+      res.json({'verify': 'false'});
+    }
+    res.json({'verify': 'true'});
   });
 });
 

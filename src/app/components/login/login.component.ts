@@ -1,4 +1,3 @@
-import { AuthGuard } from '../../guards/auth.guard';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -11,12 +10,14 @@ import {
 
 import { UserService } from '../../services/user.service';
 
+import { AuthGuard } from '../../guards/auth.guard';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types

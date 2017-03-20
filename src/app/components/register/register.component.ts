@@ -75,8 +75,6 @@ export class RegisterComponent implements OnInit {
     this.registerForm.setValidators(RegisterComponent.mismatchedPasswords());
     this.registerForm.setValidators(this.postalcode());
 
-    this.country.distinctUntilChanged().subscribe((val) => console.log(val));
-
     this.country
       .distinctUntilChanged()
       .debounceTime(250)
