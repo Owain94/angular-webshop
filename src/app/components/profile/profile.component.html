@@ -9,11 +9,11 @@
 
       <app-tabs>
         <app-tab tabTitle="Algemeen">
-          <form [formGroup]="profileForm" (ngSubmit)="submitForm(profileForm.value)">
+          <form [formGroup]="profileForm" (ngSubmit)="submitProfileForm(profileForm.value)">
 
             <div class="row">
               <div class="large-12 columns text-center">
-                <h2 [innerText]="msg"></h2>
+                <h2 [innerText]="msgProfile"></h2>
               </div>
             </div>
             
@@ -97,7 +97,7 @@
 
             <div class="row">
               <div class="large-2 columns end">
-                <button class="button" type="submit" [disabled]="!profileForm.valid || disabled">Opslaan</button>
+                <button class="button" type="submit" [disabled]="!profileForm.valid || disabledProfileForm">Opslaan</button>
               </div>
             </div>
 
@@ -106,7 +106,55 @@
         </app-tab>
 
         <app-tab tabTitle="Beveiliging">
-          Tab 2 Content
+          <form [formGroup]="passwordForm" (ngSubmit)="submitPasswordForm(passwordForm.value)">
+
+            <div class="row">
+              <div class="large-12 columns text-center">
+                <h2 [innerText]="msgPassword"></h2>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-12 columns">
+                <label [ngClass]="{ 'error': !passwordForm.controls['old_password'].valid && passwordForm.controls['old_password'].touched }">
+                  Oude Wachtwoord
+                  <input type="password" [formControl]="passwordForm.controls['old_password']" [ngClass]="{ 'error': !passwordForm.controls['old_password'].valid && passwordForm.controls['old_password'].touched }" />
+                </label>
+                <small *ngIf="!passwordForm.controls['old_password'].valid && passwordForm.controls['old_password'].touched" class="error">
+                  Wachtwoord moet minimaal 6 karakters lang zijn
+                </small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-6 columns">
+                <label [ngClass]="{ 'error': !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched }">
+                  Nieuwe Wachtwoord
+                  <input type="password" [formControl]="passwordForm.controls['password']" [ngClass]="{ 'error': !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched }" />
+                </label>
+                <small *ngIf="!passwordForm.controls['password'].valid && passwordForm.controls['password'].touched" class="error">
+                  Wachtwoord moet minimaal 6 karakters lang zijn
+                </small>
+              </div>
+              <div class="large-6 columns">
+                <label [ngClass]="{ 'error': !passwordForm.controls['password_confirm'].valid && passwordForm.controls['password_confirm'].touched }">
+                  Nieuwe Wachtwoord
+                  <input type="password" [formControl]="passwordForm.controls['password_confirm']" [ngClass]="{ 'error': !passwordForm.controls['password_confirm'].valid && passwordForm.controls['password_confirm'].touched }" />
+                </label>
+
+                <small *ngIf="passwordForm.hasError('mismatchedPasswords') && passwordForm.controls['password_confirm'].touched" class="error">
+                  Wachtwoorden komen niet overeen
+                </small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-2 columns end">
+                <button class="button" type="submit" [disabled]="!passwordForm.valid || disabledPasswordForm">Opslaan</button>
+              </div>
+            </div>
+
+          </form>
         </app-tab>
       </app-tabs>
       

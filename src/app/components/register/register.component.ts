@@ -13,6 +13,8 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { UserService } from '../../services/user.service';
 import { PostalcodeService } from '../../services/postalcode.service';
 
+import { PasswordValidator } from '../../helpers/password.validator';
+
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
@@ -31,19 +33,6 @@ export class RegisterComponent implements OnInit {
   public msg: string = '';
   public registerForm: FormGroup;
   private country: Subject<string> = new Subject();
-
-  public static mismatchedPasswords = (): ValidatorFn => {
-    return (group: AbstractControl): { [key: string]: any } => {
-      const newPasswordValue = group.get('password').value;
-      const newPasswordConfirmValue = group.get('password_confirm').value;
-      if (newPasswordValue !== newPasswordConfirmValue) {
-        group.get('password_confirm')
-          .setErrors({ 'mismatchedPasswords': true });
-        return { 'mismatchedPasswords': true };
-      }
-      return undefined;
-    };
-  }
 
   constructor(private formBuilder: FormBuilder,
               private postalcodeService: PostalcodeService,
@@ -72,7 +61,7 @@ export class RegisterComponent implements OnInit {
       'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
     });
 
-    this.registerForm.setValidators(RegisterComponent.mismatchedPasswords());
+    this.registerForm.setValidators(PasswordValidator.mismatchedPasswords());
     this.registerForm.setValidators(this.postalcode());
 
     this.country

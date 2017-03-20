@@ -1,8 +1,5 @@
-import { Subject } from 'rxjs/Rx';
-import { AuthGuard } from './../../guards/auth.guard';
-import { Router } from '@angular/router';
-import { PostalcodeService } from './../../services/postalcode.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   Validators,
   FormBuilder,
@@ -13,21 +10,26 @@ import {
 
 import { UserService } from '../../services/user.service';
 
+import { PasswordValidator } from '../../helpers/password.validator';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
-  public disabled: boolean = false;
+  public disabledProfileForm: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
-  public msg: string = '';
+  public disabledPasswordForm: boolean = false;
+  // tslint:disable-next-line:no-inferrable-types
+  public msgProfile: string = '';
+  // tslint:disable-next-line:no-inferrable-types
+  public msgPassword: string = '';
   public profileForm: FormGroup;
+  public passwordForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService,
-              private router: Router,
-              private authGuard: AuthGuard) {
+              private userService: UserService) {
 
   }
 
@@ -45,6 +47,14 @@ export class ProfileComponent implements OnInit {
       'country': [null, Validators.required]
     });
 
+    this.passwordForm = this.formBuilder.group({
+      'old_password': [null, [Validators.required, Validators.minLength(6)]],
+      'password': [null, [Validators.required, Validators.minLength(6)]],
+      'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
+    });
+
+    this.passwordForm.setValidators(PasswordValidator.mismatchedPasswords());
+
     this.userService.profileData()
       .subscribe((res) => {
         this.profileForm.get('firstname').setValue(res['data']['firstname']);
@@ -58,17 +68,32 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public submitForm(value: Object): void {
-    this.disabled = true;
+  public submitProfileForm(value: Object): void {
+    this.disabledProfileForm = true;
 
     this.userService.saveProfileData(value).subscribe(
       (res: any) => {
-        this.disabled = false;
+        this.disabledProfileForm = false;
 
         if (res.error === 'false') {
-          this.msg = 'Uw account is succesvol geüpdatet!';
+          this.msgProfile = 'Uw account is succesvol geüpdatet!';
         } else {
-          this.msg = res.msg;
+          this.msgProfile = res.msg;
+        }
+      });
+  }
+
+  public submitPasswordForm(value: Object): void {
+    this.disabledPasswordForm = true;
+
+    this.userService.saveProfilePassword(value).subscribe(
+      (res: any) => {
+        this.disabledPasswordForm = false;
+
+        if (res.error === 'false') {
+          this.msgPassword = 'Uw wachtwoord is succesvol geüpdatet!';
+        } else {
+          this.msgPassword = res.msg;
         }
       });
   }

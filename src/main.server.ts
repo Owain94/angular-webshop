@@ -92,7 +92,7 @@ app.post('/api/register', (req, res) => {
             city: req.body.city,
             country: req.body.country,
             email: req.body.email.toLowerCase(),
-            password: String(hash),
+            password: String(hash)
           });
           res.json({'error': 'false'});
         }
@@ -141,7 +141,7 @@ app.post('/api/login', (req, res) => {
 app.post('/api/get_profile', (req, res) => {
   jwt.verify(req.body.token, JWTKey, function(err, decoded) {
     if (err) {
-      res.json({'verify': 'false'});
+      res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     } else {
       db.collection('users', function (err2, collection) {
@@ -170,11 +170,9 @@ app.post('/api/get_profile', (req, res) => {
 });
 
 app.post('/api/save_profile', (req, res) => {
-  console.log(JSON.parse(req.body[0])['token']);
-
   jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, function(err, decoded) {
     if (err) {
-      res.json({'verify': 'false'});
+      res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     } else {
       db.collection('users', function (err2, collection) {
@@ -201,6 +199,59 @@ app.post('/api/save_profile', (req, res) => {
 
           res.json({'error': 'false', 'data': 'Uw account is succesvol geüpdatet!'});
           return;
+        });
+      });
+    }
+  });
+});
+
+app.post('/api/save_password', (req, res) => {
+  jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, function(err, decoded) {
+    if (err) {
+      res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    } else {
+      db.collection('users', function (err1, collection) {
+        if (err1) {
+          res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+          return;
+        }
+        collection.findOne({email: decoded.data.toLowerCase()}, function(err2, doc) {
+          if (err2) {
+            res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+            return;
+          }
+
+          if (doc) {
+            pww.verify(doc.password, req.body[1].old_password, function (err3, isValid) {
+              if (err2) {
+                res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+                return;
+              }
+              if (isValid) {
+                pww.hash(req.body[1].password, function (err4, hash) {
+                  if (err4) {
+                    res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+                    return;
+                  }
+
+
+                    collection.update({email: decoded.data.toLowerCase()}, { $set: {
+                        password: String(hash)
+                      }
+                    }, function(err5) {
+                      if (err5) {
+                        res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+                        return;
+                      }
+
+                      res.json({'error': 'false', 'data': 'Uw wachtwoord is succesvol geüpdatet!'});
+                      return;
+                    });
+                });
+              }
+            });
+          }
         });
       });
     }

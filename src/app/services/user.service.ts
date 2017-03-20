@@ -61,6 +61,18 @@ export class UserService {
       });
   }
 
+  public saveProfilePassword(data: Object): Observable<boolean> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const options = new RequestOptions({ headers: headers });
+
+    return this.http.post(`${url}/api/save_password/`, [localStorage.getItem('user'), data], options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+
   public verify(): Observable<boolean> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

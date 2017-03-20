@@ -50,9 +50,6 @@ const routes: Routes = [
       }
     )
   ],
-  providers: [
-
-  ],
   exports: [
     RouterModule
   ]
