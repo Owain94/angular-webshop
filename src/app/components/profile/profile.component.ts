@@ -75,6 +75,11 @@ export class ProfileComponent implements OnInit {
     this.userService.profileData()
       .subscribe((res) => {
         this.twoFactorInitial = res['data']['tfatoken'].length > 0;
+
+        if (this.twoFactorInitial) {
+          this.twoFactorShow = true;
+        }
+
         this.profileForm.get('firstname').setValue(res['data']['firstname']);
         this.profileForm.get('surname_prefix').setValue(res['data']['surname_prefix']);
         this.profileForm.get('surname').setValue(res['data']['surname']);
