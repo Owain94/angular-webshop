@@ -112,6 +112,6 @@ export class UserService {
 
   public logout(): void {
     localStorage.removeItem('user');
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/login');
   }
 }

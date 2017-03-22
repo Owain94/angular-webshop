@@ -49,6 +49,7 @@ export class MenuComponent implements OnInit {
   }
 
   public signout(): void {
+    this.collapsed = true;
     this.userService.logout();
     this.loggedIn = this.authGuard.check();
   }
