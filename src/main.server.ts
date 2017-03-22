@@ -19,6 +19,7 @@ const bodyParser = require('body-parser');
 const credential = require('credential');
 const mongo = require('mongodb').MongoClient;
 const jwt = require('jsonwebtoken');
+const speakeasy = require('speakeasy');
 import { JWTKey } from './constants';
 
 let db;
@@ -92,7 +93,8 @@ app.post('/api/register', (req, res) => {
             city: req.body.city,
             country: req.body.country,
             email: req.body.email.toLowerCase(),
-            password: String(hash)
+            password: String(hash),
+            tfatoken : ''
           });
           res.json({'error': 'false'});
         }
@@ -102,7 +104,7 @@ app.post('/api/register', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-
+  let verified = true;
   db.collection('users', function (err2, collection) {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -116,12 +118,15 @@ app.post('/api/login', (req, res) => {
       }
 
       if (doc) {
+        if (doc.tfatoken.length > 0) {
+          verified = speakeasy.totp.verify({ secret: doc.tfatoken, encoding: 'base32', token: req.body.tfa });
+        }
         pww.verify(doc.password, req.body.password, function (err, isValid) {
           if (err) {
             res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
             return;
           }
-          if (isValid) {
+          if (isValid && verified) {
             const token = jwt.sign({
               exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 365),
               data: req.body.email.toLowerCase()
@@ -235,19 +240,18 @@ app.post('/api/save_password', (req, res) => {
                     return;
                   }
 
-
-                    collection.update({email: decoded.data.toLowerCase()}, { $set: {
-                        password: String(hash)
-                      }
-                    }, function(err5) {
-                      if (err5) {
-                        res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
-                        return;
-                      }
-
-                      res.json({'error': 'false', 'data': 'Uw wachtwoord is succesvol geüpdatet!'});
+                  collection.update({email: decoded.data.toLowerCase()}, { $set: {
+                      password: String(hash)
+                    }
+                  }, function(err5) {
+                    if (err5) {
+                      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
                       return;
-                    });
+                    }
+
+                    res.json({'error': 'false', 'data': 'Uw wachtwoord is succesvol geüpdatet!'});
+                    return;
+                  });
                 });
               }
             });
@@ -262,8 +266,96 @@ app.post('/api/verify', (req, res) => {
   jwt.verify(req.body.token, JWTKey, function(err, decoded) {
     if (err) {
       res.json({'verify': 'false'});
+      return;
     }
     res.json({'verify': 'true'});
+  });
+});
+
+app.post('/api/check_tfa', (req, res) => {
+  db.collection('users', function (err2, collection) {
+    if (err2) {
+      res.json({'tfa': ''});
+      return;
+    }
+    collection.findOne({email: req.body.email.toLowerCase()}, function(err3, doc) {
+      if (err3) {
+        res.json({'tfa': ''});
+        return;
+      }
+      if (doc) {
+        res.json({'tfa': doc.tfatoken});
+      } else {
+        res.json({'tfa': ''});
+      }
+    });
+  });
+});
+
+app.get('/api/generate_tfa_token', (req, res) => {
+  const secret = speakeasy.generateSecret({length: 32});
+  res.json({
+    key: secret.base32,
+    otpauth_url: secret.otpauth_url
+  });
+});
+
+app.post('/api/verify_tfa_token', (req, res) => {
+  jwt.verify(JSON.parse(req.body.user)['token'], JWTKey, function(err, decoded) {
+    const verified = speakeasy.totp.verify({ secret: req.body.key, encoding: 'base32', token: req.body.token });
+    if (err || !verified) {
+      res.json({verified: false});
+      return;
+    }
+
+    db.collection('users', function (err2, collection) {
+      if (err2) {
+        res.json({verified: false});
+        return;
+      }
+
+      collection.update({email: decoded.data.toLowerCase()}, { $set: {
+          tfatoken: req.body.key
+        }
+      }, function(err3) {
+        if (err3) {
+          res.json({verified: false});
+          return;
+        }
+      });
+    });
+
+    res.json({
+      verified: true
+    });
+  });
+});
+
+app.post('/api/disable_tfa', (req, res) => {
+  jwt.verify(req.body.token, JWTKey, function(err, decoded) {
+    if (err) {
+      res.json({'res': false});
+      return;
+    }
+    db.collection('users', function (err2, collection) {
+      if (err2) {
+        res.json({'res': false});
+        return;
+      }
+
+      collection.update({email: decoded.data.toLowerCase()}, { $set: {
+          tfatoken: ''
+        }
+      }, function(err3) {
+        if (err3) {
+          res.json({'res': false});
+          return;
+        }
+
+        res.json({'res': true});
+        return;
+      });
+    });
   });
 });
 

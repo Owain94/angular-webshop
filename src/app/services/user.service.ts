@@ -9,28 +9,33 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class UserService {
+  private options: RequestOptions;
 
   constructor(private http: Http,
-              private router: Router) {}
-
-  public register(data: Object): Observable<boolean> {
+              private router: Router) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: headers });
+    this.options = new RequestOptions({ headers: headers });
+  }
 
-    return this.http.post(`${url}/api/register/`, data, options)
+  public register(data: Object): Observable<boolean> {
+    return this.http.post(`${url}/api/register/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
       });
   }
 
-  public login(data: Object): Observable<boolean> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: headers });
+  public checkTfa(email: string): Observable<boolean> {
+    return this.http.post(`${url}/api/check_tfa/`, {email: email} , this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res.tfa.length > 0;
+      });
+  }
 
-    return this.http.post(`${url}/api/login/`, data, options)
+  public login(data: Object): Observable<boolean> {
+    return this.http.post(`${url}/api/login/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
@@ -38,11 +43,7 @@ export class UserService {
   }
 
   public profileData(): Observable<boolean> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: headers });
-
-    return this.http.post(`${url}/api/get_profile/`, localStorage.getItem('user'), options)
+    return this.http.post(`${url}/api/get_profile/`, localStorage.getItem('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
@@ -50,11 +51,7 @@ export class UserService {
   }
 
   public saveProfileData(data: Object): Observable<boolean> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: headers });
-
-    return this.http.post(`${url}/api/save_profile/`, [localStorage.getItem('user'), data], options)
+    return this.http.post(`${url}/api/save_profile/`, [localStorage.getItem('user'), data], this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
@@ -62,11 +59,7 @@ export class UserService {
   }
 
   public saveProfilePassword(data: Object): Observable<boolean> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: headers });
-
-    return this.http.post(`${url}/api/save_password/`, [localStorage.getItem('user'), data], options)
+    return this.http.post(`${url}/api/save_password/`, [localStorage.getItem('user'), data], this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
@@ -74,11 +67,7 @@ export class UserService {
   }
 
   public verify(): Observable<boolean> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: headers });
-
-    return this.http.post(`${url}/api/verify/`, localStorage.getItem('user'), options)
+    return this.http.post(`${url}/api/verify/`, localStorage.getItem('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.verify;
@@ -86,11 +75,7 @@ export class UserService {
   }
 
   public verifyLogout(): void {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: headers });
-
-    this.http.post(`${url}/api/verify/`, localStorage.getItem('user'), options)
+    this.http.post(`${url}/api/verify/`, localStorage.getItem('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.verify;
@@ -98,6 +83,30 @@ export class UserService {
         if (!Boolean(val)) {
           this.logout();
         }
+      });
+  }
+
+  public tfaToken(): Observable<boolean> {
+    return this.http.get(`${url}/api/generate_tfa_token/`, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+
+  public verifyTfaToken(key: string, token: string): Observable<boolean> {
+    return this.http.post(`${url}/api/verify_tfa_token/`, {key: key, token: token, user: localStorage.getItem('user')}, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res.verified;
+      });
+  }
+
+  public disableTfa(): Observable<boolean> {
+    return this.http.post(`${url}/api/disable_tfa/`, localStorage.getItem('user'), this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res.res;
       });
   }
 

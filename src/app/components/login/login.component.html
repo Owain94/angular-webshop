@@ -20,7 +20,7 @@
           <div class="large-12 columns">
             <label [ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }">
               E-mail adres
-              <input type="text" [formControl]="loginForm.controls['email']" [ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }" />
+              <input #emailField type="text" [formControl]="loginForm.controls['email']" [ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }" />
             </label>
             <small *ngIf="!loginForm.controls['email'].valid && loginForm.controls['email'].touched" class="error">
               E-mail adres is verplicht
@@ -36,6 +36,18 @@
             </label>
             <small *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched" class="error">
               Wachtwoord is verplicht
+            </small>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="tfa">
+          <div class="large-12 columns">
+            <label>
+              Two factor authenticatie token
+              <input type="text" [formControl]="loginForm.controls['tfa']" />
+            </label>
+            <small *ngIf="tfaError" class="error">
+              Two factor authenticatie token ongeldig
             </small>
           </div>
         </div>

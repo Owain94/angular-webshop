@@ -46,8 +46,10 @@
     "express": "4.15.2",
     "jsonwebtoken": "7.3.0",
     "mongodb": "2.2.25",
-    "normalize.css": "5.0.0",
+    "qrcode-generator": "1.1.0",
+    "qrcodejs2": "0.0.2",
     "rxjs": "5.2.0",
+    "speakeasy": "2.0.0",
     "zone.js": "0.8.4"
   },
   "devDependencies": {
@@ -56,6 +58,7 @@
     "@types/express": "4.0.35",
     "@types/jasmine": "2.5.45",
     "@types/node": "7.0.8",
+    "@types/speakeasy": "2.0.0",
     "autoprefixer": "6.7.7",
     "codelyzer": "3.0.0-beta.3",
     "css-loader": "0.27.3",

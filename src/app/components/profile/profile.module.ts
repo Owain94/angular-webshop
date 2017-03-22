@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '../header/header.module';
+import { QRCodeModule } from '../qrcode/qrcode.component';
 
 import { ProfileComponent } from './profile.component';
 import { TabsComponent } from '../tabs/tabs.component';
@@ -19,6 +20,7 @@ import { UserService } from '../../services/user.service';
   ],
   imports: [
     HeaderModule,
+    QRCodeModule,
 
     CommonModule,
     FormsModule,

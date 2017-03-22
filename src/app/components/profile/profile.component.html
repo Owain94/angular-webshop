@@ -105,7 +105,7 @@
 
         </app-tab>
 
-        <app-tab tabTitle="Beveiliging">
+        <app-tab tabTitle="Wachtwoord">
           <form [formGroup]="passwordForm" (ngSubmit)="submitPasswordForm(passwordForm.value)">
 
             <div class="row">
@@ -156,10 +156,58 @@
 
           </form>
         </app-tab>
-      </app-tabs>
-      
-      
 
+        <app-tab tabTitle="Two Factor">
+          <div class="row">
+            <div class="large-12 columns text-center">
+              <h2 [innerText]="msgTfa"></h2>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="large-2 columns">
+              <span>
+                Two Factor authenticatie
+              </span>
+            </div>
+            <div class="large-2 columns end">
+              <label class="switch">
+                <input #tfa type="checkbox" (change)="twoFactor(tfa.checked)" [checked]="twoFactorInitial">
+                <div class="slider round"></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial">
+            <div class="large-12 columns end">
+              <span>Scan onderstaande QR code met een two step authenticatie applicatie zoals Google authenticator of Authy.</span>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial" class="mt_five">
+            <div class="large-2 columns end">
+              <app-qr-code [data]="twoFactorCode" [size]="150" [type]="5"></app-qr-code>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial">
+            <div class="large-12 columns">
+              <label>
+                Response token
+                <input #tfaToken type="text" />
+              </label>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="(twoFactorCode && twoFactorShow) || twoFactorInitial">
+            <div class="large-2 columns end">
+              <button class="button" (click)="TfaSave()">Opslaan</button>
+            </div>
+          </div>
+
+        </app-tab>
+      </app-tabs>
     </div>
   </div>
 </div>
