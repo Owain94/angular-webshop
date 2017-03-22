@@ -57,21 +57,23 @@ export class LoginComponent implements OnInit {
       'tfa': [null]
     });
 
-    const eventStream = Observable.fromEvent(this.emailField.nativeElement, 'keyup')
-      .map(() => this.emailField.nativeElement.value)
-      .debounceTime(1000)
-      .distinctUntilChanged();
+    if (typeof(window) !== 'undefined') {
+      const eventStream = Observable.fromEvent(this.emailField.nativeElement, 'keyup')
+        .map(() => this.emailField.nativeElement.value)
+        .debounceTime(1000)
+        .distinctUntilChanged();
 
-      eventStream.subscribe(input => {
-        const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        if (regexp.test(input)) {
-          this.userService.checkTfa(input).subscribe(
-            (res: any) => {
-              this.tfa = res;
-            }
-          );
-        }
-      });
+        eventStream.subscribe(input => {
+          const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+          if (regexp.test(input)) {
+            this.userService.checkTfa(input).subscribe(
+              (res: any) => {
+                this.tfa = res;
+              }
+            );
+          }
+        });
+    }
   }
 
   public submitForm(value: Object): void {
