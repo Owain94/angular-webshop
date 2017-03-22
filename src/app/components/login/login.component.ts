@@ -19,6 +19,8 @@ import { AuthGuard } from '../../guards/auth.guard';
 
 import { Observable } from 'rxjs/Observable';
 
+import 'rxjs/add/observable/fromEvent';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
