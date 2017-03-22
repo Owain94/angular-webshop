@@ -33,5 +33,5 @@ install:
   - npm install
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then npm run build:all:aot; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then npm run build:all:aot; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then npm run build:all; npm run build:all:aot; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then npm run build:all; npm run build:all:aot; fi'
