@@ -1,10 +1,10 @@
 # AngularCliUniversal
 
-[![Build Status](https://travis-ci.org/Owain94/angular-cli-universal.svg?branch=master)](https://travis-ci.org/Owain94/angular-cli-universal)
-[![Greenkeeper badge](https://badges.greenkeeper.io/Owain94/angular-cli-universal.svg)](https://greenkeeper.io/)
-[![dependencies Status](https://david-dm.org/Owain94/angular-cli-universal/status.svg)](https://david-dm.org/Owain94/angular-cli-universal)
-[![devDependencies Status](https://david-dm.org/Owain94/angular-cli-universal/dev-status.svg)](https://david-dm.org/Owain94/angular-cli-universal?type=dev)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c94a312a55e84c47aac183db4bbdf534)](https://www.codacy.com/app/Owain94/angular-cli-universal?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Owain94/angular-cli-universal&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/Owain94/angular-webshop.svg?branch=master)](https://travis-ci.org/Owain94/angular-webshop)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Owain94/angular-webshop.svg)](https://greenkeeper.io/)
+[![dependencies Status](https://david-dm.org/Owain94/angular-webshop/status.svg)](https://david-dm.org/Owain94/angular-webshop)
+[![devDependencies Status](https://david-dm.org/Owain94/angular-webshop/dev-status.svg)](https://david-dm.org/Owain94/angular-webshop?type=dev)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f629b2903a744811b991f04646b84ec0)](https://www.codacy.com/app/Owain94/angular-webshop?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Owain94/angular-webshop&amp;utm_campaign=Badge_Grade)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.1.
 
