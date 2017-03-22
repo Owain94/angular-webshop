@@ -200,7 +200,7 @@
             </div>
           </div>
 
-          <div class="row" *ngIf="(twoFactorCode && twoFactorShow) || twoFactorInitial">
+          <div class="row" *ngIf="(twoFactorCode && twoFactorShow && !twoFactorInitial) || (twoFactorInitial && !twoFactorShow)">
             <div class="large-2 columns end">
               <button class="button" (click)="TfaSave()">Opslaan</button>
             </div>
