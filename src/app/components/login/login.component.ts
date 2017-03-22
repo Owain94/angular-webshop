@@ -20,6 +20,8 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: 'app-login',
