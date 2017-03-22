@@ -73,17 +73,14 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.userService.checkTfa(input).subscribe(
               (res: boolean) => {
                 if (res) {
-                  console.log('Set validators');
                   this.loginForm.get('tfa').setValidators(
                     Validators.compose(
                       [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
                     )
                   );
                 } else {
-                  console.log('Clear validators');
                   this.loginForm.get('tfa').clearValidators();
                 }
-
 
                 this.loginForm.get('tfa').updateValueAndValidity();
                 this.tfa = res;
