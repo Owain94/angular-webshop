@@ -5,6 +5,11 @@ const tsConfig = {
   server: "./tsconfig.server.json"
 };
 
+const tsConfigAot = {
+  client: "./tsconfig.app.json",
+  server: "./tsconfig.server.aot.json"
+};
+
 const mainPath = {
   client: "./src/main.ts",
   server: "./src/app/app.server.module.ts#AppServerModule"
@@ -20,7 +25,7 @@ const mainPath = {
 function getAotPlugin(platform, aot) {
   return new AotPlugin({
     "mainPath": mainPath[platform],
-    "tsConfigPath": tsConfig[platform],
+    "tsConfigPath":aot ? tsConfigAot[platform] : tsConfig[platform],
     "skipCodeGeneration": !aot
   });
 }
