@@ -34,7 +34,6 @@ function capitalizeFirstLetter(string) {
 }
 
 app.engine('html', ngExpressEngine({
-  aot: true,
   bootstrap: AppServerModuleNgFactory
 }));
 

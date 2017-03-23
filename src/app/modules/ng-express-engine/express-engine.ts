@@ -1,34 +1,41 @@
 import * as fs from 'fs';
 import {
-  Provider,
-  NgModuleFactory,
-  NgModuleRef,
-  PlatformRef,
-  ApplicationRef,
-  Type
-} from '@angular/core';
-import {
-  platformServer,
-  platformDynamicServer,
-  PlatformState,
-  INITIAL_CONFIG
-} from '@angular/platform-server';
-import {
   Request,
   Response,
   Send
 } from 'express';
 
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/first';
+import {
+  Provider,
+  NgModuleFactory,
+  InjectionToken,
+  Type,
+  CompilerFactory,
+  Compiler
+} from '@angular/core';
+import {
+  INITIAL_CONFIG,
+  renderModuleFactory,
+  platformDynamicServer
+} from '@angular/platform-server';
+
+export const REQUEST = new InjectionToken<Request>('REQUEST');
+export const RESPONSE = new InjectionToken<Response>('RESPONSE');
 
 /**
  * These are the allowed options for the engine
  */
 export interface NgSetupOptions {
-  aot?: boolean;
   bootstrap: Type<{}> | NgModuleFactory<{}>;
   providers?: Provider[];
+}
+
+/**
+ * These are the allowed options for the render
+ */
+export interface RenderOptions extends NgSetupOptions {
+  req: Request;
+  res?: Response;
 }
 
 /**
@@ -37,21 +44,32 @@ export interface NgSetupOptions {
 const templateCache: { [key: string]: string } = {};
 
 /**
+ * This is a map of compiled NgModuleFactories
+ */
+const factoryCacheMap = new Map<Type<{}>, NgModuleFactory<{}>>();
+
+/**
  * This is an express engine for handling Angular Applications
  */
 export function ngExpressEngine(setupOptions: NgSetupOptions) {
+  const compilerFactory: CompilerFactory = platformDynamicServer().injector.get(CompilerFactory);
+  const compiler: Compiler = compilerFactory.createCompiler();
 
   setupOptions.providers = setupOptions.providers || [];
 
-  return function (filePath, options: { req: Request, res?: Response }, callback: Send) {
-    try {
-      const moduleFactory = setupOptions.bootstrap;
+  return function (filePath: string, options: RenderOptions, callback: Send) {
 
-      if (!moduleFactory) {
+    options.providers = options.providers || [];
+
+    try {
+      const module = options.bootstrap || setupOptions.bootstrap;
+
+      if (!module) {
         throw new Error('You must pass in a NgModule or NgModuleFactory to be bootstrapped');
       }
 
       const extraProviders = setupOptions.providers.concat(
+        options.providers,
         getReqResProviders(options.req, options.res),
         [
           {
@@ -63,12 +81,24 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
           }
         ]);
 
-      const moduleRefPromise = setupOptions.aot ?
-        platformServer(extraProviders).bootstrapModuleFactory(<NgModuleFactory<{}>>moduleFactory) :
-        platformDynamicServer(extraProviders).bootstrapModule(<Type<{}>>moduleFactory);
+      let moduleFactory: NgModuleFactory<{}>;
+      if (module instanceof Type) {
+        moduleFactory = factoryCacheMap.get(module);
 
-      moduleRefPromise.then((moduleRef: NgModuleRef<{}>) => {
-          handleModuleRef(moduleRef, callback);
+        if (!moduleFactory) {
+          moduleFactory = compiler.compileModuleSync(module);
+
+          factoryCacheMap.set(module, moduleFactory);
+        }
+      } else {
+        moduleFactory = module;
+      }
+
+      renderModuleFactory(moduleFactory, {
+        extraProviders: extraProviders
+      })
+        .then((html: string) => {
+          callback(null, html);
         });
 
     } catch (e) {
@@ -77,16 +107,19 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
   };
 }
 
+/**
+ * Get providers of the request and response
+ */
 function getReqResProviders(req: Request, res: Response): Provider[] {
   const providers: Provider[] = [
     {
-      provide: 'REQUEST',
+      provide: REQUEST,
       useValue: req
     }
   ];
   if (res) {
     providers.push({
-      provide: 'RESPONSE',
+      provide: RESPONSE,
       useValue: res
     });
   }
@@ -98,25 +131,4 @@ function getReqResProviders(req: Request, res: Response): Provider[] {
  */
 function getDocument(filePath: string): string {
   return templateCache[filePath] = templateCache[filePath] || fs.readFileSync(filePath).toString();
-}
-
-/**
- * Handle the request with a given NgModuleRef
- */
-function handleModuleRef(moduleRef: NgModuleRef<{}>, callback: Send) {
-  const state = moduleRef.injector.get(PlatformState);
-  const appRef = moduleRef.injector.get(ApplicationRef);
-
-  appRef.isStable
-    .filter((isStable: boolean) => isStable)
-    .first()
-    .subscribe((stable) => {
-      const bootstrap = moduleRef.instance['ngOnBootstrap'];
-      if (bootstrap) {
-        bootstrap();
-      }
-
-      callback(null, state.renderToString());
-      moduleRef.destroy();
-    });
 }
