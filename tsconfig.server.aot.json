@@ -3,6 +3,9 @@
   "include": [
     "src/**/*"
   ],
+  "exclude": [
+    "./src/main.server.ts"
+  ],
   "angularCompilerOptions": {
     "genDir": "src/aot",
     "entryModule": "./src/app/modules/app.server.module#AppServerModule"

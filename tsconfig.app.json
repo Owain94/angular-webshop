@@ -12,6 +12,7 @@
     "src/**/*"
   ],
   "exclude": [
-    "./src/main.server.aot.ts"
+    "./src/main.server.aot.ts",
+    "./src/main.server.ts"
   ]
 }

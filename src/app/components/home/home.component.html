@@ -1,11 +1,7 @@
-<app-header *ngIf="!loggedIn"
-  [headerImage]="0"
+<app-header
+  [headerImage]="'0'"
   [headerHeading]="['Lorum ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.']"
-  [headerButton]="['/login', 'Aanmelden']">
-</app-header>
-<app-header  *ngIf="loggedIn"
-  [headerImage]="0"
-  [headerHeading]="['Lorum ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.']">
+  [headerButton]="button">
 </app-header>
 
 <div class="section">
