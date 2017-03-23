@@ -21,7 +21,6 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
-import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
@@ -31,17 +30,15 @@ import 'rxjs/add/operator/distinctUntilChanged';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  @ViewChild('emailField') emailField: ElementRef;
-    // tslint:disable-next-line:no-inferrable-types
+  // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
   public tfa: boolean = false;
-  public email: string;
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = '';
   public loginForm: FormGroup;
 
-  private keyUpSubscription: Subscription;
+  private emailSubscription: Subscription;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -61,14 +58,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       'tfa': [null]
     });
 
-    if (typeof(window) !== 'undefined') {
-      const eventStream = Observable.fromEvent(this.emailField.nativeElement, 'keyup')
-        .map(() => this.emailField.nativeElement.value)
-        .debounceTime(1000)
-        .distinctUntilChanged();
-
-        this.keyUpSubscription = eventStream.subscribe((input: string) => {
-          const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    this.emailSubscription = this.loginForm.get('email').valueChanges
+    .debounceTime(1000)
+    .distinctUntilChanged()
+    .subscribe(
+      (input: string) => {
+        const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
           if (regexp.test(input)) {
             this.userService.checkTfa(input).subscribe(
               (res: boolean) => {
@@ -87,13 +82,13 @@ export class LoginComponent implements OnInit, OnDestroy {
               }
             );
           }
-        });
-    }
+      }
+    );
   }
 
   ngOnDestroy(): void {
     try {
-      this.keyUpSubscription.unsubscribe();
+      this.emailSubscription.unsubscribe();
     } catch (err) {}
   }
 
