@@ -9,6 +9,9 @@ import { TransferState } from './transfer-state/transfer-state';
 
 import { MainComponent } from '../components/main/main.component';
 
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
+
 export function boot(state: TransferState, applicationRef: ApplicationRef) {
   return function () {
     applicationRef.isStable
