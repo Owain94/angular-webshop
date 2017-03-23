@@ -10,11 +10,10 @@ import {
 import { TransferState } from '../transfer-state/transfer-state';
 
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class TransferHttp {
@@ -148,7 +147,7 @@ export class TransferHttp {
       throw new Error();
     }
 
-    return Observable.fromPromise(Promise.resolve(data));
+    return Observable.of(data);
   }
 
   private setCache(key, data) {

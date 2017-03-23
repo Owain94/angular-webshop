@@ -19,6 +19,9 @@ import {
   Send
 } from 'express';
 
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
+
 /**
  * These are the allowed options for the engine
  */

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import { PostalcodeService } from '../../services/postalcode.service';
 
 import { PasswordValidator } from '../../helpers/password.validator';
 
-import { Subject } from 'rxjs/Rx';
+import { Subject, Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';
@@ -26,13 +26,14 @@ import 'rxjs/add/operator/distinctUntilChanged';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = '';
   public registerForm: FormGroup;
   private country: Subject<string> = new Subject();
+  private countrySubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private postalcodeService: PostalcodeService,
@@ -64,7 +65,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm.setValidators(PasswordValidator.mismatchedPasswords());
     this.registerForm.setValidators(this.postalcode());
 
-    this.country
+    this.countrySubscription = this.country
       .distinctUntilChanged()
       .debounceTime(250)
       .subscribe((value) => {
@@ -86,6 +87,13 @@ export class RegisterComponent implements OnInit {
           });
         }
     });
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.country.unsubscribe();
+      this.countrySubscription.unsubscribe();
+    } catch (err) {}
   }
 
   private postalcode = (): ValidatorFn => {

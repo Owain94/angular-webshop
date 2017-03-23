@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ElementRef,
-  ViewChild
+  ViewChild,
+  OnDestroy
 } from '@angular/core';
 import {
   Validators,
@@ -17,9 +18,9 @@ import { UserService } from '../../services/user.service';
 
 import { AuthGuard } from '../../guards/auth.guard';
 
+import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
-import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
@@ -28,16 +29,16 @@ import 'rxjs/add/operator/distinctUntilChanged';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  @ViewChild('emailField') emailField: ElementRef;
-    // tslint:disable-next-line:no-inferrable-types
+export class LoginComponent implements OnInit, OnDestroy {
+  // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
   public tfa: boolean = false;
-  public email: string;
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = '';
   public loginForm: FormGroup;
+
+  private emailSubscription: Subscription;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -57,23 +58,38 @@ export class LoginComponent implements OnInit {
       'tfa': [null]
     });
 
-    if (typeof(window) !== 'undefined') {
-      const eventStream = Observable.fromEvent(this.emailField.nativeElement, 'keyup')
-        .map(() => this.emailField.nativeElement.value)
-        .debounceTime(1000)
-        .distinctUntilChanged();
-
-        eventStream.subscribe(input => {
-          const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    this.emailSubscription = this.loginForm.get('email').valueChanges
+    .debounceTime(1000)
+    .distinctUntilChanged()
+    .subscribe(
+      (input: string) => {
+        const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
           if (regexp.test(input)) {
             this.userService.checkTfa(input).subscribe(
-              (res: any) => {
+              (res: boolean) => {
+                if (res) {
+                  this.loginForm.get('tfa').setValidators(
+                    Validators.compose(
+                      [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
+                    )
+                  );
+                } else {
+                  this.loginForm.get('tfa').clearValidators();
+                }
+
+                this.loginForm.get('tfa').updateValueAndValidity();
                 this.tfa = res;
               }
             );
           }
-        });
-    }
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.emailSubscription.unsubscribe();
+    } catch (err) {}
   }
 
   public submitForm(value: Object): void {

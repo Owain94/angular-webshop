@@ -18,7 +18,7 @@ export class UserService {
     this.options = new RequestOptions({ headers: headers });
   }
 
-  public register(data: Object): Observable<boolean> {
+  public register(data: Object): Observable<any> {
     return this.http.post(`${url}/api/register/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
@@ -34,7 +34,7 @@ export class UserService {
       });
   }
 
-  public login(data: Object): Observable<boolean> {
+  public login(data: Object): Observable<any> {
     return this.http.post(`${url}/api/login/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
@@ -42,7 +42,7 @@ export class UserService {
       });
   }
 
-  public profileData(): Observable<boolean> {
+  public profileData(): Observable<any> {
     return this.http.post(`${url}/api/get_profile/`, localStorage.getItem('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
@@ -50,7 +50,7 @@ export class UserService {
       });
   }
 
-  public saveProfileData(data: Object): Observable<boolean> {
+  public saveProfileData(data: Object): Observable<any> {
     return this.http.post(`${url}/api/save_profile/`, [localStorage.getItem('user'), data], this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
@@ -58,7 +58,7 @@ export class UserService {
       });
   }
 
-  public saveProfilePassword(data: Object): Observable<boolean> {
+  public saveProfilePassword(data: Object): Observable<any> {
     return this.http.post(`${url}/api/save_password/`, [localStorage.getItem('user'), data], this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
@@ -86,7 +86,7 @@ export class UserService {
       });
   }
 
-  public tfaToken(): Observable<boolean> {
+  public tfaToken(): Observable<any> {
     return this.http.get(`${url}/api/generate_tfa_token/`, this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
@@ -112,6 +112,6 @@ export class UserService {
 
   public logout(): void {
     localStorage.removeItem('user');
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/login');
   }
 }
