@@ -8,11 +8,13 @@ import { AuthGuard } from '../../guards/auth.guard';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public loggedIn: boolean;
+  public button: [string, string];
 
   constructor(private authGuard: AuthGuard) {}
 
   ngOnInit(): void {
-    this.loggedIn = this.authGuard.check();
+    if (!this.authGuard.check()) {
+      this.button = ['/login', 'Aanmelden'];
+    }
   }
 }
