@@ -82,7 +82,7 @@
 .top-bar .toggle-topbar.menu-icon a span {
   box-shadow:
     0 10px 0 1px #222,
-    0 16px 0 1px #222,
+    0 16px 0 1px #222,
     0 22px 0 1px #222;
 }
 
@@ -98,7 +98,7 @@
 .top-bar.collapsed .toggle-topbar.menu-icon a span {
   box-shadow:
     0 10px 0 1px #888,
-    0 16px 0 1px #888,
+    0 16px 0 1px #888,
     0 22px 0 1px #888;
 }
 
@@ -115,7 +115,7 @@
   }
 
   .top-bar,
-  .top-bar-section ul{
+  .top-bar-section ul {
     background: white !important;
   }
 
