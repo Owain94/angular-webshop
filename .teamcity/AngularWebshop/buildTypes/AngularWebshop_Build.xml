@@ -38,7 +38,7 @@ run build:all:aot]]></param>
       <extension id="BUILD_EXT_1" type="commit-status-publisher">
         <parameters>
           <param name="publisherId" value="upsourcePublisher" />
-          <param name="secure:upsourcePassword" value="zxx42b3b7e522fe2a5f598606134e9ed1e69226423a85137700" />
+          <param name="secure:upsourcePassword" value="zxxc72f1d3bc9eb969b775d03cbe80d301b" />
           <param name="upsourceProjectId" value="angular-webshop" />
           <param name="upsourceServerUrl" value="http://136.144.141.239:8082" />
           <param name="upsourceUsername" value="owain" />
