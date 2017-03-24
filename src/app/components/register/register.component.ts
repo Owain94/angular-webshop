@@ -23,8 +23,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
