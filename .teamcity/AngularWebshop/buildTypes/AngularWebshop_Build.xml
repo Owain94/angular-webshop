@@ -3,6 +3,9 @@
   <name>Build</name>
   <description />
   <settings>
+    <options>
+      <option name="allowExternalStatus" value="true" />
+    </options>
     <parameters />
     <build-runners>
       <runner id="RUNNER_3" name="Run: yarn install" type="jonnyzzz.yarn">
