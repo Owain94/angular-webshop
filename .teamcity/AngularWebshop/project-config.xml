@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="122354dc-d020-4f99-a111-fb1a7de653cb" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/10.0/project-config.xsd">
+  <name>Angular Webshop</name>
+  <parameters />
+  <project-extensions>
+    <extension id="PROJECT_EXT_1" type="IssueTracker">
+      <parameters>
+        <param name="host" value="http://136.144.141.239:8081" />
+        <param name="idPrefix" value="angular_webshop" />
+        <param name="name" value="YouTrack" />
+        <param name="secure:password" value="zxxc72f1d3bc9eb969b775d03cbe80d301b" />
+        <param name="type" value="youtrack" />
+        <param name="username" value="owain" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_4" type="versionedSettings">
+      <parameters>
+        <param name="buildSettings" value="ALWAYS_USE_CURRENT" />
+        <param name="enabled" value="true" />
+        <param name="rootId" value="AngularWebshop_HttpsGithubComOwain94angularWebshopRefsHeadsMaster" />
+        <param name="showChanges" value="false" />
+      </parameters>
+    </extension>
+  </project-extensions>
+  <cleanup />
+</project>
+
