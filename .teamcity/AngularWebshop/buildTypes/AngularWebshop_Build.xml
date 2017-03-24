@@ -3,6 +3,9 @@
   <name>Build</name>
   <description />
   <settings>
+    <options>
+      <option name="allowExternalStatus" value="true" />
+    </options>
     <parameters />
     <build-runners>
       <runner id="RUNNER_3" name="Run: yarn install" type="jonnyzzz.yarn">
@@ -31,6 +34,29 @@ run build:all:aot]]></param>
         </parameters>
       </build-trigger>
     </build-triggers>
+    <build-extensions>
+      <extension id="BUILD_EXT_1" type="commit-status-publisher">
+        <parameters>
+          <param name="publisherId" value="upsourcePublisher" />
+          <param name="secure:upsourcePassword" value="zxxc72f1d3bc9eb969b775d03cbe80d301b" />
+          <param name="upsourceProjectId" value="angular-webshop" />
+          <param name="upsourceServerUrl" value="http://136.144.141.239:8082" />
+          <param name="upsourceUsername" value="owain" />
+          <param name="vcsRootId" value="AngularWebshop_HttpsGithubComOwain94angularWebshopRefsHeadsMaster" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_2" type="commit-status-publisher">
+        <parameters>
+          <param name="github_authentication_type" value="token" />
+          <param name="github_host" value="https://api.github.com" />
+          <param name="github_username" value="Owain94" />
+          <param name="publisherId" value="githubStatusPublisher" />
+          <param name="secure:github_access_token" value="zxxdd780c66b9af60f03ea50b6c69e2f732b585c5a66744b101c30e3f054a0b42098d0cf9a1ddbec272775d03cbe80d301b" />
+          <param name="secure:github_password" value="zxx42b3b7e522fe2a5f598606134e9ed1e69226423a85137700" />
+          <param name="vcsRootId" value="AngularWebshop_HttpsGithubComOwain94angularWebshopRefsHeadsMaster" />
+        </parameters>
+      </extension>
+    </build-extensions>
     <cleanup />
   </settings>
 </build-type>
