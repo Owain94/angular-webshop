@@ -1,19 +1,10 @@
 import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
-import { TabComponent } from './tab.component';
+import { TabComponent } from './tab/tab.component';
 
 @Component({
   selector: 'app-tabs',
-  template: `
-    <button class="button" *ngFor="let tab of tabs" (click)="selectTab(tab)">
-      {{ tab.title }}
-    </button>
-    <ng-content></ng-content>
-  `,
-  styles: [`
-    button {
-      margin-right: 10px;
-    }
-  `],
+  templateUrl: './tabs.component.html',
+  styleUrls: ['./tabs.component.css']
 })
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;

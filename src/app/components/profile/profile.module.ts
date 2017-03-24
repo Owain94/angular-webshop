@@ -8,7 +8,7 @@ import { QRCodeModule } from '../qrcode/qrcode.component';
 
 import { ProfileComponent } from './profile.component';
 import { TabsComponent } from '../tabs/tabs.component';
-import { TabComponent } from '../tabs/tab.component';
+import { TabComponent } from '../tabs/tab/tab.component';
 
 import { UserService } from '../../services/user.service';
 
