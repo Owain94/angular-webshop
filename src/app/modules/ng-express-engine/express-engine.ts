@@ -18,6 +18,10 @@ import {
   renderModuleFactory,
   platformDynamicServer
 } from '@angular/platform-server';
+// tslint:disable-next-line:quotemark
+import { ResourceLoader } from "@angular/compiler";
+
+import { FileLoader } from './file-loader';
 
 export const REQUEST = new InjectionToken<Request>('REQUEST');
 export const RESPONSE = new InjectionToken<Response>('RESPONSE');
@@ -53,7 +57,13 @@ const factoryCacheMap = new Map<Type<{}>, NgModuleFactory<{}>>();
  */
 export function ngExpressEngine(setupOptions: NgSetupOptions) {
   const compilerFactory: CompilerFactory = platformDynamicServer().injector.get(CompilerFactory);
-  const compiler: Compiler = compilerFactory.createCompiler();
+  const compiler: Compiler = compilerFactory.createCompiler([
+    {
+      providers: [
+        { provide: ResourceLoader, useClass: FileLoader }
+      ]
+    }
+  ]);
 
   setupOptions.providers = setupOptions.providers || [];
 
@@ -62,9 +72,9 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
     options.providers = options.providers || [];
 
     try {
-      const module = options.bootstrap || setupOptions.bootstrap;
+      const moduleOrFactory = options.bootstrap || setupOptions.bootstrap;
 
-      if (!module) {
+      if (!moduleOrFactory) {
         throw new Error('You must pass in a NgModule or NgModuleFactory to be bootstrapped');
       }
 
@@ -81,30 +91,54 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
           }
         ]);
 
-      let moduleFactory: NgModuleFactory<{}>;
-      if (module instanceof Type) {
-        moduleFactory = factoryCacheMap.get(module);
-
-        if (!moduleFactory) {
-          moduleFactory = compiler.compileModuleSync(module);
-
-          factoryCacheMap.set(module, moduleFactory);
-        }
-      } else {
-        moduleFactory = module;
-      }
-
-      renderModuleFactory(moduleFactory, {
-        extraProviders: extraProviders
-      })
+      getFactory(moduleOrFactory, compiler)
+        .then(factory => {
+          return renderModuleFactory(factory, {
+            extraProviders: extraProviders
+          });
+        })
         .then((html: string) => {
           callback(null, html);
+        }, (err) => {
+          callback(err);
+          throw err;
         });
-
-    } catch (e) {
-      callback(e);
+    } catch (err) {
+      callback(err);
     }
   };
+}
+
+/**
+ * Get a factory from a bootstrapped module/ module factory
+ */
+function getFactory(
+  moduleOrFactory: Type<{}> | NgModuleFactory<{}>, compiler: Compiler
+): Promise<NgModuleFactory<{}>> {
+  return new Promise<NgModuleFactory<{}>>((resolve, reject) => {
+    // If module has been compiled AoT
+    if (moduleOrFactory instanceof NgModuleFactory) {
+      resolve(moduleOrFactory);
+      return;
+    } else {
+      const moduleFactory = factoryCacheMap.get(moduleOrFactory);
+
+      // If module factory is cached
+      if (moduleFactory) {
+        resolve(moduleFactory);
+        return;
+      }
+
+      // Compile the module and cache it
+      compiler.compileModuleAsync(moduleOrFactory)
+        .then((factory) => {
+          factoryCacheMap.set(moduleOrFactory, factory);
+          resolve(factory);
+        }, (err => {
+          reject(err);
+        }));
+    }
+  });
 }
 
 /**
