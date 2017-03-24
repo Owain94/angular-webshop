@@ -2,11 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tab',
-  template: `
-    <div [hidden]="!active">
-      <ng-content></ng-content>
-    </div>
-  `
+  templateUrl: './tab.component.html'
 })
 export class TabComponent {
   // tslint:disable-next-line:no-input-rename
