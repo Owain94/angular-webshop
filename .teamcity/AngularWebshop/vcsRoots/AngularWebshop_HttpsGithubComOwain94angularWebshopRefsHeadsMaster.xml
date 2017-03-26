@@ -6,7 +6,8 @@
   <param name="authMethod" value="PASSWORD" />
   <param name="branch" value="refs/heads/master" />
   <param name="ignoreKnownHosts" value="true" />
-  <param name="secure:password" value="zxx6bb1523a5ce38e5cd3b19ec904133bafa9f3e0a2f6f936df57afcd47a49e1941809deafa920019ae775d03cbe80d301b" />
+  <param name="push_url" value="https://github.com/Owain94/angular-webshop" />
+  <param name="secure:password" value="zxxdd780c66b9af60f03ea50b6c69e2f732b585c5a66744b101c30e3f054a0b42098d0cf9a1ddbec272775d03cbe80d301b" />
   <param name="submoduleCheckout" value="CHECKOUT" />
   <param name="teamcity:branchSpec" value="+:refs/pull/(*/merge)" />
   <param name="url" value="https://github.com/Owain94/angular-webshop" />
