@@ -1,6 +1,6 @@
 # AngularCliUniversal
 
-[![Build Status](https://travis-ci.org/Owain94/angular-webshop.svg?branch=master)](https://travis-ci.org/Owain94/angular-webshop)
+[![Build Status](http://136.144.141.239:8111/app/rest/builds/aggregated/strob:(buildType:(project:(id:AngularWebshop)))/statusIcon.svg)](http://136.144.141.239:8111/viewType.html?buildTypeId=AngularWebshop_Build)
 [![Greenkeeper badge](https://badges.greenkeeper.io/Owain94/angular-webshop.svg)](https://greenkeeper.io/)
 [![dependencies Status](https://david-dm.org/Owain94/angular-webshop/status.svg)](https://david-dm.org/Owain94/angular-webshop)
 [![devDependencies Status](https://david-dm.org/Owain94/angular-webshop/dev-status.svg)](https://david-dm.org/Owain94/angular-webshop?type=dev)
