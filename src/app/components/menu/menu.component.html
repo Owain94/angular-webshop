@@ -17,9 +17,6 @@
             <li>
               <a routerLink="/" (click)="navBarClick(true)">Home</a>
             </li>
-            <li>
-              <a routerLink="/test" (click)="navBarClick(true)">404</a>
-            </li>
             <li *ngIf="url !== '/' && url !== 'undefined' && !loggedIn">
               <a class="button radius" routerLink="/login" (click)="navBarClick(true)">Aanmelden</a>
             </li>
