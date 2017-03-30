@@ -1,5 +1,6 @@
 const path = require("path");
 const ProgressPlugin = require("webpack/lib/ProgressPlugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const postcssUrl = require("postcss-url");
@@ -203,7 +204,12 @@ module.exports = {
     new ExtractTextPlugin({
       "filename": "[name].bundle.css",
       "disable": true
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: 'src/assets'
+      }
+    ])
   ],
   "node": {
     "fs": "empty",
