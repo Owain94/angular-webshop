@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<div class="row" *ngFor="let product of products | filter: { name: filterText } | filter: { category: filterCategoryText }">
+<div class="row" *ngFor="let product of products | filter: { name: filterText, category: filterCategoryText }">
   <div>
     <img height="300" width="300" class="product-img" [alt]="product.name" [src]="product.photo" />
   </div>
