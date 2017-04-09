@@ -38,6 +38,11 @@ select {
   background-color: #fff;
 }
 
+mark {
+  background-color: #ea4c88 !important;
+  color: #fff;
+}
+
 .button {
   padding-left: 40px;
   padding-right: 40px;
