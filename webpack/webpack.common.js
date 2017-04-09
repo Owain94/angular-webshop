@@ -4,8 +4,8 @@ const ProgressPlugin = require("webpack/lib/ProgressPlugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PurifyCSSPlugin = require("purifycss-webpack");
 const autoprefixer = require("autoprefixer");
-const postcss = require("postcss")
-const url = require("postcss-url")
+const postcss = require("postcss");
+const url = require("postcss-url");
 const webpack = require("webpack");
 
 const { LoaderOptionsPlugin } = require("webpack");
