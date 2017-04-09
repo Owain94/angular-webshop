@@ -105,12 +105,12 @@
     "use-host-property-decorator": true,
     "no-input-rename": true,
     "no-output-rename": true,
-    "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "no-access-missing-member": true,
-    "templates-use-public": true,
-    "invoke-injectable": true
+    "invoke-injectable": true,
+    "templates-use-public": false,
+    "no-access-missing-member": false,
+    "use-life-cycle-interface": false
   }
 }
