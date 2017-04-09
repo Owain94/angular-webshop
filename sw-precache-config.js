@@ -25,6 +25,6 @@ module.exports = {
   ],
   runtimeCaching: [{
     urlPattern: /http/,
-    handler: 'networkFirst'
+    handler: "networkFirst"
   }]
 };
