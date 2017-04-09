@@ -1,4 +1,3 @@
-import { LazyImageDirective } from './../../directives/lazy.image.directive';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,14 +8,16 @@ import { FilterPipeModule } from '../../pipes/pipe.filter.module';
 
 import { ProductsComponent } from './products.component';
 
+import { LazyImageModule } from '../../directives/lazy.image.module';
+
 @NgModule({
   declarations: [
-    ProductsComponent,
-    LazyImageDirective
+    ProductsComponent
   ],
   imports: [
     HeaderModule,
     FilterPipeModule,
+    LazyImageModule,
 
     CommonModule,
     FormsModule,
