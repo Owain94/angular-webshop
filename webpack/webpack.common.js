@@ -237,7 +237,7 @@ module.exports = {
       ),
       minimize: true,
       purifyOptions: {
-        whitelist: ["*swal2*"]
+        whitelist: ["*swal2*", "mark"]
       }
     })
   ],
