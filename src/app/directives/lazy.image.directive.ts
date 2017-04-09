@@ -3,7 +3,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   Output,
   AfterViewInit
 } from '@angular/core';
@@ -42,10 +41,10 @@ export class LazyImageDirective implements AfterViewInit {
   @Output() completed: EventEmitter<any> = new EventEmitter<any>();
   @Output() errored: EventEmitter<any> = new EventEmitter<any>();
 
-  private m_url;
-  private cancel$ = new Subject();
+  private m_url: string;
+  private cancel$: Subject<Object> = new Subject();
 
-  constructor(private el: ElementRef, private ngZone: NgZone) {
+  constructor(private el: ElementRef) {
   }
 
   public resetToDefault() {
