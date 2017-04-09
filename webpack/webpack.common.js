@@ -1,7 +1,8 @@
 const path = require("path");
+const glob = require('glob');
 const ProgressPlugin = require("webpack/lib/ProgressPlugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const PurifyCSSPlugin = require('purifycss-webpack');
 const autoprefixer = require("autoprefixer");
 const postcssUrl = require("postcss-url");
 const webpack = require("webpack");
@@ -46,11 +47,11 @@ module.exports = {
       },
       {
         "test": /\.(eot|svg)$/,
-        "loader": "file-loader?name=[name].[hash:20].[ext]"
+        "loader": "file-loader?name=[name].[ext]"
       },
       {
         "test": /\.(jpg|png|gif|otf|ttf|woff|woff2|cur|ani)$/,
-        "loader": "url-loader?name=[name].[hash:20].[ext]&limit=10000"
+        "loader": "url-loader?name=[name].[ext]&limit=10000"
       },
       {
         "test": /\.ts$/,
@@ -58,7 +59,9 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.css$/,
         "loaders": [
@@ -69,7 +72,9 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.scss$|\.sass$/,
         "loaders": [
@@ -81,7 +86,9 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.less$/,
         "loaders": [
@@ -93,7 +100,9 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.styl$/,
         "loaders": [
@@ -105,7 +114,9 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.css$/,
         "loaders": ExtractTextPlugin.extract({
@@ -119,7 +130,9 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.scss$|\.sass$/,
         "loaders": ExtractTextPlugin.extract({
@@ -134,7 +147,9 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.less$/,
         "loaders": ExtractTextPlugin.extract({
@@ -149,7 +164,9 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "src/styles.css")
+          path.join(process.cwd(), "src/assets/css/foundation.css"),
+          path.join(process.cwd(), "src/styles.css"),
+          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.styl$/,
         "loaders": ExtractTextPlugin.extract({
@@ -194,7 +211,7 @@ module.exports = {
         "favicon.ico"
       ],
       "globOptions": {
-        "cwd": "/Users/Owain/angular/angular-cli-universal/src",
+        "cwd": path.join(process.cwd(), "src"),
         "dot": true,
         "ignore": "**/.gitkeep"
       }
@@ -203,13 +220,17 @@ module.exports = {
     new BaseHrefWebpackPlugin({}),
     new ExtractTextPlugin({
       "filename": "[name].bundle.css",
-      "disable": true
+      "allChunks": true
     }),
-    new CopyWebpackPlugin([
-      {
-        from: 'src/assets'
+    new PurifyCSSPlugin({
+      paths: glob.sync(
+        path.join(process.cwd(), 'src/app/**/*.html')
+      ),
+      minimize: true,
+      purifyOptions: {
+        whitelist: ['*swal2*']
       }
-    ])
+    })
   ],
   "node": {
     "fs": "empty",

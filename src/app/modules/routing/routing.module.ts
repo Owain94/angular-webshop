@@ -6,6 +6,7 @@ import { IdlePreloadModule, IdlePreload } from './idle.preload.module';
 import { HomeComponent } from '../../components/home/home.component';
 
 import { AuthGuard } from '../../guards/auth.guard';
+import { AdminGuard } from '../../guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -15,17 +16,31 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: '../../components/login/login.module#LoginModule'
+    loadChildren: '../../components/profile/login/login.module#LoginModule'
   },
   {
     path: 'register',
-    loadChildren: '../../components/register/register.module#RegisterModule'
+    loadChildren: '../../components/profile/register/register.module#RegisterModule'
+  },
+  {
+    path: 'products',
+    loadChildren: '../../components/products/products.module#ProductsModule'
   },
   {
     path: 'profile',
     loadChildren: '../../components/profile/profile.module#ProfileModule',
     canActivate: [
       AuthGuard
+    ]
+  },
+  {
+    path: 'admin',
+    loadChildren: '../../components/admin/admin.module#AdminModule',
+    canActivate: [
+      AdminGuard
+    ],
+    canLoad: [
+      AdminGuard
     ]
   },
   {

@@ -10,7 +10,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "manifest.json"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -38,20 +39,12 @@
   },
   "lint": [
     {
-      "project": "src/tsconfig.app.json"
+      "project": "./tsconfig.app.json"
     },
     {
-      "project": "src/tsconfig.spec.json"
-    },
-    {
-      "project": "e2e/tsconfig.e2e.json"
+      "project": "./tsconfig.spec.json"
     }
   ],
-  "test": {
-    "karma": {
-      "config": "./karma.conf.js"
-    }
-  },
   "defaults": {
     "styleExt": "css",
     "component": {

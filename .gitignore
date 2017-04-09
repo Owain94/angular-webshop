@@ -42,3 +42,5 @@ Thumbs.db
 
 /src/aot
 yarn.lock
+settings.json
+npm-debug*

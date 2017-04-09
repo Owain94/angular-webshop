@@ -1,0 +1,14 @@
+<app-header
+  [headerHeading]="['Admin panel', '']">
+</app-header>
+
+<div class="section">
+  <div class="row">
+    <div class="large-12 columns">
+      <a class="button" routerLink="/admin/categories">Categorieën</a>
+      <a class="button" routerLink="/admin/products">Producten</a>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

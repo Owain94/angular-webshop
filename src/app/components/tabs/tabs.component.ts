@@ -7,6 +7,7 @@ import { TabComponent } from './tab/tab.component';
   styleUrls: ['./tabs.component.css']
 })
 export class TabsComponent implements AfterContentInit {
+
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
   ngAfterContentInit() {
@@ -17,9 +18,8 @@ export class TabsComponent implements AfterContentInit {
     }
   }
 
-  selectTab(tab: TabComponent) {
-    // tslint:disable-next-line:no-shadowed-variable
+  public selectTab(tabComponent: TabComponent) {
     this.tabs.toArray().forEach(tab => tab.active = false);
-    tab.active = true;
+    tabComponent.active = true;
   }
 }

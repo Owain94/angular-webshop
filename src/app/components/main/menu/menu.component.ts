@@ -1,0 +1,57 @@
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { UserService } from '../../../services/user.service';
+
+import { AuthGuard } from '../../../guards/auth.guard';
+import { AdminGuard } from '../../../guards/admin.guard';
+
+@Component({
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
+})
+export class MenuComponent implements OnInit {
+
+  @ViewChild('navbar') navbar: ElementRef;
+
+  public loggedIn: boolean;
+  // tslint:disable-next-line:no-inferrable-types
+  public admin: boolean = false;
+  // tslint:disable-next-line:no-inferrable-types
+  public collapsed: boolean = true;
+  // tslint:disable-next-line:no-inferrable-types
+  public url: string = '/';
+
+  constructor(private router: Router,
+              private authGuard: AuthGuard,
+              private adminGuard: AdminGuard,
+              private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.router.events.subscribe((url: any) => {
+      this.loggedIn = this.authGuard.check();
+      this.admin = this.adminGuard.checkLocal();
+      if (typeof(url.url) !== 'undefined') {
+        this.url = url.url;
+      }
+    });
+
+    this.loggedIn = this.authGuard.check();
+    this.admin = this.adminGuard.checkLocal();
+  }
+
+  public navBarClick(force: boolean = false): void {
+    if (force) {
+      this.collapsed = true;
+    } else {
+      this.collapsed = !this.collapsed;
+    }
+  }
+
+  public signout(): void {
+    this.navBarClick(true);
+    this.userService.logout();
+    this.loggedIn = this.authGuard.check();
+  }
+}

@@ -1,11 +1,4 @@
-import {
-  NgZone,
-  NgModule,
-  ModuleWithProviders,
-  Inject,
-  OpaqueToken,
-  Injectable
-} from '@angular/core';
+import { NgZone, NgModule, ModuleWithProviders, Inject, OpaqueToken, Injectable } from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {Observable} from 'rxjs/Observable';

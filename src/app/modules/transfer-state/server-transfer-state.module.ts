@@ -5,7 +5,10 @@ import { TransferState } from './transfer-state';
 
 @NgModule({
   providers: [
-    { provide: TransferState, useClass: ServerTransferState }
+    {
+      provide: TransferState,
+      useClass: ServerTransferState
+    }
   ]
 })
 export class ServerTransferStateModule {}

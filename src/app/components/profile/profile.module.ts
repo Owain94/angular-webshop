@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { HeaderModule } from '../header/header.module';
-import { QRCodeModule } from '../qrcode/qrcode.component';
+import { HeaderModule } from '../main/header/header.module';
+import { QRCodeModule } from '../profile/qrcode/qrcode.module';
 
 import { ProfileComponent } from './profile.component';
 import { TabsComponent } from '../tabs/tabs.component';

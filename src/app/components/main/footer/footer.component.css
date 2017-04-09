@@ -1,0 +1,22 @@
+footer {
+  padding: 20px 0 0;
+  margin-top: 10px;
+}
+
+footer .icon {
+  color: #cd2e6b !important;
+  font-size: 30px;
+  transition: all 0.4s ease-in-out;
+}
+
+footer .icon:hover {
+  color: #ea4c88 !important;
+}
+
+footer .copyright {
+  height: 32px;
+  vertical-align: middle;
+  display: inline-block;
+  padding-bottom: 43px;
+}
+

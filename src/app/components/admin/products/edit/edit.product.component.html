@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="large-12 columns text-center">
+    <h2>{{ msg }}</h2>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-3 columns">
+    <div class="file-upload">
+      <label for="photo" class="button">Upload foto</label>
+      <input style="visibility: hidden" id="photo" type="file" (change)="fileChangeListener($event)">
+    </div>
+    <button class="button" *ngIf="data.image" (click)="preview()">Voorbeeld</button>
+  </div>
+  <div class="large-9 columns">
+    <img-cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event)" #cropper [hidden]="!data.image"></img-cropper>
+  </div>
+</div>
+
+<form [formGroup]="editProductForm" (ngSubmit)="submitForm(editProductForm.value)">
+  <div class="row">
+    <div class="large-5 columns">
+      <label [ngClass]="{ 'error': !editProductForm.controls['name'].valid && editProductForm.controls['name'].touched }">
+        Product naam
+        <input type="text" [formControl]="editProductForm.controls['name']" [ngClass]="{ 'error': !editProductForm.controls['name'].valid && editProductForm.controls['name'].touched }" />
+      </label>
+      <small *ngIf="!editProductForm.controls['name'].valid && editProductForm.controls['name'].touched" class="error">
+        Product naam is verplicht
+      </small>
+    </div>
+    <div class="large-4 columns">
+      <label [ngClass]="{ 'error': !editProductForm.controls['category'].valid && editProductForm.controls['category'].touched }">
+        Categorie
+        <select [formControl]="editProductForm.controls['category']" [ngClass]="{ 'error': !editProductForm.controls['category'].valid && editProductForm.controls['category'].touched }">
+          <option *ngFor="let category of categories" [value]="category.category">{{category.category}}</option>
+        </select>
+      </label>
+      <small *ngIf="!editProductForm.controls['category'].valid && editProductForm.controls['category'].touched" class="error">
+        Categorie is verplicht
+      </small>
+    </div>
+    <div class="large-2 columns">
+      <label for="price" [ngClass]="{ 'error': !editProductForm.controls['price'].valid && editProductForm.controls['price'].touched }">Prijs</label>
+      <div class="input-group">
+        <span class="input-group-label">&euro;</span>
+        <input class="input-group-field" type="number" [formControl]="editProductForm.controls['price']" [ngClass]="{ 'error': !editProductForm.controls['price'].valid && editProductForm.controls['price'].touched }">
+      </div>
+      <small *ngIf="!editProductForm.controls['price'].valid && editProductForm.controls['price'].touched" class="error" style="margin-top: -16px">
+        Prijs is verplicht
+      </small>
+    </div>
+    <div class="large-1 columns">
+      <label [ngClass]="{ 'error': !editProductForm.controls['amount'].valid && editProductForm.controls['amount'].touched }">
+        Aantal
+        <input type="number" [formControl]="editProductForm.controls['amount']" [ngClass]="{ 'error': !editProductForm.controls['amount'].valid && editProductForm.controls['amount'].touched }" />
+      </label>
+      <small *ngIf="!editProductForm.controls['amount'].valid && editProductForm.controls['amount'].touched" class="error">
+        Aantal is verplicht
+      </small>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <label [ngClass]="{ 'error': !editProductForm.controls['description'].valid && editProductForm.controls['description'].touched }">
+        Beschrijving
+        <textarea id="description" [formControl]="editProductForm.controls['description']" [ngClass]="{ 'error': !editProductForm.controls['description'].valid && editProductForm.controls['description'].touched }"></textarea>
+      </label>
+      <small *ngIf="!editProductForm.controls['description'].valid && editProductForm.controls['description'].touched" class="error">
+        Beschrijving is verplicht
+      </small>
+    </div>
+  </div>
+  <input type="text" style="visibility: hidden" [formControl]="editProductForm.controls['photo']" />
+  <input type="text" style="visibility: hidden" [formControl]="editProductForm.controls['id']" />
+  <div class="row">
+    <div class="large-2 columns end">
+      <button class="button" type="submit" [disabled]="!editProductForm.valid || disabled">Opslaan</button>
+    </div>
+  </div>
+</form>

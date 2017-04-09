@@ -19,7 +19,9 @@ module.exports = {
       "./src/polyfills.ts"
     ],
     "styles": [
-      "./src/styles.css"
+      "./src/assets/css/foundation.css",
+      "./src/styles.css",
+      "./node_modules/sweetalert2/dist/sweetalert2.min.css"
     ]
   },
   "output": {

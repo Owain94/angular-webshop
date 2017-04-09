@@ -16,10 +16,10 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.transferState.set('cached', true);
   }
-  
-  private scrollTo(event: any): void {
-    let windowRef = event.view;
-    let documentRef = event.view.document;
+
+  public scrollTo(event: any): void {
+    const windowRef = event.view;
+    const documentRef = event.view.document;
 
     const startingY = windowRef.pageYOffset;
     const elementY = windowRef.pageYOffset + documentRef.querySelector('body').getBoundingClientRect().top;
@@ -43,10 +43,10 @@ export class MainComponent implements OnInit {
         start = timestamp;
       }
       const time = timestamp - start;
-      let percent = Math.min(time / 500, 1);
+      let percent = Math.min(time / 250, 1);
       percent = easing(percent);
       windowRef.scrollTo(0, startingY + diff * percent);
-      if (time < 500) {
+      if (time < 250) {
         windowRef.requestAnimationFrame(step);
       }
     });
