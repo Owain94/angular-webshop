@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '../main/header/header.module';
 import { FilterPipeModule } from '../../pipes/pipe.filter.module';
+import { HighlightPipeModule } from '../../pipes/highlight.pipe.module';
 
 import { ProductsComponent } from './products.component';
 
@@ -17,7 +18,7 @@ import { LazyImageModule } from '../../directives/lazy.image.module';
   imports: [
     HeaderModule,
     FilterPipeModule,
-    LazyImageModule,
+    HighlightPipeModule,
 
     CommonModule,
     FormsModule,

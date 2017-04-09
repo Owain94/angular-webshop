@@ -9,12 +9,6 @@
 </div>
 
 <div class="row">
-  <div class="large-3 columns right">
-    <a class="button add-product" routerLink="/admin/addproduct">Product toevoegen</a>
-  </div>
-</div>
-
-<div class="row">
   <div class="large-2 columns filter-margin">
     <span>Filter</span>
   </div>
@@ -34,13 +28,8 @@
 
 <div class="row" *ngFor="let product of products | filter: { name: filterText } | filter: { category: filterCategoryText }">
   <div>
-    <img appLazyImage height="300" width="300" class="product-img" [alt]="product.name" [url]="product.photo" [loadingImage]="''" [defaultImage]="''" [retry]="0" [delay]="0" />
+    <img height="300" width="300" class="product-img" [alt]="product.name" [src]="product.photo" />
   </div>
 
-  <div class="large-4 columns actions-margin">
-    Naam: {{ product.name }}
-  </div>
-  <div class="large-4 columns actions-margin">
-    Categorie: {{ product.category }}
-  </div>
+  <div class="large-4 columns actions-margin" [innerHTML]="'Naam: ' + product.name | highlight : filterText"></div>
 </div>
