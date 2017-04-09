@@ -26,7 +26,7 @@ export function boot(state: TransferState, applicationRef: ApplicationRef) {
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({
-        appId: 'cli-universal'
+        appId: 'inkies'
     }),
     ServerModule,
     ServerTransferStateModule,

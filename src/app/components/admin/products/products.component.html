@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="large-12 columns text-center">
+    <h2>{{ msg }}</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-3 columns right">
+    <a class="button add-product" routerLink="/admin/addproduct">Product toevoegen</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-2 columns filter-margin">
+    <span>Filter</span>
+  </div>
+  <div class="large-4 columns">
+    <input type="text" placeholder="Zoek" [formControl]="filterInput" />
+  </div>
+  <div class="large-4 columns">
+    <select [formControl]="filterCategory">
+      <option value=""></option>
+      <option *ngFor="let category of categories" [value]="category.category">{{category.category}}</option>
+    </select>
+  </div>
+  <div class="large-2 columns">
+    <button class="button" (click)="reset()">Reset</button>
+  </div>
+</div>
+
+<hr class="hr-margin" />
+
+<div class="row" *ngFor="let product of products | filter: { name: filterText } | filter: { category: filterCategoryText }">
+  <div class="large-4 columns actions-margin" [innerHTML]="'Naam: ' + product.name | highlight : filterText"></div>
+  <div class="large-4 columns actions-margin" [innerHTML]="'Categorie: ' + product.category | highlight : filterCategoryText"></div>
+  <div class="large-2 columns">
+    <button class="button" (click)="preview(product.photo)">Foto</button>
+  </div>
+  <div class="large-1 columns actions-margin">
+    <a (click)="edit(product._id)"><span class="icon icon-pencil"></span></a>
+  </div>
+  <div class="large-1 columns actions-margin">
+    <a (click)="delete(product._id, product.name)"><span class="icon icon-trash"></span></a>
+  </div>
+  <hr class="hr-margin" />
+</div>

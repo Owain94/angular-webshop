@@ -1,0 +1,46 @@
+<app-header
+  [headerHeading]="['Alle producten', '']">
+</app-header>
+
+<div class="row">
+  <div class="large-12 columns text-center">
+    <h2>{{ msg }}</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-3 columns right">
+    <a class="button add-product" routerLink="/admin/addproduct">Product toevoegen</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-2 columns filter-margin">
+    <span>Filter</span>
+  </div>
+  <div class="large-4 columns">
+    <input type="text" placeholder="Zoek" [formControl]="filterInput" />
+  </div>
+  <div class="large-4 columns">
+    <select [formControl]="filterCategory">
+      <option value=""></option>
+      <option *ngFor="let category of categories" [value]="category.category">{{category.category}}</option>
+    </select>
+  </div>
+  <div class="large-2 columns">
+    <button class="button" (click)="reset()">Reset</button>
+  </div>
+</div>
+
+<div class="row" *ngFor="let product of products | filter: { name: filterText } | filter: { category: filterCategoryText }">
+  <div>
+    <img appLazyImage height="300" width="300" class="product-img" [alt]="product.name" [url]="product.photo" [loadingImage]="''" [defaultImage]="''" [retry]="0" [delay]="0" />
+  </div>
+
+  <div class="large-4 columns actions-margin">
+    Naam: {{ product.name }}
+  </div>
+  <div class="large-4 columns actions-margin">
+    Categorie: {{ product.category }}
+  </div>
+</div>

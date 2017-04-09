@@ -27,32 +27,16 @@ export class ServerTransferState extends TransferState {
         data: {}
       });
 
-      let rootNode: any;
+      let rootNode: any = document;
       let headNode: any;
 
-      // tslint:disable-next-line:no-inferrable-types
-      for (let i: number = 0; i < document.childNodes.length; ++i) {
-        const child = document.childNodes[i];
-
-        if (isTag('html', child)) {
-          rootNode = child;
-          break;
-        }
-      }
+      document.childNodes.some(child => isTag('html', child) && !!(rootNode = child));
 
       if (!rootNode) {
         rootNode = document;
       }
 
-      // tslint:disable-next-line:no-inferrable-types
-      for (let i: number = 0; i < rootNode.childNodes.length; ++i) {
-       const child = rootNode.childNodes[i];
-
-        if (isTag('head', child)) {
-          headNode = child;
-          break;
-        }
-      }
+      rootNode.childNodes.some(child => isTag('head', child) && !!(headNode = child));
 
       const script = renderer.createElement('script');
       renderer.setValue(script, `

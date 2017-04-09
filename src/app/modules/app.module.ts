@@ -5,16 +5,20 @@ import { HttpModule } from '@angular/http';
 import { RoutingModule } from './routing/routing.module';
 import { TransferHttpModule } from './transfer-http/transfer-http.module';
 
-import { HeaderModule } from '../components/header/header.module';
+import { HeaderModule } from '../components/main/header/header.module';
 
 import { MainComponent } from '../components/main/main.component';
-import { MenuComponent } from '../components/menu/menu.component';
-import { FooterComponent } from '../components/footer/footer.component';
+import { MenuComponent } from '../components/main/menu/menu.component';
+import { FooterComponent } from '../components/main/footer/footer.component';
 import { HomeComponent } from '../components/home/home.component';
 
+import { LocalStorageService } from '../services/localstorage.service';
 import { UserService } from '../services/user.service';
+import { AdminService } from '../services/admin.service';
+import { ProductService } from '../services/product.service';
 
 import { AuthGuard } from '../guards/auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 @NgModule({
   declarations: [
@@ -22,6 +26,8 @@ import { AuthGuard } from '../guards/auth.guard';
     MenuComponent,
     FooterComponent,
     HomeComponent
+
+    // LazyImageDirective
   ],
   imports: [
     CommonModule,
@@ -32,8 +38,12 @@ import { AuthGuard } from '../guards/auth.guard';
     HeaderModule
   ],
   providers: [
+    LocalStorageService,
     UserService,
-    AuthGuard
+    AdminService,
+    ProductService,
+    AuthGuard,
+    AdminGuard
   ],
   exports: [
     MainComponent

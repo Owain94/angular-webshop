@@ -1,5 +1,8 @@
 import { bootloader } from './bootloader';
+
 import 'zone.js/dist/zone';
+import 'web-animations-js';
+import 'sweetalert2';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

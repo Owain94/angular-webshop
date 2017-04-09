@@ -1,5 +1,4 @@
 <app-header
-  [headerImage]="'1'"
   [headerHeading]="['Profiel', 'Instellingen aanpassen']">
 </app-header>
 
@@ -13,10 +12,10 @@
 
             <div class="row">
               <div class="large-12 columns text-center">
-                <h2 [innerText]="msgProfile"></h2>
+                <h2>{{ msgProfile }}</h2>
               </div>
             </div>
-            
+
             <div class="row">
               <div class="large-5 columns">
                 <label [ngClass]="{ 'error': !profileForm.controls['firstname'].valid && profileForm.controls['firstname'].touched }">
@@ -110,7 +109,7 @@
 
             <div class="row">
               <div class="large-12 columns text-center">
-                <h2 [innerText]="msgPassword"></h2>
+                <h2>{{ msgPassword }}</h2>
               </div>
             </div>
 
@@ -160,7 +159,7 @@
         <app-tab tabTitle="Two Factor">
           <div class="row">
             <div class="large-12 columns text-center">
-              <h2 [innerText]="msgTfa"></h2>
+              <h2>{{ msgTfa }}</h2>
             </div>
           </div>
 

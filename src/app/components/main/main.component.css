@@ -14,3 +14,22 @@ app-footer {
   height: 90px;
   clear: both;
 }
+
+#back-top {
+  display: inline-block;
+  transform: rotate(-90deg);
+  color: #ea4c88;
+  cursor: pointer;
+  position: fixed;
+  right: 10px;
+  bottom: 25px;
+  font-size: 24pt;
+  width: 40px;
+  height: 40px;
+}
+
+@media (max-width: 940px) {
+  #back-top {
+    display: none;
+  }
+}

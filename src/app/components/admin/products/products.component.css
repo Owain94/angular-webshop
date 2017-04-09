@@ -1,0 +1,25 @@
+.button-margin {
+  margin-top: 20px;
+}
+
+.hr-margin {
+  margin-top: 45px;
+}
+
+.actions-margin {
+  margin-top: 10px;
+}
+
+.filter-margin {
+  margin-top: 7px;
+}
+
+.add-product {
+  margin-top: -90px;
+}
+
+@media (max-width: 767px) {
+  .add-product {
+    margin-top: 0;
+  }
+}

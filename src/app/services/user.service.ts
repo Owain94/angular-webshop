@@ -1,18 +1,19 @@
+import { LocalStorageService } from './localstorage.service';
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { url } from './../../constants';
+import { url } from '../../constants';
 
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class UserService {
   private options: RequestOptions;
 
   constructor(private http: Http,
-              private router: Router) {
+              private router: Router,
+              private localStorageService: LocalStorageService) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     this.options = new RequestOptions({ headers: headers });
@@ -27,7 +28,7 @@ export class UserService {
   }
 
   public checkTfa(email: string): Observable<boolean> {
-    return this.http.post(`${url}/api/check_tfa/`, {email: email} , this.options)
+    return this.http.post(`${url}/api/check_tfa/`, { email: email }, this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.tfa.length > 0;
@@ -43,7 +44,7 @@ export class UserService {
   }
 
   public profileData(): Observable<any> {
-    return this.http.post(`${url}/api/get_profile/`, localStorage.getItem('user'), this.options)
+    return this.http.post(`${url}/api/get_profile/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
@@ -51,7 +52,7 @@ export class UserService {
   }
 
   public saveProfileData(data: Object): Observable<any> {
-    return this.http.post(`${url}/api/save_profile/`, [localStorage.getItem('user'), data], this.options)
+    return this.http.post(`${url}/api/save_profile/`, [this.localStorageService.get('user'), data], this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
@@ -59,7 +60,7 @@ export class UserService {
   }
 
   public saveProfilePassword(data: Object): Observable<any> {
-    return this.http.post(`${url}/api/save_password/`, [localStorage.getItem('user'), data], this.options)
+    return this.http.post(`${url}/api/save_password/`, [this.localStorageService.get('user'), data], this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res;
@@ -67,7 +68,7 @@ export class UserService {
   }
 
   public verify(): Observable<boolean> {
-    return this.http.post(`${url}/api/verify/`, localStorage.getItem('user'), this.options)
+    return this.http.post(`${url}/api/verify/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.verify;
@@ -75,7 +76,7 @@ export class UserService {
   }
 
   public verifyLogout(): void {
-    this.http.post(`${url}/api/verify/`, localStorage.getItem('user'), this.options)
+    this.http.post(`${url}/api/verify/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.verify;
@@ -95,7 +96,8 @@ export class UserService {
   }
 
   public verifyTfaToken(key: string, token: string): Observable<boolean> {
-    return this.http.post(`${url}/api/verify_tfa_token/`, {key: key, token: token, user: localStorage.getItem('user')}, this.options)
+    // tslint:disable-next-line:max-line-length
+    return this.http.post(`${url}/api/verify_tfa_token/`, { key: key, token: token, user: this.localStorageService.get('user') }, this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.verified;
@@ -103,7 +105,7 @@ export class UserService {
   }
 
   public disableTfa(): Observable<boolean> {
-    return this.http.post(`${url}/api/disable_tfa/`, localStorage.getItem('user'), this.options)
+    return this.http.post(`${url}/api/disable_tfa/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.res;
@@ -111,7 +113,7 @@ export class UserService {
   }
 
   public logout(): void {
-    localStorage.removeItem('user');
+    this.localStorageService.remove('user');
     this.router.navigateByUrl('/login');
   }
 }

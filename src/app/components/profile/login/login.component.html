@@ -1,0 +1,64 @@
+<app-header
+  [headerHeading]="['Aanmelden', 'Nog geen account?']"
+  [headerButton]="['/register', 'Registreren']">
+</app-header>
+
+<div class="section">
+  <div class="row">
+    <div class="large-12 columns">
+
+      <form [formGroup]="loginForm" (ngSubmit)="submitForm(loginForm.value)">
+
+        <div class="row">
+          <div class="large-12 columns text-center">
+            <h2>{{ msg }}</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-12 columns">
+            <label [ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }">
+              E-mail adres
+              <input type="text" [formControl]="loginForm.controls['email']" [ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }" />
+            </label>
+            <small *ngIf="!loginForm.controls['email'].valid && loginForm.controls['email'].touched" class="error">
+              E-mail adres is verplicht
+            </small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-12 columns">
+            <label [ngClass]="{ 'error': !loginForm.controls['password'].valid && loginForm.controls['password'].touched }">
+              Wachtwoord
+              <input type="password" [formControl]="loginForm.controls['password']" [ngClass]="{ 'error': !loginForm.controls['password'].valid && loginForm.controls['password'].touched }" />
+            </label>
+            <small *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched" class="error">
+              Wachtwoord is verplicht
+            </small>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="tfa">
+          <div class="large-12 columns">
+            <label [ngClass]="{ 'error': !loginForm.controls['tfa'].valid && loginForm.controls['tfa'].touched }">
+              Two factor authenticatie token
+              <input type="text" [formControl]="loginForm.controls['tfa']" [ngClass]="{ 'error': !loginForm.controls['tfa'].valid && loginForm.controls['tfa'].touched }" />
+            </label>
+            <small *ngIf="!loginForm.controls['tfa'].valid && loginForm.controls['tfa'].touched" class="error">
+              Two factor authenticatie token ongeldig
+            </small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-2 columns end">
+            <button class="button" type="submit" [disabled]="!loginForm.valid || disabled">Inloggen</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

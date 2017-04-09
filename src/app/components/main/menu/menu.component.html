@@ -1,0 +1,42 @@
+<div id="top">
+  <div class="row">
+    <div class="large-12 columns">
+      <nav class="top-bar" [class.collapsed]="!collapsed" #navbar>
+        <ul class="title-area">
+          <li class="name logo">
+          </li>
+          <li class="toggle-topbar" (click)="navBarClick()">
+            <a>
+              <span>Menu</span>
+            </a>
+          </li>
+        </ul>
+        <section class="top-bar-section">
+          <ul class="right">
+            <li>
+              <a routerLink="/" (click)="navBarClick(true)">Home</a>
+            </li>
+            <li>
+              <a routerLink="/test" (click)="navBarClick(true)">404</a>
+            </li>
+            <li>
+              <a routerLink="/products" (click)="navBarClick(true)">Producten</a>
+            </li>
+            <li *ngIf="url !== 'undefined' && url !== '/' && url !== '/login' && !loggedIn" class="background">
+              <a class="button radius" routerLink="/login" (click)="navBarClick(true)">Aanmelden</a>
+            </li>
+            <li *ngIf="loggedIn">
+              <a routerLink="/profile" (click)="navBarClick(true)">Profiel</a>
+            </li>
+            <li *ngIf="loggedIn && admin">
+              <a routerLink="/admin" (click)="navBarClick(true)">Admin</a>
+            </li>
+            <li *ngIf="loggedIn" class="background">
+              <a class="button radius" (click)="signout()">Uitloggen</a>
+            </li>
+          </ul>
+        </section>
+      </nav>
+    </div>
+  </div>
+</div>

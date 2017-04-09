@@ -1,0 +1,12 @@
+<header id="header">
+  <div class="row">
+    <div class="large-12 columns align-center">
+      <h1>{{ headerHeading[0] }}</h1>
+      <span class="subheading">{{ headerHeading[1] }}</span>
+      <a class="button white radius large" *ngIf="headerButton" [routerLink]="headerButton[0]">{{ headerButton[1] }}</a>
+    </div>
+    <div class="large-12 columns align-center">
+      <img src="assets/img/header-macbook.png" alt="iPhone App" width="450" height="265">
+    </div>
+  </div>
+</header>

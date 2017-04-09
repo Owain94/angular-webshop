@@ -1,0 +1,76 @@
+import { LocalStorageService } from './localstorage.service';
+import { Injectable } from '@angular/core';
+import { Headers, RequestOptions, Http } from '@angular/http';
+import { Router } from '@angular/router';
+
+import { url } from '../../constants';
+
+import { Observable } from 'rxjs/Observable';
+
+@Injectable()
+export class AdminService {
+  private options: RequestOptions;
+
+  constructor(private http: Http,
+              private localStorageService: LocalStorageService) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.options = new RequestOptions({ headers: headers });
+  }
+
+  public checkAdmin(): Observable<boolean> {
+    return this.http.post(`${url}/api/check_admin/`, this.localStorageService.get('user'), this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res.admin;
+      });
+  }
+
+  public addCategory(data: Object): Observable<any> {
+    return this.http.post(`${url}/api/add_category/`, data, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+
+  public updateCategory(data: Object): Observable<any> {
+    return this.http.post(`${url}/api/update_category/`, data, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+
+  public deleteCategory(data: Object): Observable<any> {
+    return this.http.post(`${url}/api/delete_category/`, data, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+
+  public addProduct(data: Object): Observable<any> {
+    return this.http.post(`${url}/api/add_product/`, data, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+
+  public updateProduct(data: Object): Observable<any> {
+    return this.http.post(`${url}/api/update_product/`, data, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+
+  public deleteProduct(data: Object): Observable<any> {
+    return this.http.post(`${url}/api/delete_product/`, data, this.options)
+      .map((res: any) => res.json())
+      .map((res: any) => {
+        return res;
+      });
+  }
+}

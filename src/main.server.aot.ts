@@ -9,44 +9,51 @@ import { AppServerModuleNgFactory } from './aot/src/app/modules/app.server.modul
 import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
-import { App } from './api/app';
 import { ROUTES } from './routes';
+import { JWTKey } from './constants';
 
 const port = 8000;
 const baseUrl = `http://localhost:${port}`;
 
 enableProdMode();
 
+const compression = require('compression');
 const bodyParser = require('body-parser');
 const credential = require('credential');
 const mongo = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const jwt = require('jsonwebtoken');
 const speakeasy = require('speakeasy');
-import { JWTKey } from './constants';
+const base64Img = require('base64-img');
 
 let db;
 const app = express();
 const pww = credential();
-const api = new App();
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+const imageBasePath = 'dist/assets/products/';
+
+function capitalizeFirstLetter(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+app.use(compression());
 
 app.engine('html', ngExpressEngine({
   bootstrap: AppServerModuleNgFactory
 }));
 
 app.set('view engine', 'html');
-app.set('views', 'dist');
+app.set('views', './');
+// app.set('views', 'dist');
 
 app.get('/', (req, res) => {
   res.render('index', {req});
 });
 
-app.use('/', express.static('dist', {index: false}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', express.static('./', {index: false}));
+// app.use('/', express.static('dist', {index: false}));
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
 ROUTES.forEach(route => {
   app.get(route, (req, res) => {
@@ -57,24 +64,20 @@ ROUTES.forEach(route => {
   });
 });
 
-app.get('/data', (req, res) => {
-  res.json(api.getData());
-});
-
 app.post('/api/register', (req, res) => {
-  pww.hash(req.body.password, function (err, hash) {
+  pww.hash(req.body.password, (err, hash) => {
     if (err) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     }
 
-    db.collection('users', function (err2, collection) {
+    db.collection('users', (err2, collection) => {
       if (err2) {
         res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
         return;
       }
 
-      collection.findOne({email: req.body.email.toLowerCase()}, function(err3, doc) {
+      collection.findOne({email: req.body.email.toLowerCase()}, (err3, doc) => {
         if (err3) {
           res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
           return;
@@ -95,7 +98,8 @@ app.post('/api/register', (req, res) => {
             country: req.body.country,
             email: req.body.email.toLowerCase(),
             password: String(hash),
-            tfatoken : ''
+            tfatoken : '',
+            admin: false
           });
           res.json({'error': 'false'});
         }
@@ -106,13 +110,13 @@ app.post('/api/register', (req, res) => {
 
 app.post('/api/login', (req, res) => {
   let verified = true;
-  db.collection('users', function (err2, collection) {
+  db.collection('users', (err2, collection) => {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     }
 
-    collection.findOne({email: req.body.email.toLowerCase()}, function(err3, doc) {
+    collection.findOne({email: req.body.email.toLowerCase()}, (err3, doc) => {
       if (err3) {
         res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
         return;
@@ -122,15 +126,18 @@ app.post('/api/login', (req, res) => {
         if (doc.tfatoken.length > 0) {
           verified = speakeasy.totp.verify({ secret: doc.tfatoken, encoding: 'base32', token: req.body.tfa });
         }
-        pww.verify(doc.password, req.body.password, function (err, isValid) {
+        pww.verify(doc.password, req.body.password, (err, isValid) => {
           if (err) {
             res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
             return;
           }
           if (isValid && verified) {
             const token = jwt.sign({
-              exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 365),
-              data: req.body.email.toLowerCase()
+              exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7),
+              data: {
+                'email': req.body.email.toLowerCase(),
+                'admin': doc.admin
+              }
             }, JWTKey);
             res.json({'error': 'false', 'data': token});
           } else {
@@ -145,18 +152,18 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post('/api/get_profile', (req, res) => {
-  jwt.verify(req.body.token, JWTKey, function(err, decoded) {
+  jwt.verify(req.body.token, JWTKey, (err, decoded) => {
     if (err) {
       res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     } else {
-      db.collection('users', function (err2, collection) {
+      db.collection('users', (err2, collection) => {
         if (err2) {
           res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
           return;
         }
 
-        collection.findOne({email: decoded.data.toLowerCase()}, function(err3, doc) {
+        collection.findOne({email: decoded.data['email'].toLowerCase()}, (err3, doc) => {
           if (err3) {
             res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
             return;
@@ -176,18 +183,18 @@ app.post('/api/get_profile', (req, res) => {
 });
 
 app.post('/api/save_profile', (req, res) => {
-  jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, function(err, decoded) {
+  jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, (err, decoded) => {
     if (err) {
       res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     } else {
-      db.collection('users', function (err2, collection) {
+      db.collection('users', (err2, collection) => {
         if (err2) {
           res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
           return;
         }
 
-        collection.update({email: decoded.data.toLowerCase()}, { $set: {
+        collection.update({email: decoded.data['email'].toLowerCase()}, { $set: {
             firstname: capitalizeFirstLetter(req.body[1].firstname.toLowerCase()),
             surname_prefix: req.body[1].surname_prefix.toLowerCase(),
             surname: capitalizeFirstLetter(req.body[1].surname.toLowerCase()),
@@ -197,7 +204,7 @@ app.post('/api/save_profile', (req, res) => {
             city: req.body[1].city,
             country: req.body[1].country
           }
-        }, function(err3) {
+        }, (err3) => {
           if (err3) {
             res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
             return;
@@ -212,39 +219,39 @@ app.post('/api/save_profile', (req, res) => {
 });
 
 app.post('/api/save_password', (req, res) => {
-  jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, function(err, decoded) {
+  jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, (err, decoded) => {
     if (err) {
       res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     } else {
-      db.collection('users', function (err1, collection) {
+      db.collection('users', (err1, collection) => {
         if (err1) {
           res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
           return;
         }
-        collection.findOne({email: decoded.data.toLowerCase()}, function(err2, doc) {
+        collection.findOne({email: decoded.data['email'].toLowerCase()}, (err2, doc) => {
           if (err2) {
             res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
             return;
           }
 
           if (doc) {
-            pww.verify(doc.password, req.body[1].old_password, function (err3, isValid) {
+            pww.verify(doc.password, req.body[1].old_password, (err3, isValid) => {
               if (err2) {
                 res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
                 return;
               }
               if (isValid) {
-                pww.hash(req.body[1].password, function (err4, hash) {
+                pww.hash(req.body[1].password, (err4, hash) => {
                   if (err4) {
                     res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
                     return;
                   }
 
-                  collection.update({email: decoded.data.toLowerCase()}, { $set: {
+                  collection.update({email: decoded.data['email'].toLowerCase()}, { $set: {
                       password: String(hash)
                     }
-                  }, function(err5) {
+                  }, (err5) => {
                     if (err5) {
                       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
                       return;
@@ -264,7 +271,7 @@ app.post('/api/save_password', (req, res) => {
 });
 
 app.post('/api/verify', (req, res) => {
-  jwt.verify(req.body.token, JWTKey, function(err, decoded) {
+  jwt.verify(req.body.token, JWTKey, (err, decoded) => {
     if (err) {
       res.json({'verify': 'false'});
       return;
@@ -274,12 +281,12 @@ app.post('/api/verify', (req, res) => {
 });
 
 app.post('/api/check_tfa', (req, res) => {
-  db.collection('users', function (err2, collection) {
+  db.collection('users', (err2, collection) => {
     if (err2) {
       res.json({'tfa': ''});
       return;
     }
-    collection.findOne({email: req.body.email.toLowerCase()}, function(err3, doc) {
+    collection.findOne({email: req.body.email.toLowerCase()}, (err3, doc) => {
       if (err3) {
         res.json({'tfa': ''});
         return;
@@ -302,23 +309,23 @@ app.get('/api/generate_tfa_token', (req, res) => {
 });
 
 app.post('/api/verify_tfa_token', (req, res) => {
-  jwt.verify(JSON.parse(req.body.user)['token'], JWTKey, function(err, decoded) {
+  jwt.verify(JSON.parse(req.body.user)['token'], JWTKey, (err, decoded) => {
     const verified = speakeasy.totp.verify({ secret: req.body.key, encoding: 'base32', token: req.body.token });
     if (err || !verified) {
       res.json({verified: false});
       return;
     }
 
-    db.collection('users', function (err2, collection) {
+    db.collection('users', (err2, collection) => {
       if (err2) {
         res.json({verified: false});
         return;
       }
 
-      collection.update({email: decoded.data.toLowerCase()}, { $set: {
+      collection.update({email: decoded.data['email'].toLowerCase()}, { $set: {
           tfatoken: req.body.key
         }
-      }, function(err3) {
+      }, (err3) => {
         if (err3) {
           res.json({verified: false});
           return;
@@ -333,21 +340,21 @@ app.post('/api/verify_tfa_token', (req, res) => {
 });
 
 app.post('/api/disable_tfa', (req, res) => {
-  jwt.verify(req.body.token, JWTKey, function(err, decoded) {
+  jwt.verify(req.body.token, JWTKey, (err, decoded) => {
     if (err) {
       res.json({'res': false});
       return;
     }
-    db.collection('users', function (err2, collection) {
+    db.collection('users', (err2, collection) => {
       if (err2) {
         res.json({'res': false});
         return;
       }
 
-      collection.update({email: decoded.data.toLowerCase()}, { $set: {
+      collection.update({email: decoded.data['email'].toLowerCase()}, { $set: {
           tfatoken: ''
         }
-      }, function(err3) {
+      }, (err3) => {
         if (err3) {
           res.json({'res': false});
           return;
@@ -357,6 +364,191 @@ app.post('/api/disable_tfa', (req, res) => {
         return;
       });
     });
+  });
+});
+
+app.post('/api/check_admin', (req, res) => {
+  jwt.verify(req.body.token, JWTKey, (err, decoded) => {
+    if (err) {
+      res.json({'admin': 'false'});
+      return;
+    }
+
+    db.collection('users', (err2, collection) => {
+      if (err2) {
+        res.json({'admin': 'false'});
+        return;
+      }
+      collection.findOne({email: decoded.data['email'].toLowerCase()}, (err3, doc) => {
+        if (err3) {
+          res.json({'admin': 'false'});
+          return;
+        }
+        if (doc) {
+          res.json({'admin': doc.admin});
+        } else {
+          res.json({'admin': 'false'});
+        }
+      });
+    });
+  });
+});
+
+app.post('/api/add_product', (req, res) => {
+  db.collection('products', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.insert({
+      name: req.body.name,
+      price: String(req.body.price).replace(',', '.'),
+      amount: req.body.amount,
+      description: req.body.description,
+      category: req.body.category,
+      photo: req.body.photo
+    });
+
+    res.json({'error': 'false', 'msg': 'Product is toegevoegd!'});
+  });
+});
+
+app.get('/api/products/:amount', (req, res) => {
+  // tslint:disable-next-line:radix
+  const amount = parseInt(req.params.amount);
+
+  if (amount === NaN) {
+    res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+    return;
+  }
+
+  db.collection('products', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.find().sort({_id: -1}).limit(amount).toArray((err3, items) => {
+      res.send(items);
+    });
+  });
+});
+
+
+app.get('/api/product/:id', (req, res) => {
+  db.collection('products', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.find({_id: new ObjectId(req.params.id)}).toArray((err3, items) => {
+      res.send(items);
+    });
+  });
+});
+
+app.post('/api/update_product', (req, res) => {
+  db.collection('products', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.update({_id: new ObjectId(req.body.id)}, { $set: {
+        name: req.body.name,
+        price: String(req.body.price).replace(',', '.'),
+        amount: req.body.amount,
+        description: req.body.description,
+        category: req.body.category,
+        photo: req.body.photo
+      }
+    }, (err3) => {
+      if (err3) {
+        res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+        return;
+      }
+
+      res.json({'error': 'false', 'msg': 'Product is aangepast!'});
+      return;
+    });
+  });
+});
+
+app.post('/api/delete_product', (req, res) => {
+  db.collection('products', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': err2.message});
+      return;
+    }
+
+    collection.deleteOne({_id: new ObjectId(req.body.id)});
+
+    res.json({'error': 'false'});
+  });
+});
+
+app.get('/api/categories', (req, res) => {
+  db.collection('categories', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.find().sort({_id: -1}).toArray((err3, items) => {
+      res.send(items);
+    });
+  });
+});
+
+app.post('/api/add_category', (req, res) => {
+  db.collection('categories', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.insert({
+      category: req.body.name
+    });
+
+    res.json({'error': 'false', 'msg': 'Categorie is toegevoegd!'});
+  });
+});
+
+app.post('/api/update_category', (req, res) => {
+  db.collection('categories', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true'});
+      return;
+    }
+
+    collection.update({_id: new ObjectId(req.body.id)}, { $set: {
+        category: req.body.category
+      }
+    }, (err3) => {
+      if (err3) {
+        res.json({'error': 'true'});
+        return;
+      }
+
+      res.json({'error': 'false'});
+      return;
+    });
+  });
+});
+
+app.post('/api/delete_category', (req, res) => {
+  db.collection('categories', (err2, collection) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': err2.message});
+      return;
+    }
+
+    collection.deleteOne({_id: new ObjectId(req.body.id)});
+
+    res.json({'error': 'false'});
   });
 });
 
