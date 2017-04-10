@@ -14,10 +14,10 @@ import { AdminProductsComponent } from './products/products.component';
 import { AdminAddProductComponent } from './products/add/add.product.component';
 import { AdminEditProductComponent } from './products/edit/edit.product.component';
 
-
 import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
 import { AdminService } from '../../services/admin.service';
+import { MetaService } from '../../services/meta.service';
 
 import { AdminGuard } from '../../guards/admin.guard';
 
@@ -77,6 +77,7 @@ const routes: Routes =
   providers: [
     ProductService,
     UserService,
+    MetaService,
     AdminService,
     AdminGuard
   ],

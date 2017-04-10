@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MetaService } from '../../services/meta.service';
+
 @Component({
   selector: 'app-not-found',
   templateUrl: './notfound.component.html'
 })
-export class NotFoundComponent {}
+export class NotFoundComponent implements OnInit {
+  constructor(private metaService: MetaService) {}
+
+  ngOnInit(): void {
+    this.metaService.removeTags();
+  }
+}

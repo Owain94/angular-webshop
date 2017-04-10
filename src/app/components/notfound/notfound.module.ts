@@ -6,6 +6,8 @@ import { HeaderModule } from '../main/header/header.module';
 
 import { NotFoundComponent } from './notfound.component';
 
+import { MetaService } from '../../services/meta.service';
+
 @NgModule({
   declarations: [
     NotFoundComponent
@@ -22,6 +24,9 @@ import { NotFoundComponent } from './notfound.component';
         }
       ]
     )
+  ],
+  providers: [
+    MetaService
   ]
 })
 export class NotFoundModule {}

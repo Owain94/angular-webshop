@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { UserService } from '../../../services/user.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
+import { MetaService } from '../../../services/meta.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
@@ -32,11 +33,14 @@ export class LoginComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               private userService: UserService,
               private authGuard: AuthGuard,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,
+              private metaService: MetaService) {
 
   }
 
   ngOnInit(): void {
+    this.metaService.removeTags();
+
     if (this.authGuard.check()) {
       this.router.navigateByUrl('/');
     }

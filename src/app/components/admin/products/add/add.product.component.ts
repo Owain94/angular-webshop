@@ -5,6 +5,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 import { AdminService } from '../../../../services/admin.service';
+import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
@@ -34,6 +35,7 @@ export class AdminAddProductComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
+              private metaService: MetaService,
               private adminService: AdminService,
               private adminGuard: AdminGuard) {
     this.cropperSettings = new CropperSettings();
@@ -63,6 +65,7 @@ export class AdminAddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.metaService.removeTags();
     this.adminGuard.checkRemote();
 
     this.productService.categories().subscribe(

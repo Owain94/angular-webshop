@@ -17,6 +17,7 @@ import { LocalStorageService } from '../services/localstorage.service';
 import { UserService } from '../services/user.service';
 import { AdminService } from '../services/admin.service';
 import { ProductService } from '../services/product.service';
+import { MetaService } from '../services/meta.service';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { AdminGuard } from '../guards/admin.guard';
@@ -41,6 +42,7 @@ import { AdminGuard } from '../guards/admin.guard';
     UserService,
     AdminService,
     ProductService,
+    MetaService,
     AuthGuard,
     AdminGuard
   ],

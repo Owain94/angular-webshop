@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { TransferState } from '../../modules/transfer-state/transfer-state';
 
@@ -11,9 +12,18 @@ import { UserService } from '../../services/user.service';
 })
 export class MainComponent implements OnInit {
   constructor(private transferState: TransferState,
-              private userService: UserService) {}
+              private userService: UserService,
+              private router: Router) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe(path => {
+      if (path instanceof NavigationEnd) {
+        if (typeof(window) !== 'undefined') {
+          window.scroll(0, 0);
+        }
+      }
+    });
+
     this.transferState.set('cached', true);
   }
 

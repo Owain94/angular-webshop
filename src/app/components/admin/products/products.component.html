@@ -37,7 +37,7 @@
     <button class="button" (click)="preview(product.photo)">Foto</button>
   </div>
   <div class="large-1 columns actions-margin">
-    <a (click)="edit(product._id)"><span class="icon icon-pencil"></span></a>
+    <a [routerLink]="['/admin/editproduct', product._id]"><span class="icon icon-pencil"></span></a>
   </div>
   <div class="large-1 columns actions-margin">
     <a (click)="delete(product._id, product.name)"><span class="icon icon-trash"></span></a>

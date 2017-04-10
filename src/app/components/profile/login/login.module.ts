@@ -8,6 +8,7 @@ import { HeaderModule } from '../../main/header/header.module';
 import { LoginComponent } from './login.component';
 
 import { UserService } from '../../../services/user.service';
+import { MetaService } from '../../../services/meta.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { UserService } from '../../../services/user.service';
     )
   ],
   providers: [
-    UserService
+    UserService,
+    MetaService
   ]
 })
 export class LoginModule {}

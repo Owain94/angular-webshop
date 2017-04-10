@@ -6,6 +6,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 import { AdminService } from '../../../../services/admin.service';
+import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
@@ -36,6 +37,7 @@ export class AdminEditProductComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
               private adminService: AdminService,
+              private metaService: MetaService,
               private adminGuard: AdminGuard,
               private route: ActivatedRoute,
               private router: Router) {
@@ -66,6 +68,7 @@ export class AdminEditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.metaService.removeTags();
     this.adminGuard.checkRemote();
 
     this.route.params.subscribe(params => {
@@ -73,20 +76,20 @@ export class AdminEditProductComponent implements OnInit {
 
       this.productService.product(id).subscribe(
         (res) => {
-          this.editProductForm.get('name').setValue(res[0]['name']);
-          this.editProductForm.get('category').setValue(res[0]['category']);
-          this.editProductForm.get('description').setValue(res[0]['description']);
-          this.editProductForm.get('photo').setValue(res[0]['photo']);
-          this.editProductForm.get('price').setValue(res[0]['price']);
+          this.editProductForm.get('name').setValue(res['name']);
+          this.editProductForm.get('category').setValue(res['category']);
+          this.editProductForm.get('description').setValue(res['description']);
+          this.editProductForm.get('photo').setValue(res['photo']);
+          this.editProductForm.get('price').setValue(res['price']);
 
           this.editProductForm.get('id').setValue(id);
-          this.data.image = res[0]['photo'];
+          this.data.image = res['photo'];
 
           const image: any = new Image();
 
-          console.log(`${url}/assets/products/${res[0]['photo']}`);
+          console.log(`${url}/assets/products/${res['photo']}`);
 
-          this.toDataUrl(`${url}/assets/products/${res[0]['photo']}`, (base64: string) => {
+          this.toDataUrl(`${url}/assets/products/${res['photo']}`, (base64: string) => {
             image.src = base64;
             this.cropper.setImage(image);
           });
