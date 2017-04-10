@@ -12,7 +12,7 @@ import { MetaService } from '../../../services/meta.service';
 export class ProductComponent implements OnInit {
 
   public id: string;
-  public product: Object;
+  public product: Product;
 
   constructor(private activatedRoute: ActivatedRoute,
               private productService: ProductService,
@@ -24,7 +24,7 @@ export class ProductComponent implements OnInit {
        this.id = params['id'];
 
        this.productService.product(this.id).subscribe(
-        (res) => {
+        (res: Product) => {
           // console.log(res);
           this.product = res;
 
@@ -33,4 +33,14 @@ export class ProductComponent implements OnInit {
       );
     });
   }
+}
+
+export interface Product {
+  _id: string;
+  name: string;
+  price: string;
+  description: string;
+  category: string;
+  amount: number;
+  photo: string;
 }
