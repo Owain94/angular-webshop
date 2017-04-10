@@ -11,6 +11,7 @@ import { TabsComponent } from '../tabs/tabs.component';
 import { TabComponent } from '../tabs/tab/tab.component';
 
 import { UserService } from '../../services/user.service';
+import { MetaService } from '../../services/meta.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UserService } from '../../services/user.service';
     )
   ],
   providers: [
-    UserService
+    UserService,
+    MetaService
   ]
 })
 export class ProfileModule {}

@@ -28,7 +28,7 @@ export class ProductService {
     return this.http.get(`${url}/api/product/${id}`)
       .map((res: any) => res.json())
       .map((res: any) => {
-        return res;
+        return res[0];
       });
   }
 

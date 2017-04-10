@@ -5,19 +5,24 @@ import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '../main/header/header.module';
 import { FilterPipeModule } from '../../pipes/pipe.filter.module';
+import { HighlightPipeModule } from '../../pipes/highlight.pipe.module';
+import { FixCurrencyPipeModule } from '../../pipes/fix.currency.pipe.module';
 
 import { ProductsComponent } from './products.component';
+import { ProductComponent } from './product/product.component';
 
-import { LazyImageModule } from '../../directives/lazy.image.module';
+import { MetaService } from '../../services/meta.service';
 
 @NgModule({
   declarations: [
-    ProductsComponent
+    ProductsComponent,
+    ProductComponent
   ],
   imports: [
     HeaderModule,
     FilterPipeModule,
-    LazyImageModule,
+    HighlightPipeModule,
+    FixCurrencyPipeModule,
 
     CommonModule,
     FormsModule,
@@ -28,9 +33,16 @@ import { LazyImageModule } from '../../directives/lazy.image.module';
           path: '',
           component: ProductsComponent,
           pathMatch: 'full'
+        },
+        {
+          path: 'product/:id',
+          component: ProductComponent
         }
       ]
     )
+  ],
+  providers: [
+    MetaService
   ]
 })
 export class ProductsModule {}

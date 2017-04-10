@@ -3,6 +3,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
+import { MetaService } from '../../../services/meta.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
@@ -25,10 +26,12 @@ export class AdminCategoriesComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
               private productService: ProductService,
+              private metaService: MetaService,
               private adminGuard: AdminGuard) {
   }
 
   ngOnInit(): void {
+    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.getCategories();

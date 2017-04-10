@@ -3,21 +3,19 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
 import { ProductService } from '../../services/product.service';
+import { MetaService } from '../../services/meta.service';
 
 import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/debounceTime';
 
-import swal from 'sweetalert2';
-
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html'
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
 
-  // tslint:disable-next-line:no-inferrable-types
-  public msg: string = 'Producten';
   public products: Array<Object> = [];
 
   public categories: Array<Object>;
@@ -28,10 +26,13 @@ export class ProductsComponent implements OnInit {
   public filterInput = new FormControl();
   public filterCategory = new FormControl();
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,
+              private metaService: MetaService) {
   }
 
   ngOnInit(): void {
+    this.metaService.addTags();
+
     this.getProducts();
     this.getCategories();
 

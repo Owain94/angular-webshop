@@ -9,6 +9,7 @@ import { RegisterComponent } from './register.component';
 
 import { PostalcodeService } from '../../../services/postalcode.service';
 import { UserService } from '../../../services/user.service';
+import { MetaService } from '../../../services/meta.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { UserService } from '../../../services/user.service';
   ],
   providers: [
     PostalcodeService,
-    UserService
+    UserService,
+    MetaService
   ]
 })
 export class RegisterModule {}

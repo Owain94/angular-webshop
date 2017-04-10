@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from
 
 import { UserService } from '../../../services/user.service';
 import { PostalcodeService } from '../../../services/postalcode.service';
+import { MetaService } from '../../../services/meta.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
@@ -32,11 +33,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
               private postalcodeService: PostalcodeService,
               private userService: UserService,
               private router: Router,
-              private authGuard: AuthGuard) {
+              private authGuard: AuthGuard,
+              private metaService: MetaService) {
 
   }
 
   ngOnInit(): void {
+    this.metaService.addTags();
+
     if (this.authGuard.check()) {
       this.router.navigateByUrl('/');
     }

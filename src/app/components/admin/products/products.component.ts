@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
+import { MetaService } from '../../../services/meta.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
@@ -37,10 +38,12 @@ export class AdminProductsComponent implements OnInit {
   constructor(private adminService: AdminService,
               private adminGuard: AdminGuard,
               private productService: ProductService,
+              private metaService: MetaService,
               private router: Router) {
   }
 
   ngOnInit(): void {
+    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.getProducts();
@@ -94,10 +97,6 @@ export class AdminProductsComponent implements OnInit {
     this.filterCategory.setValue('');
     this.filterText = '';
     this.filterCategoryText = '';
-  }
-
-  public edit(id: string): void {
-    this.router.navigate(['admin/editproduct', id]);
   }
 
   public delete(id: string, name: string): void {

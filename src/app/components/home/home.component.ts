@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ProductService } from '../../services/product.service';
+import { MetaService } from '../../services/meta.service';
 
 import { AuthGuard } from '../../guards/auth.guard';
 
@@ -14,9 +15,12 @@ export class HomeComponent implements OnInit {
   public products: Array<Object>;
 
   constructor(private authGuard: AuthGuard,
-              private productService: ProductService) {}
+              private productService: ProductService,
+              private metaService: MetaService) {}
 
   ngOnInit(): void {
+    this.metaService.addTags();
+
     if (!this.authGuard.check()) {
       this.button = ['/login', 'Aanmelden'];
     }

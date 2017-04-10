@@ -1,0 +1,12 @@
+<app-header
+  [headerHeading]="[product?.name, '']">
+</app-header>
+
+<div class="section">
+  <div class="row">
+    <div class="large-12 columns text-center">
+      <h2>Producten</h2>
+      <h2>{{ product?.price | currency:'EUR':true | fixCurrency }}</h2>
+    </div>
+  </div>
+</div>

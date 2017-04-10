@@ -3,6 +3,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
+import { MetaService } from '../../services/meta.service';
 
 import { PasswordValidator } from '../../helpers/password.validator';
 
@@ -35,11 +36,13 @@ export class ProfileComponent implements OnInit {
   public passwordForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService) {
+              private userService: UserService,
+              private metaService: MetaService) {
 
   }
 
   ngOnInit(): void {
+    this.metaService.addTags();
     this.userService.verifyLogout();
 
     this.profileForm = this.formBuilder.group({
