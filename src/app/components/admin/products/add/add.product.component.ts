@@ -65,7 +65,7 @@ export class AdminAddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.productService.categories().subscribe(

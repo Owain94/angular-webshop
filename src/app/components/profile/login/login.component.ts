@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
 
     if (this.authGuard.check()) {
       this.router.navigateByUrl('/');

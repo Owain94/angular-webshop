@@ -28,7 +28,7 @@ export class ProductComponent implements OnInit {
           // console.log(res);
           this.product = res;
 
-          this.metaService.addTags(res._id, res.name, res.description, res.price);
+          this.metaService.addTags(true, res._id, res.name, res.description, res.price);
         }
       );
     });

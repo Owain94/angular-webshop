@@ -31,7 +31,7 @@ export class AdminCategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.getCategories();

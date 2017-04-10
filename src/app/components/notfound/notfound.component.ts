@@ -10,6 +10,6 @@ export class NotFoundComponent implements OnInit {
   constructor(private metaService: MetaService) {}
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
   }
 }

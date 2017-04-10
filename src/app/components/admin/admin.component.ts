@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
               private metaService: MetaService) {}
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
     this.adminGuard.checkRemote();
   }
 }

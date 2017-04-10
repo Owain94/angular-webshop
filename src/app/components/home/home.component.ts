@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
               private metaService: MetaService) {}
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
 
     if (!this.authGuard.check()) {
       this.button = ['/login', 'Aanmelden'];

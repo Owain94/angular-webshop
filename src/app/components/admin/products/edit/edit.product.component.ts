@@ -68,7 +68,7 @@ export class AdminEditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.route.params.subscribe(params => {

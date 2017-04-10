@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
     this.userService.verifyLogout();
 
     this.profileForm = this.formBuilder.group({

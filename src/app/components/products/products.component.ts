@@ -31,7 +31,7 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.metaService.removeTags();
+    this.metaService.addTags();
 
     this.getProducts();
     this.getCategories();
