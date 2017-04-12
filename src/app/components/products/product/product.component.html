@@ -4,9 +4,15 @@
 
 <div class="section">
   <div class="row">
-    <div class="large-12 columns text-center">
-      <h2>Producten</h2>
-      <h2>{{ product?.price | currency:'EUR':true | fixCurrency }}</h2>
+    <div class="large-6 columns text-center">
+      <img [src]="'assets/products/' + product?.photo" />
+    </div>
+    <div class="large-6 columns text-center">
+      <h2>{{ product?.name }}</h2>
+      <h3>Prijs: {{ product?.price | currency:'EUR':true | fixCurrency }}</h3>
+      <h4>{{ product?.description }}</h4>
+      <br />
+      <button class="button">Toevoegen aan winkelmand</button>
     </div>
   </div>
 </div>
