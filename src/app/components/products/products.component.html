@@ -27,8 +27,8 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="(products  | filter: { name: filterText, category: filterCategoryText }).length > 0; else noProducts">
-    <div class="large-4 columns text-center clickable" *ngFor="let product of products | filter: { name: filterText, category: filterCategoryText }" [routerLink]="['product', product._id]">
+  <div class="row" *ngIf="(products | filter: { name: filterText } | filter: { category: filterCategoryText }).length > 0; else noProducts">
+    <div class="large-4 columns text-center clickable" *ngFor="let product of products | filter: { name: filterText } | filter: { category: filterCategoryText }" [routerLink]="['product', product._id]">
       <img class="product-img" [alt]="product.name" [src]="'assets/products/' + product.photo" />
       <p [innerHTML]="product.name | highlight : filterText"></p>
     </div>
