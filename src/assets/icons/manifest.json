@@ -1,5 +1,11 @@
 {
-  "name": "Inkie's webshop",
+  "name": "Inkie's",
+  "short_name": "Inkie's",
+  "theme_color": "#ea4c88",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/?utm_source=web_app_manifest",
   "icons": [
     {
       "src": "assets/icons/android-chrome-36x36.png",
@@ -46,10 +52,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#ea4c88",
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "orientation": "portrait",
-  "start_url": "/?utm_source=web_app_manifest"
+  ]
 }
