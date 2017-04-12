@@ -1,3 +1,7 @@
+/// <reference path="../../../../interfaces/generic.interface.ts" />
+/// <reference path="../../../../interfaces/products/products.interface.ts" />
+/// <reference path="../../../../interfaces/products/categories.interface.ts" />
+
 import { url } from './../../../../../constants';
 import { Component, OnInit, ViewChild, } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -38,7 +42,7 @@ export class AdminEditProductComponent implements OnInit {
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = 'Product aanpassen';
-  public categories: Array<Object>;
+  public categories: categoriesInterface.RootObject;
 
   private routeParamSubscription: Subscription;
   private productSubscription: Subscription;
@@ -86,21 +90,21 @@ export class AdminEditProductComponent implements OnInit {
       const id = params['id'];
 
       this.productSubscription = this.productService.product(id).subscribe(
-        (res) => {
-          this.editProductForm.get('name').setValue(res['name']);
-          this.editProductForm.get('category').setValue(res['category']);
-          this.editProductForm.get('description').setValue(res['description']);
-          this.editProductForm.get('photo').setValue(res['photo']);
-          this.editProductForm.get('price').setValue(res['price']);
+        (res: productsInterface.RootObject) => {
+          this.editProductForm.get('name').setValue(res.name);
+          this.editProductForm.get('category').setValue(res.category);
+          this.editProductForm.get('description').setValue(res.description);
+          this.editProductForm.get('photo').setValue(res.photo);
+          this.editProductForm.get('price').setValue(res.price);
 
           this.editProductForm.get('id').setValue(id);
-          this.data.image = res['photo'];
+          this.data.image = res.photo;
 
           const image: any = new Image();
 
-          console.log(`${url}/assets/products/${res['photo']}`);
+          console.log(`${url}/assets/products/${res.photo}`);
 
-          this.toDataUrl(`${url}/assets/products/${res['photo']}`, (base64: string) => {
+          this.toDataUrl(`${url}/assets/products/${res.photo}`, (base64: string) => {
             image.src = base64;
             this.cropper.setImage(image);
           });
@@ -109,7 +113,7 @@ export class AdminEditProductComponent implements OnInit {
     });
 
     this.categoriesSubscription = this.productService.categories().subscribe(
-      (res) => {
+      (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }
     );
@@ -181,7 +185,7 @@ export class AdminEditProductComponent implements OnInit {
   public submitForm(value: Object): void {
     this.disabled = true;
     this.updateProductSubscription = this.adminService.updateProduct(value).subscribe(
-      (res: any) => {
+      (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
           swal({

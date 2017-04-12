@@ -1,3 +1,5 @@
+/// <reference path="../../../interfaces/generic.interface.ts" />
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -78,7 +80,7 @@ export class RegisterComponent implements OnInit {
         if (value === 'Nederland') {
           this.postalcodeDataSubscription = this.postalcodeService.getPostalcodeData(
             this.registerForm.get('postal_code').value.replace(' ', '')
-          ).subscribe((data: any) => {
+          ).subscribe((data: [string, string]) => {
             try {
               this.registerForm.get('streetname').setValue(data[1]);
             } catch (err) {
@@ -117,7 +119,7 @@ export class RegisterComponent implements OnInit {
   public submitForm(value: Object): void {
     this.disabled = true;
     this.registerSubscription = this.userService.register(value).subscribe(
-      (res: any) => {
+      (res: genericInterface.RootObject) => {
           this.disabled = false;
 
         if (res.error === 'false') {

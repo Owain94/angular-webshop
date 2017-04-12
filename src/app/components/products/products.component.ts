@@ -1,3 +1,6 @@
+/// <reference path="../../interfaces/products/products.interface.ts" />
+/// <reference path="../../interfaces/products/categories.interface.ts" />
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -20,9 +23,9 @@ import 'rxjs/add/operator/debounceTime';
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit {
 
-  public products: Array<Object> = [];
+  public products: productsInterface.RootObject;
 
-  public categories: Array<Object>;
+  public categories: categoriesInterface.RootObject;
   // tslint:disable-next-line:no-inferrable-types
   public filterText: string = '';
   // tslint:disable-next-line:no-inferrable-types
@@ -62,7 +65,7 @@ export class ProductsComponent implements OnInit {
 
   private getProducts(): void {
     this.productSubscription = this.productService.products(Infinity).subscribe(
-      (res) => {
+      (res: productsInterface.RootObject) => {
         this.products = res;
       }
     );
@@ -70,7 +73,7 @@ export class ProductsComponent implements OnInit {
 
   private getCategories(): void {
     this.categoriesSubscription = this.productService.categories().subscribe(
-      (res) => {
+      (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }
     );

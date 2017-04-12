@@ -1,3 +1,5 @@
+/// <reference path="../../../interfaces/products/products.interface.ts" />
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -18,7 +20,7 @@ import { Subscription } from 'rxjs/Rx';
 export class ProductComponent implements OnInit {
 
   public id: string;
-  public product: Product;
+  public product: productsInterface.RootObject;
 
   private activatedRouteParamSubscription: Subscription;
   private productSubscription: Subscription;
@@ -33,8 +35,7 @@ export class ProductComponent implements OnInit {
        this.id = params['id'];
 
        this.productSubscription = this.productService.product(this.id).subscribe(
-        (res: Product) => {
-          // console.log(res);
+        (res: productsInterface.RootObject) => {
           this.product = res;
 
           this.metaService.addTags(true, res._id, res.name, res.description, res.price);
@@ -42,14 +43,4 @@ export class ProductComponent implements OnInit {
       );
     });
   }
-}
-
-export interface Product {
-  _id: string;
-  name: string;
-  price: string;
-  description: string;
-  category: string;
-  amount: number;
-  photo: string;
 }

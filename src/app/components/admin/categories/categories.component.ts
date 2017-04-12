@@ -1,3 +1,6 @@
+/// <reference path="../../../interfaces/generic.interface.ts" />
+/// <reference path="../../../interfaces/products/categories.interface.ts" />
+
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
@@ -27,7 +30,7 @@ export class AdminCategoriesComponent implements OnInit {
   public addCategoryForm: FormGroup;
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = 'Categorieën';
-  public categories: Array<Object>;
+  public categories: categoriesInterface.RootObject;
 
   private categoriesSubscription: Subscription;
   private addCategorySubscription: Subscription;
@@ -54,7 +57,7 @@ export class AdminCategoriesComponent implements OnInit {
 
   private getCategories(): void {
     this.categoriesSubscription = this.productService.categories().subscribe(
-      (res) => {
+      (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }
     );
@@ -63,7 +66,7 @@ export class AdminCategoriesComponent implements OnInit {
   public submitForm(value: Object): void {
     this.disabled = true;
     this.addCategorySubscription = this.adminService.addCategory(value).subscribe(
-      (res: any) => {
+      (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
           this.addCategoryForm = this.formBuilder.group({
@@ -89,7 +92,7 @@ export class AdminCategoriesComponent implements OnInit {
       inputValue: category
     }).then((result) => {
       this.updateCategorySubscription = this.adminService.updateCategory({'category': result, 'id': id}).subscribe(
-        (res) => {
+        (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getCategories();
 
@@ -117,7 +120,7 @@ export class AdminCategoriesComponent implements OnInit {
       cancelButtonText: 'Annuleer',
     }).then(() => {
       this.deleteCategorySubscription = this.adminService.deleteCategory({'id': id}).subscribe(
-        (res) => {
+        (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getCategories();
 

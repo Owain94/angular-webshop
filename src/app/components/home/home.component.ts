@@ -1,3 +1,5 @@
+/// <reference path="../../interfaces/products/products.interface.ts" />
+
 import { Component, OnInit } from '@angular/core';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
@@ -18,7 +20,7 @@ import { Subscription } from 'rxjs/Rx';
 @AutoUnsubscribe()
 export class HomeComponent implements OnInit {
   public button: [string, string];
-  public products: Array<Object>;
+  public products: productsInterface.RootObject;
 
   private productSubscription: Subscription;
 
@@ -34,7 +36,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.productSubscription = this.productService.products(6).subscribe(
-      (res) => {
+      (res: productsInterface.RootObject) => {
         this.products = res;
       }
     );
