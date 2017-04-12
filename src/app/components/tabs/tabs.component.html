@@ -1,2 +1,2 @@
-<button class="button" *ngFor="let tab of tabs" (click)="selectTab(tab)">{{tab.tabTitle}}</button>
+<button class="button" *ngFor="let tab of tabs; let i = index; trackBy: i" (click)="selectTab(tab)">{{tab.tabTitle}}</button>
 <ng-content></ng-content>

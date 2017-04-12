@@ -33,7 +33,7 @@
       <label [ngClass]="{ 'error': !addProductForm.controls['category'].valid && addProductForm.controls['category'].touched }">
         Categorie
         <select [formControl]="addProductForm.controls['category']" [ngClass]="{ 'error': !addProductForm.controls['category'].valid && addProductForm.controls['category'].touched }">
-          <option *ngFor="let category of categories" [value]="category.category">{{category.category}}</option>
+          <option *ngFor="let category of categories; let i = index; trackBy: i" [value]="category.category">{{category.category}}</option>
         </select>
       </label>
       <small *ngIf="!addProductForm.controls['category'].valid && addProductForm.controls['category'].touched" class="error">
