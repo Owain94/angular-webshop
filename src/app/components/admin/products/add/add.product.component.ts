@@ -1,3 +1,6 @@
+/// <reference path="../../../../interfaces/generic.interface.ts" />
+/// <reference path="../../../../interfaces/products/categories.interface.ts" />
+
 import { Component, OnInit, ViewChild, } from '@angular/core';
 import { Router } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -37,7 +40,7 @@ export class AdminAddProductComponent implements OnInit {
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = 'Product toevoegen';
-  public categories: Array<Object>;
+  public categories: categoriesInterface.RootObject;
 
 
   private categoriesSubscription: Subscription;
@@ -79,7 +82,7 @@ export class AdminAddProductComponent implements OnInit {
     this.adminGuard.checkRemote();
 
     this.categoriesSubscription = this.productService.categories().subscribe(
-      (res) => {
+      (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }
     );
@@ -134,7 +137,7 @@ export class AdminAddProductComponent implements OnInit {
   public submitForm(value: Object): void {
     this.disabled = true;
     this.addProductSubscription = this.adminService.addProduct(value).subscribe(
-      (res: any) => {
+      (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
           this.addProductForm = this.formBuilder.group({

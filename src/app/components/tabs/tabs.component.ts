@@ -10,7 +10,7 @@ export class TabsComponent implements AfterContentInit {
 
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
-  ngAfterContentInit() {
+  ngAfterContentInit(): void {
     const activeTabs = this.tabs.filter((tab) => tab.active);
 
     if (activeTabs.length === 0) {
@@ -18,10 +18,11 @@ export class TabsComponent implements AfterContentInit {
     }
   }
 
-  public selectTab(tabComponent: TabComponent) {
+  public selectTab(tabComponent: TabComponent): void {
     this.tabs.toArray().forEach(tab => tab.active = false);
     tabComponent.active = true;
   }
+
   public trackByFn(index: number, item): number {
     return(index);
   }

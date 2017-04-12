@@ -1,3 +1,5 @@
+/// <reference path="../interfaces/user/postalcode.interface.ts" />
+
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
 
@@ -17,7 +19,7 @@ export class PostalcodeService {
 
     return this.http.get(`https://postcode-api.apiwise.nl/v2/postcodes/${postalcode}/`, options)
       .map((res: any) => res.json())
-      .map((res: any) => {
+      .map((res: postalcodeInterface.RootObject) => {
         return [res.city.label, res.streets[0]];
       });
   }

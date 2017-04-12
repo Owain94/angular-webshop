@@ -1,3 +1,5 @@
+/// <reference path="../../../interfaces/generic.interface.ts" />
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -88,7 +90,7 @@ export class LoginComponent implements OnInit {
   public submitForm(value: Object): void {
     this.disabled = true;
     this.loginSubscription = this.userService.login(value).subscribe(
-      (res: any) => {
+      (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
           this.localStorageService.set('user', JSON.stringify({ token: res.data }));

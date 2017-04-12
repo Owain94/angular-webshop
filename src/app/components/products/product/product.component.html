@@ -5,7 +5,7 @@
 <div class="section">
   <div class="row">
     <div class="large-6 columns text-center">
-      <img [src]="'assets/products/' + product?.photo" />
+      <img class="product-img" [src]="'assets/products/' + product?.photo" [alt]="product?.name" height="300" width="300" />
     </div>
     <div class="large-6 columns text-center">
       <h2>{{ product?.name }}</h2>

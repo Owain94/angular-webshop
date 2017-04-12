@@ -1,3 +1,7 @@
+/// <reference path="../../interfaces/generic.interface.ts" />
+/// <reference path="../../interfaces/user/tfa.token.interface.ts" />
+/// <reference path="../../interfaces/user/profile.interface.ts" />
+
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -77,8 +81,8 @@ export class ProfileComponent implements OnInit {
     this.passwordForm.setValidators(PasswordValidator.mismatchedPasswords());
 
     this.profileDataSubscription = this.userService.profileData()
-      .subscribe((res) => {
-        this.twoFactorInitial = res['data']['tfatoken'].length > 0;
+      .subscribe((res:  profileInterface.RootObject) => {
+        this.twoFactorInitial = res.data.tfatoken.length > 0;
 
         if (this.twoFactorInitial) {
           this.twoFactorShow = true;
@@ -99,14 +103,9 @@ export class ProfileComponent implements OnInit {
     this.disabledProfileForm = true;
 
     this.userService.saveProfileData(value).subscribe(
-      (res: any) => {
+      (res: genericInterface.RootObject) => {
         this.disabledProfileForm = false;
-
-        if (res.error === 'false') {
-          this.msgProfile = 'Uw account is succesvol geüpdatet!';
-        } else {
-          this.msgProfile = res.msg;
-        }
+        this.msgProfile = res.data;
       });
   }
 
@@ -114,14 +113,9 @@ export class ProfileComponent implements OnInit {
     this.disabledPasswordForm = true;
 
     this.saveProfileDataSubscription = this.userService.saveProfilePassword(value).subscribe(
-      (res: any) => {
+      (res: genericInterface.RootObject) => {
         this.disabledPasswordForm = false;
-
-        if (res.error === 'false') {
-          this.msgPassword = 'Uw wachtwoord is succesvol geüpdatet!';
-        } else {
-          this.msgPassword = res.msg;
-        }
+        this.msgPassword = res.data;
       });
   }
 
@@ -129,7 +123,7 @@ export class ProfileComponent implements OnInit {
     if (value) {
       if (!this.twoFactorCode) {
         this.tfaTokenSubscription = this.userService.tfaToken().subscribe(
-          (res: any) => {
+          (res: tfaTokenInterface.RootObject) => {
             this.twoFactorKey = res.key;
             this.twoFactorCode = res.otpauth_url.replace('SecretKey', 'Inkies');
         });
@@ -139,7 +133,7 @@ export class ProfileComponent implements OnInit {
     this.twoFactorShow = value;
   }
 
-  public TfaSave() {
+  public TfaSave(): void {
     if (this.twoFactorInitial && !this.twoFactorShow) {
       this.disableTfaSubscription = this.userService.disableTfa().subscribe(
         (res: boolean) => {

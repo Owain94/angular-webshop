@@ -30,7 +30,7 @@
 
 <hr class="hr-margin" />
 
-<div class="row" *ngFor="let product of products; let i = index; trackBy: trackByFn | filter: { name: filterText } | filter: { category: filterCategoryText }">
+<div class="row" *ngFor="let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn">
   <div class="large-4 columns actions-margin" [innerHTML]="'Naam: ' + product.name | highlight : filterText"></div>
   <div class="large-4 columns actions-margin" [innerHTML]="'Categorie: ' + product.category | highlight : filterCategoryText"></div>
   <div class="large-2 columns">

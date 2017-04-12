@@ -1,3 +1,6 @@
+/// <reference path="../../interfaces/products/products.interface.ts" />
+/// <reference path="../../interfaces/products/categories.interface.ts" />
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -20,9 +23,9 @@ import 'rxjs/add/operator/debounceTime';
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit {
 
-  public products: Array<Array<Object>> = [];
+  public products: productsInterface.RootObject;
 
-  public categories: Array<Object>;
+  public categories: categoriesInterface.RootObject;
   // tslint:disable-next-line:no-inferrable-types
   public filterText: string = '';
   // tslint:disable-next-line:no-inferrable-types
@@ -34,16 +37,6 @@ export class ProductsComponent implements OnInit {
   private filterCategorySubscription: Subscription;
   private productSubscription: Subscription;
   private categoriesSubscription: Subscription;
-
-  private static spliceArray(arr: Array<Object>): Array<Array<Object>> {
-    const outArray = [];
-
-    while (arr.length > 0) {
-      outArray.push(arr.splice(0, 3));
-    }
-
-    return outArray;
-  }
 
   constructor(private productService: ProductService,
               private metaService: MetaService) {
@@ -72,21 +65,21 @@ export class ProductsComponent implements OnInit {
 
   private getProducts(): void {
     this.productSubscription = this.productService.products(Infinity).subscribe(
-      (res) => {
-        this.products = ProductsComponent.spliceArray(res);
+      (res: productsInterface.RootObject) => {
+        this.products = res;
       }
     );
   }
 
   private getCategories(): void {
     this.categoriesSubscription = this.productService.categories().subscribe(
-      (res) => {
+      (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }
     );
   }
 
-  public reset() {
+  public reset(): void {
     this.filterInput.setValue('');
     this.filterCategory.setValue('');
     this.filterText = '';
@@ -95,9 +88,5 @@ export class ProductsComponent implements OnInit {
 
   public trackByFn(index: number, item): string {
     return(item._id);
-  }
-
-  public trackByIFn(index: number, item): number {
-    return(index);
   }
 }
