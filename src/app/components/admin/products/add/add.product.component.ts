@@ -4,11 +4,15 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
+import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
+
 import { AdminService } from '../../../../services/admin.service';
 import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
+
+import { Subscription } from 'rxjs/Subscription';
 
 import swal from 'sweetalert2';
 
@@ -17,6 +21,8 @@ import swal from 'sweetalert2';
   templateUrl: './add.product.component.html',
   styleUrls: ['./add.product.component.css']
 })
+
+@AutoUnsubscribe()
 export class AdminAddProductComponent implements OnInit {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
@@ -32,6 +38,10 @@ export class AdminAddProductComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = 'Product toevoegen';
   public categories: Array<Object>;
+
+
+  private categoriesSubscription: Subscription;
+  private addProductSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
@@ -68,7 +78,7 @@ export class AdminAddProductComponent implements OnInit {
     this.metaService.addTags();
     this.adminGuard.checkRemote();
 
-    this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories().subscribe(
       (res) => {
         this.categories = res;
       }
@@ -123,7 +133,7 @@ export class AdminAddProductComponent implements OnInit {
 
   public submitForm(value: Object): void {
     this.disabled = true;
-    this.adminService.addProduct(value).subscribe(
+    this.addProductSubscription = this.adminService.addProduct(value).subscribe(
       (res: any) => {
         this.disabled = false;
         if (res.error === 'false') {

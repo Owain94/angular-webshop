@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
+
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
 import { MetaService } from '../../../services/meta.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
+
+import { Subscription } from 'rxjs/Rx';
 
 import swal from 'sweetalert2';
 
@@ -14,6 +18,8 @@ import swal from 'sweetalert2';
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css']
 })
+
+@AutoUnsubscribe()
 export class AdminCategoriesComponent implements OnInit {
 
   // tslint:disable-next-line:no-inferrable-types
@@ -22,6 +28,11 @@ export class AdminCategoriesComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = 'Categorieën';
   public categories: Array<Object>;
+
+  private categoriesSubscription: Subscription;
+  private addCategorySubscription: Subscription;
+  private updateCategorySubscription: Subscription;
+  private deleteCategorySubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
@@ -42,7 +53,7 @@ export class AdminCategoriesComponent implements OnInit {
   }
 
   private getCategories(): void {
-    this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories().subscribe(
       (res) => {
         this.categories = res;
       }
@@ -51,7 +62,7 @@ export class AdminCategoriesComponent implements OnInit {
 
   public submitForm(value: Object): void {
     this.disabled = true;
-    this.adminService.addCategory(value).subscribe(
+    this.addCategorySubscription = this.adminService.addCategory(value).subscribe(
       (res: any) => {
         this.disabled = false;
         if (res.error === 'false') {
@@ -77,7 +88,7 @@ export class AdminCategoriesComponent implements OnInit {
       cancelButtonText: 'Annuleer',
       inputValue: category
     }).then((result) => {
-      this.adminService.updateCategory({'category': result, 'id': id}).subscribe(
+      this.updateCategorySubscription = this.adminService.updateCategory({'category': result, 'id': id}).subscribe(
         (res) => {
           if (res.error === 'false') {
             this.getCategories();
@@ -105,7 +116,7 @@ export class AdminCategoriesComponent implements OnInit {
       confirmButtonText: 'Verwijderen',
       cancelButtonText: 'Annuleer',
     }).then(() => {
-      this.adminService.deleteCategory({'id': id}).subscribe(
+      this.deleteCategorySubscription = this.adminService.deleteCategory({'id': id}).subscribe(
         (res) => {
           if (res.error === 'false') {
             this.getCategories();

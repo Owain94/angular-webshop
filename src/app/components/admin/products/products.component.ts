@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
+
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
 import { MetaService } from '../../../services/meta.service';
@@ -10,7 +12,7 @@ import { AdminGuard } from '../../../guards/admin.guard';
 
 import { url } from '../../../../constants';
 
-import { Observable } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/debounceTime';
 
@@ -21,6 +23,8 @@ import swal from 'sweetalert2';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
+
+@AutoUnsubscribe()
 export class AdminProductsComponent implements OnInit {
 
   // tslint:disable-next-line:no-inferrable-types
@@ -34,6 +38,12 @@ export class AdminProductsComponent implements OnInit {
   public filterCategoryText: string = '';
   public filterInput = new FormControl();
   public filterCategory = new FormControl();
+
+  private filterInputSubscription: Subscription;
+  private filterCategorySubscription: Subscription;
+  private productsSubscription: Subscription;
+  private categoriesSubscription: Subscription;
+  private deleteProductSubscription: Subscription;
 
   constructor(private adminService: AdminService,
               private adminGuard: AdminGuard,
@@ -49,14 +59,14 @@ export class AdminProductsComponent implements OnInit {
     this.getProducts();
     this.getCategories();
 
-    this.filterInput
+    this.filterInputSubscription = this.filterInput
       .valueChanges
       .debounceTime(250)
       .subscribe(term => {
         this.filterText = term;
       });
 
-    this.filterCategory
+    this.filterCategorySubscription = this.filterCategory
       .valueChanges
       .debounceTime(250)
       .subscribe(category => {
@@ -65,7 +75,7 @@ export class AdminProductsComponent implements OnInit {
   }
 
   private getProducts(): void {
-    this.productService.products(Infinity).subscribe(
+    this.productsSubscription = this.productService.products(Infinity).subscribe(
       (res) => {
         this.products = res;
       }
@@ -73,7 +83,7 @@ export class AdminProductsComponent implements OnInit {
   }
 
   private getCategories(): void {
-    this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories().subscribe(
       (res) => {
         this.categories = res;
       }
@@ -109,7 +119,7 @@ export class AdminProductsComponent implements OnInit {
       confirmButtonText: 'Verwijderen',
       cancelButtonText: 'Annuleer',
     }).then(() => {
-      this.adminService.deleteProduct({'id': id}).subscribe(
+      this.deleteProductSubscription = this.adminService.deleteProduct({'id': id}).subscribe(
         (res) => {
           if (res.error === 'false') {
             this.getProducts();

@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
+
 import { UserService } from '../../../services/user.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
 import { MetaService } from '../../../services/meta.service';
@@ -18,7 +20,9 @@ import 'rxjs/add/operator/distinctUntilChanged';
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit, OnDestroy {
+
+@AutoUnsubscribe()
+export class LoginComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
@@ -28,6 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
 
   private emailSubscription: Subscription;
+  private loginSubscription: Subscription;
+  private checkTfaSubscription: Subscription;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -58,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       (input: string) => {
         const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
           if (regexp.test(input)) {
-            this.userService.checkTfa(input).subscribe(
+            this.checkTfaSubscription = this.userService.checkTfa(input).subscribe(
               (res: boolean) => {
                 if (res) {
                   this.loginForm.get('tfa').setValidators(
@@ -79,15 +85,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    try {
-      this.emailSubscription.unsubscribe();
-    } catch (err) {}
-  }
-
   public submitForm(value: Object): void {
     this.disabled = true;
-    this.userService.login(value).subscribe(
+    this.loginSubscription = this.userService.login(value).subscribe(
       (res: any) => {
         this.disabled = false;
         if (res.error === 'false') {
