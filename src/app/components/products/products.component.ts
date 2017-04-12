@@ -20,7 +20,7 @@ import 'rxjs/add/operator/debounceTime';
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit {
 
-  public products: Array<Array<Object>> = [];
+  public products: Array<Object> = [];
 
   public categories: Array<Object>;
   // tslint:disable-next-line:no-inferrable-types
@@ -34,16 +34,6 @@ export class ProductsComponent implements OnInit {
   private filterCategorySubscription: Subscription;
   private productSubscription: Subscription;
   private categoriesSubscription: Subscription;
-
-  private static spliceArray(arr: Array<Object>): Array<Array<Object>> {
-    const outArray = [];
-
-    while (arr.length > 0) {
-      outArray.push(arr.splice(0, 3));
-    }
-
-    return outArray;
-  }
 
   constructor(private productService: ProductService,
               private metaService: MetaService) {
@@ -73,7 +63,7 @@ export class ProductsComponent implements OnInit {
   private getProducts(): void {
     this.productSubscription = this.productService.products(Infinity).subscribe(
       (res) => {
-        this.products = ProductsComponent.spliceArray(res);
+        this.products = res;
       }
     );
   }
@@ -95,9 +85,5 @@ export class ProductsComponent implements OnInit {
 
   public trackByFn(index: number, item): string {
     return(item._id);
-  }
-
-  public trackByIFn(index: number, item): number {
-    return(index);
   }
 }
