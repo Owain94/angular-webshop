@@ -2,12 +2,20 @@ import { LocalStorageService } from './../services/localstorage.service';
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, CanLoad, CanActivateChild } from '@angular/router';
 
+import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
+
 import { AdminService } from '../services/admin.service';
 
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
+import { Subscription } from 'rxjs/Rx';
+
+
+@AutoUnsubscribe()
 @Injectable()
 export class AdminGuard implements CanActivate, CanLoad {
+
+  private checkAdminSubscription: Subscription;
 
   constructor(private router: Router,
               private adminService: AdminService,
@@ -49,7 +57,7 @@ export class AdminGuard implements CanActivate, CanLoad {
   }
 
   public checkRemote(): void {
-    this.adminService.checkAdmin().subscribe(
+    this.checkAdminSubscription = this.adminService.checkAdmin().subscribe(
       (res: boolean) => {
         if (!res) {
           this.router.navigate(['/login']);

@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
+
 import { UserService } from '../../../services/user.service';
 import { PostalcodeService } from '../../../services/postalcode.service';
 import { MetaService } from '../../../services/meta.service';
@@ -20,14 +22,19 @@ import 'rxjs/add/operator/distinctUntilChanged';
   selector: 'app-register',
   templateUrl: './register.component.html'
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+
+@AutoUnsubscribe()
+export class RegisterComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = '';
   public registerForm: FormGroup;
+
   private country: Subject<string> = new Subject();
   private countrySubscription: Subscription;
+  private postalcodeDataSubscription: Subscription;
+  private registerSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private postalcodeService: PostalcodeService,
@@ -69,7 +76,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.registerForm.get('country').setValue(value);
 
         if (value === 'Nederland') {
-          this.postalcodeService.getPostalcodeData(
+          this.postalcodeDataSubscription = this.postalcodeService.getPostalcodeData(
             this.registerForm.get('postal_code').value.replace(' ', '')
           ).subscribe((data: any) => {
             try {
@@ -84,13 +91,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
           });
         }
     });
-  }
-
-  ngOnDestroy(): void {
-    try {
-      this.country.unsubscribe();
-      this.countrySubscription.unsubscribe();
-    } catch (err) {}
   }
 
   private postalcode = (): ValidatorFn => {
@@ -116,7 +116,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public submitForm(value: Object): void {
     this.disabled = true;
-    this.userService.register(value).subscribe(
+    this.registerSubscription = this.userService.register(value).subscribe(
       (res: any) => {
           this.disabled = false;
 

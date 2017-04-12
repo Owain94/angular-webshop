@@ -3,13 +3,19 @@ import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
+
 import { url } from '../../constants';
 
+import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
+@AutoUnsubscribe()
 @Injectable()
 export class UserService {
   private options: RequestOptions;
+
+  private verifyLogoutSubscription: Subscription;
 
   constructor(private http: Http,
               private router: Router,
@@ -76,7 +82,7 @@ export class UserService {
   }
 
   public verifyLogout(): void {
-    this.http.post(`${url}/api/verify/`, this.localStorageService.get('user'), this.options)
+    this.verifyLogoutSubscription = this.http.post(`${url}/api/verify/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.verify;

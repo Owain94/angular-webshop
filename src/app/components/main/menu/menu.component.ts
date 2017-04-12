@@ -1,16 +1,22 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
+
 import { UserService } from '../../../services/user.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 import { AdminGuard } from '../../../guards/admin.guard';
+
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
+
+@AutoUnsubscribe()
 export class MenuComponent implements OnInit {
 
   @ViewChild('navbar') navbar: ElementRef;
@@ -23,13 +29,15 @@ export class MenuComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public url: string = '/';
 
+  private routerEventsSubscription: Subscription;
+
   constructor(private router: Router,
               private authGuard: AuthGuard,
               private adminGuard: AdminGuard,
               private userService: UserService) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((url: any) => {
+    this.routerEventsSubscription = this.router.events.subscribe((url: any) => {
       this.loggedIn = this.authGuard.check();
       this.admin = this.adminGuard.checkLocal();
       if (typeof(url.url) !== 'undefined') {

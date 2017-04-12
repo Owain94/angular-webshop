@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
+import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
+
 import { ProductService } from '../../services/product.service';
 import { MetaService } from '../../services/meta.service';
 
-import { Observable } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/debounceTime';
 
@@ -14,6 +16,8 @@ import 'rxjs/add/operator/debounceTime';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
+
+@AutoUnsubscribe()
 export class ProductsComponent implements OnInit {
 
   public products: Array<Object> = [];
@@ -26,6 +30,11 @@ export class ProductsComponent implements OnInit {
   public filterInput = new FormControl();
   public filterCategory = new FormControl();
 
+  private filterInputSubscription: Subscription;
+  private filterCategorySubscription: Subscription;
+  private productSubscription: Subscription;
+  private categoriesSubscription: Subscription;
+
   constructor(private productService: ProductService,
               private metaService: MetaService) {
   }
@@ -36,14 +45,14 @@ export class ProductsComponent implements OnInit {
     this.getProducts();
     this.getCategories();
 
-    this.filterInput
+    this.filterInputSubscription = this.filterInput
       .valueChanges
       .debounceTime(250)
       .subscribe(term => {
         this.filterText = term;
       });
 
-    this.filterCategory
+    this.filterCategorySubscription = this.filterCategory
       .valueChanges
       .debounceTime(250)
       .subscribe(category => {
@@ -52,7 +61,7 @@ export class ProductsComponent implements OnInit {
   }
 
   private getProducts(): void {
-    this.productService.products(Infinity).subscribe(
+    this.productSubscription = this.productService.products(Infinity).subscribe(
       (res) => {
         this.products = res;
       }
@@ -60,7 +69,7 @@ export class ProductsComponent implements OnInit {
   }
 
   private getCategories(): void {
-    this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories().subscribe(
       (res) => {
         this.categories = res;
       }

@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 
+import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
+
 import { INotifyOptions } from './../interfaces/localstorage/notify-options.interface';
 import { ILocalStorageEvent } from './../interfaces/localstorage/local-storage-events.interface';
 
@@ -11,6 +13,7 @@ import 'rxjs/add/operator/share';
 // tslint:disable-next-line:no-inferrable-types
 const LOCAL_STORAGE_NOT_SUPPORTED: string = 'LOCAL_STORAGE_NOT_SUPPORTED';
 
+@AutoUnsubscribe()
 @Injectable()
 export class LocalStorageService {
   // tslint:disable-next-line:no-inferrable-types

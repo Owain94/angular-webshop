@@ -5,11 +5,15 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
+import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
+
 import { AdminService } from '../../../../services/admin.service';
 import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
+
+import { Subscription } from 'rxjs/Rx';
 
 import swal from 'sweetalert2';
 
@@ -18,6 +22,8 @@ import swal from 'sweetalert2';
   templateUrl: './edit.product.component.html',
   styleUrls: ['./edit.product.component.css']
 })
+
+@AutoUnsubscribe()
 export class AdminEditProductComponent implements OnInit {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
@@ -33,6 +39,11 @@ export class AdminEditProductComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public msg: string = 'Product aanpassen';
   public categories: Array<Object>;
+
+  private routeParamSubscription: Subscription;
+  private productSubscription: Subscription;
+  private categoriesSubscription: Subscription;
+  private updateProductSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
@@ -71,10 +82,10 @@ export class AdminEditProductComponent implements OnInit {
     this.metaService.addTags();
     this.adminGuard.checkRemote();
 
-    this.route.params.subscribe(params => {
+    this.routeParamSubscription = this.route.params.subscribe(params => {
       const id = params['id'];
 
-      this.productService.product(id).subscribe(
+      this.productSubscription = this.productService.product(id).subscribe(
         (res) => {
           this.editProductForm.get('name').setValue(res['name']);
           this.editProductForm.get('category').setValue(res['category']);
@@ -97,7 +108,7 @@ export class AdminEditProductComponent implements OnInit {
       );
     });
 
-    this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories().subscribe(
       (res) => {
         this.categories = res;
       }
@@ -169,7 +180,7 @@ export class AdminEditProductComponent implements OnInit {
 
   public submitForm(value: Object): void {
     this.disabled = true;
-    this.adminService.updateProduct(value).subscribe(
+    this.updateProductSubscription = this.adminService.updateProduct(value).subscribe(
       (res: any) => {
         this.disabled = false;
         if (res.error === 'false') {

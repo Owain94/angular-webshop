@@ -3,20 +3,29 @@ import { Router, NavigationEnd } from '@angular/router';
 
 import { TransferState } from '../../modules/transfer-state/transfer-state';
 
+import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
+
 import { UserService } from '../../services/user.service';
+
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-root',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
+
+@AutoUnsubscribe()
 export class MainComponent implements OnInit {
+
+  private routerEventsSubscription: Subscription;
+
   constructor(private transferState: TransferState,
               private userService: UserService,
               private router: Router) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe(path => {
+    this.routerEventsSubscription = this.router.events.subscribe(path => {
       if (path instanceof NavigationEnd) {
         if (typeof(window) !== 'undefined') {
           window.scroll(0, 0);
