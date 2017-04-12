@@ -137,5 +137,9 @@ export class AdminCategoriesComponent implements OnInit {
       // pass
     });
   }
+
+  public trackByFn(index: number, item): string {
+    return(item._id);
+  }
 }
 

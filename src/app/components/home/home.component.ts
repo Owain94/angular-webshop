@@ -39,4 +39,8 @@ export class HomeComponent implements OnInit {
       }
     );
   }
+
+  public trackByFn(index: number, item): string {
+    return(item._id);
+  }
 }

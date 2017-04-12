@@ -207,5 +207,9 @@ export class AdminEditProductComponent implements OnInit {
         this.msg = res.msg;
       });
   }
+
+  public trackByFn(index: number, item): string {
+    return(item._id);
+  }
 }
 

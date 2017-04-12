@@ -22,4 +22,7 @@ export class TabsComponent implements AfterContentInit {
     this.tabs.toArray().forEach(tab => tab.active = false);
     tabComponent.active = true;
   }
+  public trackByFn(index: number, item): number {
+    return(index);
+  }
 }
