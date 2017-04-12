@@ -24,7 +24,7 @@ export class QRCodeComponent implements OnInit {
       private renderer: Renderer
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     try {
       this.qr = qrcode(this.type, this.level);
       this.qr.addData(this.data);

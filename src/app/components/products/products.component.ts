@@ -79,7 +79,7 @@ export class ProductsComponent implements OnInit {
     );
   }
 
-  public reset() {
+  public reset(): void {
     this.filterInput.setValue('');
     this.filterCategory.setValue('');
     this.filterText = '';

@@ -7,5 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class TabComponent {
   @Input('tabTitle') tabTitle: string;
-  @Input() active = false;
+  // tslint:disable-next-line:no-inferrable-types
+  @Input() active: boolean = false;
 }

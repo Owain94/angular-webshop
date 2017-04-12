@@ -90,7 +90,7 @@ export class AdminCategoriesComponent implements OnInit {
       confirmButtonText: 'Opslaan',
       cancelButtonText: 'Annuleer',
       inputValue: category
-    }).then((result) => {
+    }).then((result: string) => {
       this.updateCategorySubscription = this.adminService.updateCategory({'category': result, 'id': id}).subscribe(
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
@@ -104,7 +104,7 @@ export class AdminCategoriesComponent implements OnInit {
           }
         }
       );
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }
@@ -130,13 +130,13 @@ export class AdminCategoriesComponent implements OnInit {
               confirmButtonClass: 'button',
             }).then(() => {
               // pass
-            }, (dismiss) => {
+            }, (dismiss: any) => {
               // pass
             });
           }
         }
       );
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }

@@ -133,7 +133,7 @@ export class ProfileComponent implements OnInit {
     this.twoFactorShow = value;
   }
 
-  public TfaSave() {
+  public TfaSave(): void {
     if (this.twoFactorInitial && !this.twoFactorShow) {
       this.disableTfaSubscription = this.userService.disableTfa().subscribe(
         (res: boolean) => {
