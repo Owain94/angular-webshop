@@ -82,4 +82,8 @@ export class ProductsComponent implements OnInit {
     this.filterText = '';
     this.filterCategoryText = '';
   }
+
+  public trackByFn(index: number, item): string {
+    return(item._id);
+  }
 }

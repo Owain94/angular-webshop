@@ -11,7 +11,7 @@
   </div>
 
   <div class="row" >
-    <div class="large-4 columns text-center clickable" *ngFor="let product of products; let i = index; trackBy: i" [routerLink]="['products/product', product._id]">
+    <div class="large-4 columns text-center clickable" *ngFor="let product of products; let i = index; trackBy: trackByFn" [routerLink]="['products/product', product._id]">
       <h3>{{ product.name }}</h3>
       <img [src]="'assets/products/' + product.photo" class="product-img" [alt]="product.name" />
     </div>
