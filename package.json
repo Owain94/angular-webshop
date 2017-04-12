@@ -30,7 +30,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "4.0.1",
+    "@angular/animations": "4.0.2",
     "@angular/common": "4.0.2",
     "@angular/compiler": "4.0.1",
     "@angular/core": "4.0.1",
@@ -40,7 +40,7 @@
     "@angular/platform-browser-dynamic": "4.0.1",
     "@angular/platform-server": "4.0.1",
     "@angular/router": "4.0.1",
-    "angular2-jwt": "0.2.0",
+    "angular2-jwt": "0.2.2"
     "base64-img": "1.0.3",
     "body-parser": "1.17.1",
     "compression": "1.6.2",
@@ -79,7 +79,7 @@
     "karma": "1.6.0",
     "karma-chrome-launcher": "2.0.0",
     "karma-cli": "1.0.1",
-    "karma-coverage-istanbul-reporter": "1.0.0",
+    "karma-coverage-istanbul-reporter": "1.1.0",
     "karma-jasmine": "1.1.0",
     "karma-jasmine-html-reporter": "0.2.2",
     "karma-sourcemap-loader": "0.3.7",
