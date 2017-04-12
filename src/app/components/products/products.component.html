@@ -27,10 +27,12 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="(products | filter: { name: filterText } | filter: { category: filterCategoryText }).length > 0; else noProducts">
-    <div class="large-4 columns text-center clickable" *ngFor="let product of products; let i = index; trackBy: trackByFn | filter: { name: filterText } | filter: { category: filterCategoryText }" [routerLink]="['product', product._id]">
-      <img class="product-img" [alt]="product.name" [src]="'assets/products/' + product.photo" />
-      <p [innerHTML]="product.name | highlight : filterText"></p>
+  <div *ngIf="(products | filter: { name: filterText } | filter: { category: filterCategoryText }).length > 0; else noProducts">
+    <div class="row" *ngFor="let productArray of products; let i = index; trackBy: trackByIFn | filter: { name: filterText } | filter: { category: filterCategoryText }">
+      <div class="large-4 columns text-center clickable" *ngFor="let product of productArray; let i = index; trackBy: trackByFn" [routerLink]="['product', product._id]">
+        <img class="product-img" [alt]="product.name" [src]="'assets/products/' + product.photo" />
+        <h5 [innerHTML]="product.name | highlight : filterText"></h5>
+      </div>
     </div>
   </div>
 

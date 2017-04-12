@@ -18,9 +18,19 @@ import { Subscription } from 'rxjs/Rx';
 @AutoUnsubscribe()
 export class HomeComponent implements OnInit {
   public button: [string, string];
-  public products: Array<Object>;
+  public products: Array<Array<Object>>;
 
   private productSubscription: Subscription;
+
+  private static spliceArray(arr: Array<Object>): Array<Array<Object>> {
+    const outArray = [];
+
+    while (arr.length > 0) {
+      outArray.push(arr.splice(0, 3));
+    }
+
+    return outArray;
+  }
 
   constructor(private authGuard: AuthGuard,
               private productService: ProductService,
@@ -35,9 +45,14 @@ export class HomeComponent implements OnInit {
 
     this.productSubscription = this.productService.products(6).subscribe(
       (res) => {
-        this.products = res;
+        this.products = HomeComponent.spliceArray(res);
+        console.log(this.products);
       }
     );
+  }
+
+  public trackByIFn(index: number, item): number {
+    return(index);
   }
 
   public trackByFn(index: number, item): string {
