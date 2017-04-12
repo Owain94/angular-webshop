@@ -6,3 +6,8 @@
 h4 {
   font-weight: 200;
 }
+
+.product-img {
+  height: 300px;
+  width: 300px;
+}

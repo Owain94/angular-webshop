@@ -29,7 +29,7 @@
 
   <div class="row" *ngIf="(products | filter: { name: filterText } | filter: { category: filterCategoryText }).length > 0; else noProducts">
     <div class="large-4 columns text-center clickable end" *ngFor="let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn" [routerLink]="['product', product._id]">
-      <img class="product-img" [alt]="product.name" [src]="'assets/products/' + product.photo" />
+      <img class="product-img" [alt]="product.name" [src]="'assets/products/' + product.photo" height="300" width="300" />
       <h5 [innerHTML]="product.name | highlight : filterText"></h5>
     </div>
   </div>
