@@ -1,8 +1,6 @@
 const path = require("path");
-const glob = require("glob");
 const ProgressPlugin = require("webpack/lib/ProgressPlugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const PurifyCSSPlugin = require("purifycss-webpack");
 const autoprefixer = require("autoprefixer");
 const postcss = require("postcss");
 const url = require("postcss-url");
@@ -230,15 +228,6 @@ module.exports = {
     new ExtractTextPlugin({
       "filename": "[name].bundle.css",
       "allChunks": true
-    }),
-    new PurifyCSSPlugin({
-      paths: glob.sync(
-        path.join(process.cwd(), "src/app/**/*.html")
-      ),
-      minimize: true,
-      purifyOptions: {
-        whitelist: ["*swal2*", "mark"]
-      }
     })
   ],
   "node": {

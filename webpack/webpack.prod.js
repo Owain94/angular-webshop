@@ -1,8 +1,10 @@
 const path = require("path");
+const glob = require("glob");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const postcssUrl = require("postcss-url");
+const PurifyCSSPlugin = require("purifycss-webpack");
 
 const { NoEmitOnErrorsPlugin } = require("webpack");
 
@@ -19,6 +21,15 @@ module.exports = {
       },
       compress: {
         "warnings" : false
+      }
+    }),
+    new PurifyCSSPlugin({
+      paths: glob.sync(
+        path.join(process.cwd(), "src/app/**/*.html")
+      ),
+      minimize: true,
+      purifyOptions: {
+        whitelist: ["*swal2*", "mark"]
       }
     }),
     new webpack.DefinePlugin({
