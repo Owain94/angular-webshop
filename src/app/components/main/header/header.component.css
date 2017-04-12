@@ -1,14 +1,13 @@
 header {
-  padding: 60px 0 0;
   background-color: #cd2e6b;
   color: white;
-  margin-top: 78px;
+  margin-top: 90px;
   overflow: hidden;
 }
 
 header img {
   width: 450px;
-  margin-bottom: -80px;
+  margin-bottom: -40px;
   display: inline-block;
 }
 

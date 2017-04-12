@@ -47,6 +47,10 @@ mark {
   color: #fff;
 }
 
+.section {
+  padding: 20px 0 !important;
+}
+
 .clickable {
   cursor: pointer;
 }

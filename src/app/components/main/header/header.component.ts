@@ -6,7 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  @Input() public headerImage: string;
   @Input() public headerHeading: [string, string];
   @Input() public headerButton: [string, string];
 
