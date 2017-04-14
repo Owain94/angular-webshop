@@ -97,7 +97,7 @@ div.section
 
             div.large-2.columns.end
               label.switch
-                <input #tfa type="checkbox" (change)="twoFactor(tfa.checked)" [checked]="twoFactorInitial">
+                input(#tfa='', type="checkbox", (change)="twoFactor(tfa.checked)", [checked]="twoFactorInitial")
                 div.slider.round
 
           div.row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
@@ -111,7 +111,7 @@ div.section
           div.row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
             div.large-12.columns
               label Response token
-                <input #tfaToken type="text" />
+                input(#tfaToken='', type="text")
 
           div.row(*ngIf="(twoFactorCode && twoFactorShow && !twoFactorInitial) || (twoFactorInitial && !twoFactorShow)")
             div.large-2.columns.end

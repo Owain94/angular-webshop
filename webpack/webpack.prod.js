@@ -25,6 +25,7 @@ module.exports = {
     }),
     new PurifyCSSPlugin({
       paths: glob.sync(
+        path.join(process.cwd(), "src/app/**/*.pug"),
         path.join(process.cwd(), "src/app/**/*.html")
       ),
       minimize: true,

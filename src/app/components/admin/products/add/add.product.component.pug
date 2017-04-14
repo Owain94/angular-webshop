@@ -11,7 +11,7 @@ div.row
     button.button(*ngIf="data.image", (click)="preview()") Voorbeeld
 
   div.large-9.columns
-    <img-cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event)" #cropper [hidden]="!data.image"></img-cropper>
+    img-cropper([image]="data", [settings]="cropperSettings", (onCrop)="cropped($event)", #cropper='', [hidden]="!data.image")
 
 form([formGroup]="addProductForm",(ngSubmit)="submitForm(addProductForm.value)")
   div.row
