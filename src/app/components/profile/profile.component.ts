@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
+  templateUrl: './profile.component.pug',
   styleUrls: ['./profile.component.css']
 })
 

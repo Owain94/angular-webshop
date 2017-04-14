@@ -3,7 +3,7 @@ import { TabComponent } from './tab/tab.component';
 
 @Component({
   selector: 'app-tabs',
-  templateUrl: './tabs.component.html',
+  templateUrl: './tabs.component.pug',
   styleUrls: ['./tabs.component.css']
 })
 export class TabsComponent implements AfterContentInit {

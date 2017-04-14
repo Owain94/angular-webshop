@@ -1,0 +1,31 @@
+div.top
+  div.row
+    div.large-12.columns
+      nav.top-bar([class.collapsed]="!collapsed")
+        ul.title-area
+          li.name.logo
+          li.toggle-topbar((click)="navBarClick()")
+            a
+              span Menu
+        section.top-bar-section
+          ul.right
+            li
+              a(routerLink="/", (click)="navBarClick(true)") Home
+
+            li
+              a(routerLink="/404", (click)="navBarClick(true)") 404
+
+            li
+              a(routerLink="/products", (click)="navBarClick(true)") Producten
+
+            li.background(*ngIf="url !== 'undefined' && url !== '/' && url !== '/login' && !loggedIn")
+              a.button.radius(routerLink="/login", (click)="navBarClick(true)") Aanmelden
+
+            li(*ngIf="loggedIn")
+              a(routerLink="/profile", (click)="navBarClick(true)") Profiel
+
+            li(*ngIf="loggedIn && admin")
+              a(routerLink="/admin", (click)="navBarClick(true)") Admin
+
+            li.background(*ngIf="loggedIn")
+              a.button.radius((click)="signout()") Uitloggen

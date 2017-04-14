@@ -7,7 +7,8 @@ import { MetaService } from '../../services/meta.service';
 
 @Component({
   selector: 'app-admin',
-  templateUrl: './admin.component.html'
+  templateUrl: './admin.component.pug',
+  styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
 

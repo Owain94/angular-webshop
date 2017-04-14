@@ -23,7 +23,7 @@ import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-products',
-  templateUrl: './products.component.html',
+  templateUrl: './products.component.pug',
   styleUrls: ['./products.component.css']
 })
 
