@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-producs',
-  templateUrl: './product.component.html',
+  templateUrl: './product.component.pug',
   styleUrls: ['./product.component.css']
 })
 

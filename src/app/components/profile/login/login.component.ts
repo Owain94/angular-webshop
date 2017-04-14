@@ -20,7 +20,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.pug'
 })
 
 @AutoUnsubscribe()

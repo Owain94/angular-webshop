@@ -12,15 +12,12 @@ import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html',
+  templateUrl: './menu.component.pug',
   styleUrls: ['./menu.component.css']
 })
 
 @AutoUnsubscribe()
 export class MenuComponent implements OnInit {
-
-  @ViewChild('navbar') navbar: ElementRef;
-
   public loggedIn: boolean;
   // tslint:disable-next-line:no-inferrable-types
   public admin: boolean = false;

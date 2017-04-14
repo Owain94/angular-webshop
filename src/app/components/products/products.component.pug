@@ -1,0 +1,31 @@
+app-header([headerHeading]="['Alle producten', '']")
+
+div.section
+  div.row
+    div.large-12.columns.text-center
+      h2 Producten
+
+  div.row
+    div.large-2.columns.filter-margin
+      span Filter
+
+    div.large-4.columns
+      input(type="text", placeholder="Zoek", [formControl]="filterInput")
+
+    div.large-4.columns
+      select([formControl]="filterCategory")
+        option(value="")
+        option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category") {{category.category}}
+
+    div.large-2.columns
+      button.button((click)="reset()") Reset
+
+  div.row(*ngIf="(products | filter: { name: filterText } | filter: { category: filterCategoryText })?.length > 0; else noProducts")
+    div.large-4.columns.text-center.clickable.end(*ngFor="let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn", [routerLink]="['product', product._id]")
+      img.product-img([alt]="product.name", [src]="'assets/products/' + product.photo", height="300", width="300")
+      h5([innerHTML]="product.name | highlight : filterText")
+
+  <ng-template #noProducts>
+    div.row.text-center
+      h3 Geen producten gevonden
+  </ng-template>

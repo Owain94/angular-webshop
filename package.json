@@ -90,6 +90,8 @@
     "postcss-url": "6.0.4",
     "pre-commit": "1.2.2",
     "protractor": "5.1.1",
+    "pug": "2.0.0-beta11",
+    "pug-html-loader": "1.1.4",
     "purifycss-webpack": "0.6.0",
     "raw-loader": "0.5.1",
     "rimraf": "2.6.1",
