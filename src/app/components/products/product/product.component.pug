@@ -1,11 +1,11 @@
 app-header([headerHeading]="[product?.name, '']")
 
-div.section
-  div.row
-    div.large-6.columns.text-center
+.section
+  .row
+    .large-6.columns.text-center
       img.product-img([src]="'assets/products/' + product?.photo", [alt]="product?.name", height="300", width="300")
 
-    div.large-6.columns.text-center
+    .large-6.columns.text-center
       h2 {{ product?.name }}
       h3 Prijs: {{ product?.price | currency:'EUR':true | fixCurrency }}
       h4 {{ product?.description }}

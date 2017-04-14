@@ -1,39 +1,39 @@
-div.row
-  div.large-12.columns.text-center
+.row
+  .large-12.columns.text-center
     h2 {{ msg }}
 
-div.row
-  div.large-3.columns.right
+.row
+  .large-3.columns.right
     a.button.add-product(routerLink="/admin/addproduct") Product toevoegen
 
-div.row
-  div.large-2.columns.filter-margin
+.row
+  .large-2.columns.filter-margin
     span Filter
 
-  div.large-4.columns
+  .large-4.columns
     input(type="text", placeholder="Zoek", [formControl]="filterInput")
 
-  div.large-4.columns
+  .large-4.columns
     select([formControl]="filterCategory")
       option(value="")
       option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category") {{category.category}}
 
-  div.large-2.columns
+  .large-2.columns
     button.button((click)="reset()") Reset
 
 hr.hr-margin
 
-div.row(*ngFor="let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn")
-  div.large-4.columns.actions-margin([innerHTML]="'Naam: ' + product.name | highlight : filterText")
-  div.large-4.columns.actions-margin([innerHTML]="'Categorie: ' + product.category | highlight : filterCategoryText")
-  div.large-2.columns
+.row(*ngFor="let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn")
+  .large-4.columns.actions-margin([innerHTML]="'Naam: ' + product.name | highlight : filterText")
+  .large-4.columns.actions-margin([innerHTML]="'Categorie: ' + product.category | highlight : filterCategoryText")
+  .large-2.columns
     button.button((click)="preview(product.photo)") Foto
 
-  div.large-1.columns.actions-margin
+  .large-1.columns.actions-margin
     a([routerLink]="['/admin/editproduct', product._id]")
       span.icon.icon-pencil
 
-  div.large-1.columns.actions-margin
+  .large-1.columns.actions-margin
     a((click)="delete(product._id, product.name)")
       span.icon.icon-trash
 

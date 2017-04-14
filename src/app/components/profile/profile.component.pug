@@ -1,118 +1,118 @@
 app-header([headerHeading]="['Profiel', 'Instellingen aanpassen']")
 
-div.section
-  div.row
-    div.large-12.columns
+.section
+  .row
+    .large-12.columns
 
       app-tabs
         app-tab(tabTitle="Algemeen")
           form([formGroup]="profileForm", (ngSubmit)="submitProfileForm(profileForm.value)")
 
-            div.row
-              div.large-12.columns.text-center
+            .row
+              .large-12.columns.text-center
                 h2 {{ msgProfile }}
 
-            div.row
-              div.large-5.columns
+            .row
+              .large-5.columns
                 label([ngClass]="{ 'error': !profileForm.controls['firstname'].valid && profileForm.controls['firstname'].touched }") Voornaam
                   input(type="text", [formControl]="profileForm.controls['firstname']", [ngClass]="{ 'error': !profileForm.controls['firstname'].valid && profileForm.controls['firstname'].touched }")
                 small.error(*ngIf="!profileForm.controls['firstname'].valid && profileForm.controls['firstname'].touched") Voornaam is verplicht
 
-              div.large-2.columns
+              .large-2.columns
                 label Tussenvoegsel
                   input(type="text", [formControl]="profileForm.controls['surname_prefix']")
 
-              div.large-5.columns
+              .large-5.columns
                 label([ngClass]="{ 'error': !profileForm.controls['surname'].valid && profileForm.controls['surname'].touched }") Achternaam
                   input(type="text", [formControl]="profileForm.controls['surname']", [ngClass]="{ 'error': !profileForm.controls['surname'].valid && profileForm.controls['surname'].touched }")
                 small.error(*ngIf="!profileForm.controls['surname'].valid && profileForm.controls['surname'].touched") Achternaam is verplicht
 
-            div.row
-              div.large-2.columns
+            .row
+              .large-2.columns
                 label([ngClass]="{ 'error': !profileForm.controls['postal_code'].valid && profileForm.controls['postal_code'].touched }") Postcode
                   input(type="text", [formControl]="profileForm.controls['postal_code']", [ngClass]="{ 'error': !profileForm.controls['postal_code'].valid && profileForm.controls['postal_code'].touched }")
                 small.error(*ngIf="!profileForm.controls['postal_code'].valid && profileForm.controls['postal_code'].touched" class="error") Postcode is verplicht
 
-              div.large-2.columns
+              .large-2.columns
                 label([ngClass]="{ 'error': !profileForm.controls['house_number'].valid && profileForm.controls['house_number'].touched }") Huisnummer
                   input(type="text", [formControl]="profileForm.controls['house_number']", [ngClass]="{ 'error': !profileForm.controls['house_number'].valid && profileForm.controls['house_number'].touched }")
                 small.error(*ngIf="!profileForm.controls['house_number'].valid && profileForm.controls['house_number'].touched") Huisnummer is verplicht
 
-              div.large-8.columns
+              .large-8.columns
                 label([ngClass]="{ 'error': !profileForm.controls['streetname'].valid && profileForm.controls['streetname'].touched }") Straatnaam
                   input(type="text", [formControl]="profileForm.controls['streetname']", [ngClass]="{ 'error': !profileForm.controls['streetname'].valid && profileForm.controls['streetname'].touched }")
                 small.error(*ngIf="!profileForm.controls['streetname'].valid && profileForm.controls['streetname'].touched") Straatnaam is verplicht
 
-            div.row
-              div.large-6.columns
+            .row
+              .large-6.columns
                 label([ngClass]="{ 'error': !profileForm.controls['city'].valid && profileForm.controls['city'].touched }") Plaats
                   input(type="text", [formControl]="profileForm.controls['city']", [ngClass]="{ 'error': !profileForm.controls['city'].valid && profileForm.controls['city'].touched }")
                 small.error(*ngIf="!profileForm.controls['city'].valid && profileForm.controls['city'].touched") plaats is verplicht
 
-              div.large-6.columns
+              .large-6.columns
                 label([ngClass]="{ 'error': !profileForm.controls['country'].valid && profileForm.controls['country'].touched }") Land
                   input(type="text", [formControl]="profileForm.controls['country']", [ngClass]="{ 'error': !profileForm.controls['country'].valid && profileForm.controls['country'].touched }")
                 small.error(*ngIf="!profileForm.controls['country'].valid && profileForm.controls['country'].touched") Land is verplicht
 
-            div.row
-              div.large-2.columns.end
+            .row
+              .large-2.columns.end
                 button.button(type="submit", [disabled]="!profileForm.valid || disabledProfileForm") Opslaan
 
         app-tab(tabTitle="Wachtwoord")
           form([formGroup]="passwordForm", (ngSubmit)="submitPasswordForm(passwordForm.value)")
 
-            div.row
-              div.large-12.columns.text-center
+            .row
+              .large-12.columns.text-center
                 h2 {{ msgPassword }}
 
-            div.row
-              div.large-12.columns
+            .row
+              .large-12.columns
                 label([ngClass]="{ 'error': !passwordForm.controls['old_password'].valid && passwordForm.controls['old_password'].touched }") Oude Wachtwoord
                   input(type="password", [formControl]="passwordForm.controls['old_password']", [ngClass]="{ 'error': !passwordForm.controls['old_password'].valid && passwordForm.controls['old_password'].touched }")
                 small.error(*ngIf="!passwordForm.controls['old_password'].valid && passwordForm.controls['old_password'].touched") Wachtwoord moet minimaal 6 karakters lang zijn
 
-            div.row
-              div.large-6.columns
+            .row
+              .large-6.columns
                 label([ngClass]="{ 'error': !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched }") Nieuwe Wachtwoord
                   input(type="password", [formControl]="passwordForm.controls['password']", [ngClass]="{ 'error': !passwordForm.controls['password'].valid && passwordForm.controls['password'].touched }")
                 small.error(*ngIf="!passwordForm.controls['password'].valid && passwordForm.controls['password'].touched") Wachtwoord moet minimaal 6 karakters lang zijn
 
-              div.large-6.columns
+              .large-6.columns
                 label([ngClass]="{ 'error': !passwordForm.controls['password_confirm'].valid && passwordForm.controls['password_confirm'].touched }") Nieuwe Wachtwoord
                   input(type="password", [formControl]="passwordForm.controls['password_confirm']", [ngClass]="{ 'error': !passwordForm.controls['password_confirm'].valid && passwordForm.controls['password_confirm'].touched }")
                 small.error(*ngIf="passwordForm.hasError('mismatchedPasswords') && passwordForm.controls['password_confirm'].touched") Wachtwoorden komen niet overeen
 
-            div.row
-              div.large-2.columns.end
+            .row
+              .large-2.columns.end
                 button.button(type="submit", [disabled]="!passwordForm.valid || disabledPasswordForm") Opslaan
 
         app-tab(tabTitle="Two Factor")
-          div.row
-            div.large-12.columns.text-center
+          .row
+            .large-12.columns.text-center
               h2 {{ msgTfa }}
 
-          div.row
-            div.large-2.columns
+          .row
+            .large-2.columns
               span Two Factor authenticatie
 
-            div.large-2.columns.end
+            .large-2.columns.end
               label.switch
                 input(#tfa='', type="checkbox", (change)="twoFactor(tfa.checked)", [checked]="twoFactorInitial")
-                div.slider.round
+                .slider.round
 
-          div.row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
-            div.large-12.columns.end
+          .row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
+            .large-12.columns.end
               span Scan onderstaande QR code met een two step authenticatie applicatie zoals Google authenticator of Authy.
 
-          div.row.mt_five(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
-            div.large-2.columns.end
+          .row.mt_five(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
+            .large-2.columns.end
               app-qr-code([data]="twoFactorCode", [size]="150", [type]="5")
 
-          div.row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
-            div.large-12.columns
+          .row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
+            .large-12.columns
               label Response token
                 input(#tfaToken='', type="text")
 
-          div.row(*ngIf="(twoFactorCode && twoFactorShow && !twoFactorInitial) || (twoFactorInitial && !twoFactorShow)")
-            div.large-2.columns.end
+          .row(*ngIf="(twoFactorCode && twoFactorShow && !twoFactorInitial) || (twoFactorInitial && !twoFactorShow)")
+            .large-2.columns.end
               button.button((click)="TfaSave()") Opslaan
