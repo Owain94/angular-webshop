@@ -1,36 +1,36 @@
 app-header([headerHeading]="['Aanmelden', 'Nog geen account?']", [headerButton]="['/register', 'Registreren']")
 
-div.section
-  div.row
-    div.large-12.columns
+.section
+  .row
+    .large-12.columns
 
       form([formGroup]="loginForm", (ngSubmit)="submitForm(loginForm.value)")
 
-        div.row
-          div.large-12.columns.text-center
+        .row
+          .large-12.columns.text-center
             h2 {{ msg }}
 
-        div.row
-          div.large-12.columns
+        .row
+          .large-12.columns
             label([ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }")  E-mail adres
               input(type="text", [formControl]="loginForm.controls['email']", [ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }")
 
             small.error(*ngIf="!loginForm.controls['email'].valid && loginForm.controls['email'].touched") E-mail adres is verplicht
 
-        div.row
-          div.large-12.columns
+        .row
+          .large-12.columns
             label([ngClass]="{ 'error': !loginForm.controls['password'].valid && loginForm.controls['password'].touched }") Wachtwoord
               input(type="password", [formControl]="loginForm.controls['password']", [ngClass]="{ 'error': !loginForm.controls['password'].valid && loginForm.controls['password'].touched }")
 
             small.error(*ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched" class="error") Wachtwoord is verplicht
 
-        div.row(*ngIf="tfa")
-          div.large-12.columns
+        .row(*ngIf="tfa")
+          .large-12.columns
             label([ngClass]="{ 'error': !loginForm.controls['tfa'].valid && loginForm.controls['tfa'].touched }") Two factor authenticatie token
               input(type="text", [formControl]="loginForm.controls['tfa']", [ngClass]="{ 'error': !loginForm.controls['tfa'].valid && loginForm.controls['tfa'].touched }")
 
             small.error(*ngIf="!loginForm.controls['tfa'].valid && loginForm.controls['tfa'].touched") Two factor authenticatie token ongeldig
 
-        div.row
-          div.large-2.columns.end
+        .row
+          .large-2.columns.end
             button.button(type="submit", [disabled]="!loginForm.valid || disabled") Inloggen

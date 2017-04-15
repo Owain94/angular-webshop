@@ -1,77 +1,77 @@
 app-header([headerHeading]="['Registreren', 'Een account is niet verplicht, wel handig']")
 
-div.section
-  div.row
-    div.large-12.columns
+.section
+  .row
+    .large-12.columns
 
       form([formGroup]="registerForm", (ngSubmit)="submitForm(registerForm.value)")
 
-        div.row
-          div.large-12.columns.text-center
+        .row
+          .large-12.columns.text-center
             h2 {{ msg }}
 
-        div.row
-          div.large-5.columns
+        .row
+          .large-5.columns
             label([ngClass]="{ 'error': !registerForm.controls['firstname'].valid && registerForm.controls['firstname'].touched }") Voornaam
               input(type="text", [formControl]="registerForm.controls['firstname']", [ngClass]="{ 'error': !registerForm.controls['firstname'].valid && registerForm.controls['firstname'].touched }")
             small.error(*ngIf="!registerForm.controls['firstname'].valid && registerForm.controls['firstname'].touched") Voornaam is verplicht
 
-          div.large-2.columns
+          .large-2.columns
             label Tussenvoegsel
               input(type="text", [formControl]="registerForm.controls['surname_prefix']")
 
-          div.large-5.columns
+          .large-5.columns
             label([ngClass]="{ 'error': !registerForm.controls['surname'].valid && registerForm.controls['surname'].touched }") Achternaam
               input(type="text", [formControl]="registerForm.controls['surname']", [ngClass]="{ 'error': !registerForm.controls['surname'].valid && registerForm.controls['surname'].touched }")
             small.error(*ngIf="!registerForm.controls['surname'].valid && registerForm.controls['surname'].touched") Achternaam is verplicht
 
-        div.row
-          div.large-2.columns
+        .row
+          .large-2.columns
             label([ngClass]="{ 'error': !registerForm.controls['postal_code'].valid && registerForm.controls['postal_code'].touched }") Postcode
               input(type="text", [formControl]="registerForm.controls['postal_code']", [ngClass]="{ 'error': !registerForm.controls['postal_code'].valid && registerForm.controls['postal_code'].touched }")
             small.error(*ngIf="!registerForm.controls['postal_code'].valid && registerForm.controls['postal_code'].touched") Postcode is verplicht
 
-          div.large-2.columns
+          .large-2.columns
             label([ngClass]="{ 'error': !registerForm.controls['house_number'].valid && registerForm.controls['house_number'].touched }") Huisnummer
               input(type="text", [formControl]="registerForm.controls['house_number']", [ngClass]="{ 'error': !registerForm.controls['house_number'].valid && registerForm.controls['house_number'].touched }")
             small.error(*ngIf="!registerForm.controls['house_number'].valid && registerForm.controls['house_number'].touched") Huisnummer is verplicht
 
-          div.large-8.columns
+          .large-8.columns
             label([ngClass]="{ 'error': !registerForm.controls['streetname'].valid && registerForm.controls['streetname'].touched }") Straatnaam
               input(type="text", [formControl]="registerForm.controls['streetname']", [ngClass]="{ 'error': !registerForm.controls['streetname'].valid && registerForm.controls['streetname'].touched }")
             small.error(*ngIf="!registerForm.controls['streetname'].valid && registerForm.controls['streetname'].touched") Straatnaam is verplicht
 
-        div.row
-          div.large-6.columns
+        .row
+          .large-6.columns
             label([ngClass]="{ 'error': !registerForm.controls['city'].valid && registerForm.controls['city'].touched }") Plaats
               input(type="text", [formControl]="registerForm.controls['city']", [ngClass]="{ 'error': !registerForm.controls['city'].valid && registerForm.controls['city'].touched }")
             small.error(*ngIf="!registerForm.controls['city'].valid && registerForm.controls['city'].touched") plaats is verplicht
 
-          div.large-6.columns
+          .large-6.columns
             label([ngClass]="{ 'error': !registerForm.controls['country'].valid && registerForm.controls['country'].touched }") Land
               input(type="text", [formControl]="registerForm.controls['country']", [ngClass]="{ 'error': !registerForm.controls['country'].valid && registerForm.controls['country'].touched }")
             small.error(*ngIf="!registerForm.controls['country'].valid && registerForm.controls['country'].touched") Land is verplicht
 
-        div.row
-          div.large-12.columns
+        .row
+          .large-12.columns
             label([ngClass]="{ 'error': !registerForm.controls['email'].valid && registerForm.controls['email'].touched }") E-mail adres
               input(type="text", [formControl]="registerForm.controls['email']", [ngClass]="{ 'error': !registerForm.controls['email'].valid && registerForm.controls['email'].touched }")
             small.error(*ngIf="!registerForm.controls['email'].valid && registerForm.controls['email'].touched") E-mail adres is verplicht
 
-        div.row
-          div.large-6.columns
+        .row
+          .large-6.columns
             label([ngClass]="{ 'error': !registerForm.controls['password'].valid && registerForm.controls['password'].touched }") Wachtwoord
               input(type="password", [formControl]="registerForm.controls['password']", [ngClass]="{ 'error': !registerForm.controls['password'].valid && registerForm.controls['password'].touched }")
             small.error(*ngIf="!registerForm.controls['password'].valid && registerForm.controls['password'].touched") Wachtwoord moet minimaal 6 karakters lang zijn
 
-          div.large-6.columns
+          .large-6.columns
             label([ngClass]="{ 'error': !registerForm.controls['password_confirm'].valid && registerForm.controls['password_confirm'].touched }") Wachtwoord
               input(type="password", [formControl]="registerForm.controls['password_confirm']", [ngClass]="{ 'error': !registerForm.controls['password_confirm'].valid && registerForm.controls['password_confirm'].touched }")
             small.error(*ngIf="registerForm.hasError('mismatchedPasswords') && registerForm.controls['password_confirm'].touched") Wachtwoorden komen niet overeen
 
-        div.row
-          div.large-2.columns
+        .row
+          .large-2.columns
             button.button(type="reset") Reset
 
-          div.large-2.columns.end
+          .large-2.columns.end
             button.button(type="submit", [disabled]="!registerForm.valid || disabled") Registreren
