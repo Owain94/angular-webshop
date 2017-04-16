@@ -19,7 +19,8 @@
               a(routerLink="/products", (click)="navBarClick(true)") Producten
 
             li.background
-              img.background.cart(src="assets/img/cart.png", alt="", width="30", height="30")
+              a(routerLink="/cart", (click)="navBarClick(true)")
+                img.background(src="assets/img/cart.png", alt="", width="30", height="30")
 
             li.background(*ngIf="url !== 'undefined' && url !== '/' && url !== '/login' && !loggedIn")
               a.button.radius(routerLink="/login", (click)="navBarClick(true)") Aanmelden
