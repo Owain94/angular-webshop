@@ -3,10 +3,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '../main/header/header.module';
+import { FixCurrencyPipeModule } from '../../pipes/fix.currency.pipe.module';
 
 import { CartComponent } from './cart.component';
 
 import { MetaService } from '../../services/meta.service';
+import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/product.service';
 
 @NgModule({
   declarations: [
@@ -14,6 +17,8 @@ import { MetaService } from '../../services/meta.service';
   ],
   imports: [
     HeaderModule,
+    FixCurrencyPipeModule,
+
     CommonModule,
     RouterModule.forChild(
       [
@@ -26,7 +31,9 @@ import { MetaService } from '../../services/meta.service';
     )
   ],
   providers: [
-    MetaService
+    MetaService,
+    CartService,
+    ProductService
   ]
 })
 export class CartModule {}

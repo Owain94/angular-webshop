@@ -7,8 +7,11 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 
 import { ProductService } from '../../../services/product.service';
 import { MetaService } from '../../../services/meta.service';
+import { CartService } from '../../../services/cart.service';
 
 import { Subscription } from 'rxjs/Rx';
+
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-producs',
@@ -27,7 +30,8 @@ export class ProductComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private productService: ProductService,
-              private metaService: MetaService) {
+              private metaService: MetaService,
+              private cartService: CartService) {
   }
 
   ngOnInit(): void {
@@ -41,6 +45,23 @@ export class ProductComponent implements OnInit {
           this.metaService.addTags(true, res._id, res.name, res.description, res.price);
         }
       );
+    });
+
+    this.cartService.initCart();
+  }
+
+  public addToCart() {
+    this.cartService.addProduct(this.product._id);
+
+    swal({
+      title: 'Toegevoegd!',
+      text: `${this.product.name} is toegevoegd aan uw winkelwagen!`,
+      type: 'success',
+      confirmButtonClass: 'button',
+    }).then(() => {
+      // pass
+    }, (dismiss) => {
+      // pass
     });
   }
 }

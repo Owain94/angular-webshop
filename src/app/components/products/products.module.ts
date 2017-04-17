@@ -12,6 +12,7 @@ import { ProductsComponent } from './products.component';
 import { ProductComponent } from './product/product.component';
 
 import { MetaService } from '../../services/meta.service';
+import { CartService } from '../../services/cart.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MetaService } from '../../services/meta.service';
     )
   ],
   providers: [
-    MetaService
+    MetaService,
+    CartService
   ]
 })
 export class ProductsModule {}

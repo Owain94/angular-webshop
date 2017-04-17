@@ -1,1 +1,36 @@
 app-header([headerHeading]="['Winkelwagen', 'Producten die u wilt kopen.']")
+
+.section
+  .row
+    div(*ngIf="products.length !== 0; else emptyCart")
+      h2 Winkelwagen
+      div(*ngFor="let product of products")
+        .row.product-row
+          .large-2.columns
+            img.product-img(*ngIf="product[4]", [src]="'assets/products/' + product[4]")
+          .large-3.columns
+            span {{ product[2] }}
+          .large-1.columns
+            span {{ product[3] | currency:'EUR':true | fixCurrency }}
+          .large-2.columns
+            .row
+              .large-5.columns Aantal:
+              .large-6.columns.input-margin
+                input([value]="product[1]", type="number", (change)="changeAmount(product[0], $event)")
+          .large-2.columns
+            span  Totaal: {{ product[1] * product[3] | currency:'EUR':true | fixCurrency }}
+          .large-2.columns
+            button.button((click)="removeProduct(product[0])") Verwijder
+        hr
+
+  .row(*ngIf="products.length !== 0")
+    h5.large-3.large-push-9.columns.text-center Prijs: {{ price[1] | currency:'EUR':true | fixCurrency }}
+  .row(*ngIf="products.length !== 0")
+    h5.large-3.large-push-9.columns.text-center BTW: {{ price[2] | currency:'EUR':true | fixCurrency }}
+  .row(*ngIf="products.length !== 0")
+    h4.large-3.large-push-9.columns.text-center Totaal: {{ price[0] | currency:'EUR':true | fixCurrency }}
+
+
+  ng-template(#emptyCart="")
+    .row.text-center
+      h2 Uw winkelwagen is leeg
