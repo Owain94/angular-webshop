@@ -4,6 +4,7 @@ export const ROUTES: string[] = [
   '/404',
   '/login',
   '/register',
+  '/cart',
   '/profile',
   '/products',
   '/products/product/*',

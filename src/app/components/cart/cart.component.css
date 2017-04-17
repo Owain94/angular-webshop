@@ -1,1 +1,35 @@
-/* pass linting  */
+.product-row {
+  margin-bottom: 10px;
+}
+
+.product-row > div {
+  line-height: 100px;
+}
+
+.product-img {
+  height: 100px;
+  width: 100px;
+}
+
+.input-margin {
+  margin-top: 30px;
+}
+
+h4,
+h5 {
+  font-weight: 200;
+}
+
+hr {
+  margin-top: 10px;
+}
+
+@media (max-width: 767px) {
+  .product-row > div {
+    line-height: initial;
+  }
+
+  .input-margin {
+    margin-top: 0;
+  }
+}

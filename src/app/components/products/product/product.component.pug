@@ -10,4 +10,8 @@ app-header([headerHeading]="[product?.name, '']")
       h3 Prijs: {{ product?.price | currency:'EUR':true | fixCurrency }}
       h4 {{ product?.description }}
       br
-      button.button Toevoegen aan winkelmand
+      div(*ngIf="product?.amount !== 0; else soldOut")
+        button.button((click)="addToCart()") Toevoegen aan winkelwagen
+      ng-template(#soldOut='')
+        .row.text-center
+          h4(style="color: red") Dit product is niet op voorraad

@@ -96,6 +96,7 @@ export class AdminEditProductComponent implements OnInit {
           this.editProductForm.get('description').setValue(res.description);
           this.editProductForm.get('photo').setValue(res.photo);
           this.editProductForm.get('price').setValue(res.price);
+          this.editProductForm.get('amount').setValue(res.amount);
 
           this.editProductForm.get('id').setValue(id);
           this.data.image = res.photo;
