@@ -30,7 +30,7 @@ module.exports = {
       ),
       minimize: true,
       purifyOptions: {
-        whitelist: ["*swal2*", "mark"]
+        whitelist: ["*swal2*", "mark", "*simple-notification*"]
       }
     }),
     new webpack.DefinePlugin({

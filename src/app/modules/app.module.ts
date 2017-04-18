@@ -6,7 +6,6 @@ import { RoutingModule } from './routing/routing.module';
 import { TransferHttpModule } from './transfer-http/transfer-http.module';
 
 import { HeaderModule } from '../components/main/header/header.module';
-import { ProductsModule } from '../components/products/products.module';
 
 import { MainComponent } from '../components/main/main.component';
 import { MenuComponent } from '../components/main/menu/menu.component';

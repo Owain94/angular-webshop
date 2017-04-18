@@ -1,0 +1,15 @@
+.simple-notification([@enterLeave]='item.state', (click)='onClick($event)', [class]='theClass', [ngClass]="{\
+'alert': item.type === 'alert',\
+'error': item.type === 'error',\
+'success': item.type === 'success',\
+'info': item.type === 'info',\
+'bare': item.type === 'bare',\
+'rtl-mode': rtl\
+}", (mouseenter)='onEnter()', (mouseleave)='onLeave()')
+  div(*ngIf='!item.html')
+    .sn-title {{item.title}}
+    .sn-content {{item.content | max: maxLength}}
+    .icon(*ngIf="item.icon !== 'bare'", [innerHTML]='safeSvg')
+  div(*ngIf='item.html', [innerHTML]='item.html')
+  .sn-progress-loader(*ngIf='showProgressBar')
+    span([ngStyle]="{'width': progressWidth + '%'}")
