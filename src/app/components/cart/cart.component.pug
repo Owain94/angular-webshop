@@ -31,6 +31,5 @@ app-header([headerHeading]="['Winkelwagen', 'Producten die u wilt kopen.']")
     h4.large-3.large-push-9.columns.text-center Totaal: {{ price[0] | currency:'EUR':true | fixCurrency }}
 
 
-  ng-template(#emptyCart="")
-    .row.text-center
-      h2 Uw winkelwagen is leeg
+  ng-template.row.text-center(#emptyCart="")
+    h2 Uw winkelwagen is leeg
