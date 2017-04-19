@@ -1,0 +1,3 @@
+.simple-notification-wrapper([ngClass]='position')
+  app-notification(*ngFor='let a of notifications; let i = index', [item]='a', [timeOut]='timeOut', [clickToClose]='clickToClose', [maxLength]='maxLength', [showProgressBar]='showProgressBar', [pauseOnHover]='pauseOnHover', [theClass]='theClass', [rtl]='rtl', [animate]='animate', [position]='i')
+

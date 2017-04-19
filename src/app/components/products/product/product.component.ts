@@ -8,10 +8,9 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 import { ProductService } from '../../../services/product.service';
 import { MetaService } from '../../../services/meta.service';
 import { CartService } from '../../../services/cart.service';
+import { NotificationsService } from '../../../services/notifications.service';
 
 import { Subscription } from 'rxjs/Rx';
-
-import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-producs',
@@ -28,10 +27,16 @@ export class ProductComponent implements OnInit {
   private activatedRouteParamSubscription: Subscription;
   private productSubscription: Subscription;
 
+  public notificationOptions = {
+    position: ['bottom', 'right'],
+    timeOut: 2500
+  };
+
   constructor(private activatedRoute: ActivatedRoute,
               private productService: ProductService,
               private metaService: MetaService,
-              private cartService: CartService) {
+              private cartService: CartService,
+              private notificationsService: NotificationsService) {
   }
 
   ngOnInit(): void {
@@ -53,15 +58,6 @@ export class ProductComponent implements OnInit {
   public addToCart() {
     this.cartService.addProduct(this.product._id);
 
-    swal({
-      title: 'Toegevoegd!',
-      text: `${this.product.name} is toegevoegd aan uw winkelwagen!`,
-      type: 'success',
-      confirmButtonClass: 'button',
-    }).then(() => {
-      // pass
-    }, (dismiss) => {
-      // pass
-    });
+    this.notificationsService.success('Toegevoegd!', `${this.product.name} is toegevoegd aan uw winkelwagen!`);
   }
 }

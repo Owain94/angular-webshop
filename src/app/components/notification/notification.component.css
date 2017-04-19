@@ -1,0 +1,103 @@
+.simple-notification {
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+  margin-bottom: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.simple-notification .sn-title {
+  margin: 0;
+  padding: 0 50px 0 0;
+  line-height: 30px;
+  font-size: 20px;
+}
+
+.simple-notification .sn-content {
+  margin: 0;
+  font-size: 16px;
+  padding: 0 50px 0 0;
+  line-height: 20px;
+}
+
+.simple-notification .icon {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  right: 0;
+  width: 70px;
+  height: 70px;
+  padding: 10px;
+}
+
+.simple-notification .icon svg {
+  fill: #fff;
+  width: 100%;
+  height: 100%;
+}
+
+.simple-notification.rtl-mode {
+  direction: rtl;
+}
+
+.simple-notification.rtl-mode .sn-content {
+  padding: 0 0 0 50px;
+}
+
+.simple-notification.rtl-mode svg {
+  left: 0;
+  right: auto;
+}
+
+.simple-notification.error {
+  background: #f44336;
+}
+
+.simple-notification.success {
+  background: #ea4c88;
+}
+
+.simple-notification.alert {
+  background: #ffdb5b;
+}
+
+.simple-notification.info {
+  background: #03a9f4;
+}
+
+.simple-notification .sn-progress-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+}
+
+.simple-notification .sn-progress-loader span {
+  float: left;
+  height: 100%;
+}
+
+.simple-notification.success .sn-progress-loader span {
+  background: #cd2e6b;
+}
+
+.simple-notification.error .sn-progress-loader span {
+  background: #d32f2f;
+}
+
+.simple-notification.alert .sn-progress-loader span {
+  background: #edc242;
+}
+
+.simple-notification.info .sn-progress-loader span {
+  background: #0288d1;
+}
+
+.simple-notification.bare .sn-progress-loader span {
+  background: #ccc;
+}
