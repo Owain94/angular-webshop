@@ -1,6 +1,6 @@
 .row
   .large-12.columns.text-center
-    h2 {{ msg }}
+    h2 Product aanpassen
 
 
 .row
@@ -49,3 +49,5 @@ form([formGroup]="editProductForm", (ngSubmit)="submitForm(editProductForm.value
   .row
     .large-2.columns.end
       button.button(type="submit", [disabled]="!editProductForm.valid || disabled") Opslaan
+
+app-notifications

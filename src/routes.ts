@@ -14,6 +14,7 @@ export const ROUTES: string[] = [
   '/admin',
   '/admin/categories',
   '/admin/products',
+  '/admin/products*',
   '/admin/addproduct',
   '/admin/editproduct*',
 ];

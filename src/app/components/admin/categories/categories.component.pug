@@ -1,6 +1,6 @@
 .row
   .large-12.columns.text-center
-    h2 {{ msg }}
+    h2 Categorieën
 
 form([formGroup]="addCategoryForm", (ngSubmit)="submitForm(addCategoryForm.value)")
   .row
@@ -23,3 +23,5 @@ form([formGroup]="addCategoryForm", (ngSubmit)="submitForm(addCategoryForm.value
       span.icon.icon-trash
 
   hr.hr-margin
+
+app-notifications
