@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '../../main/header/header.module';
+import { NotificationsModule } from '../../notification/notification.module';
 
 import { LoginComponent } from './login.component';
 
@@ -16,6 +17,7 @@ import { MetaService } from '../../../services/meta.service';
   ],
   imports: [
     HeaderModule,
+    NotificationsModule,
 
     CommonModule,
     FormsModule,
