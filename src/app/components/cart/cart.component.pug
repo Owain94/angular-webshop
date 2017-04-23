@@ -16,7 +16,7 @@ app-header([headerHeading]="['Winkelwagen', 'Producten die u wilt kopen.']")
             span {{ product[3] | currency:'EUR':true | fixCurrency }}
           .large-2.medium-6.columns
             .row
-              .large-5.medium-5.small-6.columns Aantal:
+              .large-5.medium-5.small-2.small-offset-4.medium-offset-0.large-offset-0.columns Aantal:
               .large-6.medium-3.small-2.end.columns.input-margin
                 input([value]="product[1]", type="number", (change)="changeAmount(product[0], $event)")
           .large-2.medium-6.columns
