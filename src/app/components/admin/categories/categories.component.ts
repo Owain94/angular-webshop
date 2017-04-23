@@ -9,6 +9,7 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
 import { MetaService } from '../../../services/meta.service';
+import { NotificationsService } from '../../../services/notifications.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
@@ -28,8 +29,6 @@ export class AdminCategoriesComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   public addCategoryForm: FormGroup;
-  // tslint:disable-next-line:no-inferrable-types
-  public msg: string = 'Categorieën';
   public categories: categoriesInterface.RootObject;
 
   private categoriesSubscription: Subscription;
@@ -41,7 +40,8 @@ export class AdminCategoriesComponent implements OnInit {
               private adminService: AdminService,
               private productService: ProductService,
               private metaService: MetaService,
-              private adminGuard: AdminGuard) {
+              private adminGuard: AdminGuard,
+              private notificationsService: NotificationsService) {
   }
 
   ngOnInit(): void {
@@ -74,7 +74,11 @@ export class AdminCategoriesComponent implements OnInit {
           });
         }
 
-        this.msg = res.msg;
+        if (res.error === 'false') {
+          this.notificationsService.success('Succesvol!', 'Categorie toegevoegd!');
+        } else {
+          this.notificationsService.error('Onsuccesvol!', 'Er is een onbekende fout opgetreden, probeer het later noog eens.');
+        }
 
         this.getCategories();
       });
@@ -95,12 +99,9 @@ export class AdminCategoriesComponent implements OnInit {
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getCategories();
-
-            swal({
-              title: 'Opgeslagen!',
-              type: 'success',
-              confirmButtonClass: 'button',
-            });
+            this.notificationsService.success('Succesvol!', 'Categorie aangepast!');
+          } else {
+            this.notificationsService.error('Onsuccesvol!', 'Er is een onbekende fout opgetreden, probeer het later noog eens.');
           }
         }
       );
@@ -123,16 +124,9 @@ export class AdminCategoriesComponent implements OnInit {
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getCategories();
-
-            swal({
-              title: 'Verwijderd!',
-              type: 'success',
-              confirmButtonClass: 'button',
-            }).then(() => {
-              // pass
-            }, (dismiss: any) => {
-              // pass
-            });
+            this.notificationsService.success('Succesvol!', 'Categorie verwijderd!');
+          } else {
+            this.notificationsService.error('Onsuccesvol!', 'Er is een onbekende fout opgetreden, probeer het later noog eens.');
           }
         }
       );

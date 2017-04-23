@@ -1,0 +1,51 @@
+.row
+  .large-12.columns
+    form([formGroup]="profileForm", (ngSubmit)="submitProfileForm(profileForm.value)")
+
+      .row
+        .large-5.columns
+          label([ngClass]="{ 'error': !profileForm.controls['firstname'].valid && profileForm.controls['firstname'].touched }") Voornaam
+            input(type="text", [formControl]="profileForm.controls['firstname']", [ngClass]="{ 'error': !profileForm.controls['firstname'].valid && profileForm.controls['firstname'].touched }")
+          small.error(*ngIf="!profileForm.controls['firstname'].valid && profileForm.controls['firstname'].touched") Voornaam is verplicht
+
+        .large-2.columns
+          label Tussenvoegsel
+            input(type="text", [formControl]="profileForm.controls['surname_prefix']")
+
+        .large-5.columns
+          label([ngClass]="{ 'error': !profileForm.controls['surname'].valid && profileForm.controls['surname'].touched }") Achternaam
+            input(type="text", [formControl]="profileForm.controls['surname']", [ngClass]="{ 'error': !profileForm.controls['surname'].valid && profileForm.controls['surname'].touched }")
+          small.error(*ngIf="!profileForm.controls['surname'].valid && profileForm.controls['surname'].touched") Achternaam is verplicht
+
+      .row
+        .large-2.columns
+          label([ngClass]="{ 'error': !profileForm.controls['postal_code'].valid && profileForm.controls['postal_code'].touched }") Postcode
+            input(type="text", [formControl]="profileForm.controls['postal_code']", [ngClass]="{ 'error': !profileForm.controls['postal_code'].valid && profileForm.controls['postal_code'].touched }")
+          small.error(*ngIf="!profileForm.controls['postal_code'].valid && profileForm.controls['postal_code'].touched" class="error") Postcode is verplicht
+
+        .large-2.columns
+          label([ngClass]="{ 'error': !profileForm.controls['house_number'].valid && profileForm.controls['house_number'].touched }") Huisnummer
+            input(type="text", [formControl]="profileForm.controls['house_number']", [ngClass]="{ 'error': !profileForm.controls['house_number'].valid && profileForm.controls['house_number'].touched }")
+          small.error(*ngIf="!profileForm.controls['house_number'].valid && profileForm.controls['house_number'].touched") Huisnummer is verplicht
+
+        .large-8.columns
+          label([ngClass]="{ 'error': !profileForm.controls['streetname'].valid && profileForm.controls['streetname'].touched }") Straatnaam
+            input(type="text", [formControl]="profileForm.controls['streetname']", [ngClass]="{ 'error': !profileForm.controls['streetname'].valid && profileForm.controls['streetname'].touched }")
+          small.error(*ngIf="!profileForm.controls['streetname'].valid && profileForm.controls['streetname'].touched") Straatnaam is verplicht
+
+      .row
+        .large-6.columns
+          label([ngClass]="{ 'error': !profileForm.controls['city'].valid && profileForm.controls['city'].touched }") Plaats
+            input(type="text", [formControl]="profileForm.controls['city']", [ngClass]="{ 'error': !profileForm.controls['city'].valid && profileForm.controls['city'].touched }")
+          small.error(*ngIf="!profileForm.controls['city'].valid && profileForm.controls['city'].touched") plaats is verplicht
+
+        .large-6.columns
+          label([ngClass]="{ 'error': !profileForm.controls['country'].valid && profileForm.controls['country'].touched }") Land
+            input(type="text", [formControl]="profileForm.controls['country']", [ngClass]="{ 'error': !profileForm.controls['country'].valid && profileForm.controls['country'].touched }")
+          small.error(*ngIf="!profileForm.controls['country'].valid && profileForm.controls['country'].touched") Land is verplicht
+
+      .row
+        .large-2.columns.end
+          button.button(type="submit", [disabled]="!profileForm.valid || disabledProfileForm") Opslaan
+
+app-notifications

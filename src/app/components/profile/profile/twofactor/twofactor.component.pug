@@ -1,0 +1,29 @@
+.row
+  .large-12.columns
+    .row
+      .large-2.columns
+        span Two Factor authenticatie
+
+      .large-2.columns.end
+        label.switch
+          input(#tfa='', type="checkbox", (change)="twoFactor(tfa.checked)", [checked]="twoFactorInitial")
+          .slider.round
+
+    .row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
+      .large-12.columns.end
+        span Scan onderstaande QR code met een two step authenticatie applicatie zoals Google authenticator of Authy.
+
+    .row.mt_five(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
+      .large-2.columns.end
+        app-qr-code([data]="twoFactorCode", [size]="150", [type]="5")
+
+    .row(*ngIf="twoFactorCode && twoFactorShow && !twoFactorInitial")
+      .large-12.columns
+        label Response token
+          input(#tfaToken='', type="text")
+
+    .row(*ngIf="(twoFactorCode && twoFactorShow && !twoFactorInitial) || (twoFactorInitial && !twoFactorShow)")
+      .large-2.columns.end
+        button.button((click)="TfaSave()") Opslaan
+
+app-notifications

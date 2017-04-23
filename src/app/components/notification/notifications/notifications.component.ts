@@ -33,7 +33,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   private preventLastDuplicates: any = false;
   private preventDuplicates = false;
 
-  public timeOut = 0;
+  public timeOut = 4500;
   public maxLength = 0;
   public clickToClose = true;
   public showProgressBar = true;

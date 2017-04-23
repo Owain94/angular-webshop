@@ -14,6 +14,7 @@ import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorat
 import { AdminService } from '../../../../services/admin.service';
 import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
+import { NotificationsService } from '../../../../services/notifications.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
 
@@ -40,8 +41,6 @@ export class AdminEditProductComponent implements OnInit {
   public editProductForm: FormGroup;
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
-  // tslint:disable-next-line:no-inferrable-types
-  public msg: string = 'Product aanpassen';
   public categories: categoriesInterface.RootObject;
 
   private routeParamSubscription: Subscription;
@@ -55,7 +54,8 @@ export class AdminEditProductComponent implements OnInit {
               private metaService: MetaService,
               private adminGuard: AdminGuard,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private notificationsService: NotificationsService) {
     this.cropperSettings = new CropperSettings();
 
     this.cropperSettings.noFileInput = true;
@@ -102,8 +102,6 @@ export class AdminEditProductComponent implements OnInit {
           this.data.image = res.photo;
 
           const image: any = new Image();
-
-          console.log(`${url}/assets/products/${res.photo}`);
 
           this.toDataUrl(`${url}/assets/products/${res.photo}`, (base64: string) => {
             image.src = base64;
@@ -189,27 +187,10 @@ export class AdminEditProductComponent implements OnInit {
       (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
-          swal({
-              title: res.msg,
-              type: 'success',
-              confirmButtonClass: 'button',
-            }).then(() => {
-              this.router.navigate(['admin/products']);
-            }, (dismiss) => {
-              // pass
-            });
+          this.router.navigate(['admin/products', { type: 'edited' }]);
         } else {
-          swal({
-              title: res.msg,
-              type: 'error',
-              confirmButtonClass: 'button',
-            }).then(() => {
-              // pass
-            }, (dismiss) => {
-              // pass
-            });
+          this.notificationsService.error('Onsuccesvol!', 'Er is een onbekende fout opgetreden, probeer het later noog eens.');
         }
-        this.msg = res.msg;
       });
   }
 

@@ -9,6 +9,7 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 import { UserService } from '../../../services/user.service';
 import { PostalcodeService } from '../../../services/postalcode.service';
 import { MetaService } from '../../../services/meta.service';
+import { NotificationsService } from '../../../services/notifications.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
@@ -29,8 +30,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 export class RegisterComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
-  // tslint:disable-next-line:no-inferrable-types
-  public msg: string = '';
   public registerForm: FormGroup;
 
   private country: Subject<string> = new Subject();
@@ -43,7 +42,8 @@ export class RegisterComponent implements OnInit {
               private userService: UserService,
               private router: Router,
               private authGuard: AuthGuard,
-              private metaService: MetaService) {
+              private metaService: MetaService,
+              private notificationsService: NotificationsService) {
 
   }
 
@@ -117,6 +117,7 @@ export class RegisterComponent implements OnInit {
   }
 
   public submitForm(value: Object): void {
+    this.notificationsService.info('Opslaan...', 'Even geduld alstublieft!');
     this.disabled = true;
     this.registerSubscription = this.userService.register(value).subscribe(
       (res: genericInterface.RootObject) => {
@@ -137,9 +138,9 @@ export class RegisterComponent implements OnInit {
             'password': [null, [Validators.required, Validators.minLength(6)]],
             'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
           });
-          this.msg = 'Uw account is succesvol aangemaakt!';
+          this.notificationsService.success('Succesvol!', 'Uw account is succesvol aangemaakt!');
         } else {
-          this.msg = res.msg;
+          this.notificationsService.error('Onsuccesvol!', res.msg);
         }
       });
   }

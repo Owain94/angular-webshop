@@ -12,6 +12,7 @@ import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorat
 import { AdminService } from '../../../../services/admin.service';
 import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
+import { NotificationsService } from '../../../../services/notifications.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
 
@@ -38,8 +39,6 @@ export class AdminAddProductComponent implements OnInit {
   public addProductForm: FormGroup;
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
-  // tslint:disable-next-line:no-inferrable-types
-  public msg: string = 'Product toevoegen';
   public categories: categoriesInterface.RootObject;
 
 
@@ -50,7 +49,9 @@ export class AdminAddProductComponent implements OnInit {
               private productService: ProductService,
               private metaService: MetaService,
               private adminService: AdminService,
-              private adminGuard: AdminGuard) {
+              private adminGuard: AdminGuard,
+              private router: Router,
+              private notificationsService: NotificationsService) {
     this.cropperSettings = new CropperSettings();
 
     this.cropperSettings.noFileInput = true;
@@ -140,24 +141,10 @@ export class AdminAddProductComponent implements OnInit {
       (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
-          this.addProductForm = this.formBuilder.group({
-            'name': [null, Validators.required],
-            'category': [null, Validators.required],
-            'amount': [-1, Validators.required],
-            'price': [null,
-              [
-                Validators.required,
-                Validators.pattern(/(?:^\d{1,3}(?:\.?\d{3})*(?:,\d{2})?$)|(?:^\d{1,3}(?:,?\d{3})*(?:\.\d{2})?$)/)
-              ]
-            ],
-            'description': [null, Validators.required],
-            'photo': [null, Validators.required]
-          });
-
-          this.data = {};
+          this.router.navigate(['admin/products', { type: 'added' }]);
+        } else {
+          this.notificationsService.error('Onsuccesvol!', 'Er is een onbekende fout opgetreden, probeer het later noog eens.');
         }
-
-        this.msg = res.msg;
       });
   }
 

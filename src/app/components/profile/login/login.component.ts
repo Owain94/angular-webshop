@@ -9,6 +9,7 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 import { UserService } from '../../../services/user.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
 import { MetaService } from '../../../services/meta.service';
+import { NotificationsService } from '../../../services/notifications.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
@@ -29,8 +30,6 @@ export class LoginComponent implements OnInit {
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
   public tfa: boolean = false;
-  // tslint:disable-next-line:no-inferrable-types
-  public msg: string = '';
   public loginForm: FormGroup;
 
   private emailSubscription: Subscription;
@@ -42,7 +41,8 @@ export class LoginComponent implements OnInit {
               private userService: UserService,
               private authGuard: AuthGuard,
               private localStorageService: LocalStorageService,
-              private metaService: MetaService) {
+              private metaService: MetaService,
+              private notificationsService: NotificationsService) {
 
   }
 
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
           this.localStorageService.set('user', JSON.stringify({ token: res.data }));
           this.router.navigateByUrl('/');
         } else {
-          this.msg = res.msg;
+          this.notificationsService.error('Oeps!', res.msg);
         }
       });
   }

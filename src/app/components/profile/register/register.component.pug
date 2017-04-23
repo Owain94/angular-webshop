@@ -7,10 +7,6 @@ app-header([headerHeading]="['Registreren', 'Een account is niet verplicht, wel 
       form([formGroup]="registerForm", (ngSubmit)="submitForm(registerForm.value)")
 
         .row
-          .large-12.columns.text-center
-            h2 {{ msg }}
-
-        .row
           .large-5.columns
             label([ngClass]="{ 'error': !registerForm.controls['firstname'].valid && registerForm.controls['firstname'].touched }") Voornaam
               input(type="text", [formControl]="registerForm.controls['firstname']", [ngClass]="{ 'error': !registerForm.controls['firstname'].valid && registerForm.controls['firstname'].touched }")
@@ -75,3 +71,5 @@ app-header([headerHeading]="['Registreren', 'Een account is niet verplicht, wel 
 
           .large-2.columns.end
             button.button(type="submit", [disabled]="!registerForm.valid || disabled") Registreren
+
+app-notifications

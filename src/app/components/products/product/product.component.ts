@@ -27,11 +27,6 @@ export class ProductComponent implements OnInit {
   private activatedRouteParamSubscription: Subscription;
   private productSubscription: Subscription;
 
-  public notificationOptions = {
-    position: ['bottom', 'right'],
-    timeOut: 2500
-  };
-
   constructor(private activatedRoute: ActivatedRoute,
               private productService: ProductService,
               private metaService: MetaService,

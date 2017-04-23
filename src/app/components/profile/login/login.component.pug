@@ -7,10 +7,6 @@ app-header([headerHeading]="['Aanmelden', 'Nog geen account?']", [headerButton]=
       form([formGroup]="loginForm", (ngSubmit)="submitForm(loginForm.value)")
 
         .row
-          .large-12.columns.text-center
-            h2 {{ msg }}
-
-        .row
           .large-12.columns
             label([ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }")  E-mail adres
               input(type="text", [formControl]="loginForm.controls['email']", [ngClass]="{ 'error': !loginForm.controls['email'].valid && loginForm.controls['email'].touched }")
@@ -34,3 +30,5 @@ app-header([headerHeading]="['Aanmelden', 'Nog geen account?']", [headerButton]=
         .row
           .large-2.columns.end
             button.button(type="submit", [disabled]="!loginForm.valid || disabled") Inloggen
+
+app-notifications

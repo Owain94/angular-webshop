@@ -1,8 +1,8 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -10,6 +10,7 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
 import { MetaService } from '../../../services/meta.service';
+import { NotificationsService } from '../../../services/notifications.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
@@ -28,10 +29,7 @@ import swal from 'sweetalert2';
 })
 
 @AutoUnsubscribe()
-export class AdminProductsComponent implements OnInit {
-
-  // tslint:disable-next-line:no-inferrable-types
-  public msg: string = 'Producten';
+export class AdminProductsComponent implements OnInit, AfterContentInit {
   public products: productsInterface.RootObject;
 
   public categories: categoriesInterface.RootObject;
@@ -42,17 +40,19 @@ export class AdminProductsComponent implements OnInit {
   public filterInput = new FormControl();
   public filterCategory = new FormControl();
 
+  private activatedRouteParamSubscription: Subscription;
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
   private productsSubscription: Subscription;
   private categoriesSubscription: Subscription;
   private deleteProductSubscription: Subscription;
 
-  constructor(private adminService: AdminService,
+  constructor(private activatedRoute: ActivatedRoute,
+              private adminService: AdminService,
               private adminGuard: AdminGuard,
               private productService: ProductService,
               private metaService: MetaService,
-              private router: Router) {
+              private notificationsService: NotificationsService) {
   }
 
   ngOnInit(): void {
@@ -75,6 +75,18 @@ export class AdminProductsComponent implements OnInit {
       .subscribe(category => {
         this.filterCategoryText = category;
       });
+  }
+
+  ngAfterContentInit(): void {
+    this.activatedRouteParamSubscription = this.activatedRoute.params.subscribe(params => {
+      setTimeout(() => {
+        if (params['type'] === 'added') {
+          this.notificationsService.success('Succesvol!', 'Product is toegevoegd!');
+        } else if (params['type'] === 'edited') {
+          this.notificationsService.success('Succesvol!', 'Product is aangepast!');
+        }
+      }, 100);
+    });
   }
 
   private getProducts(): void {
@@ -126,16 +138,9 @@ export class AdminProductsComponent implements OnInit {
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getProducts();
-
-            swal({
-              title: 'Verwijderd!',
-              type: 'success',
-              confirmButtonClass: 'button',
-            }).then(() => {
-              // pass
-            }, (dismiss) => {
-              // pass
-            });
+            this.notificationsService.success('Succesvol!', 'Product verwijderd!');
+          } else {
+            this.notificationsService.error('Onsuccesvol!', 'Er is een onbekende fout opgetreden, probeer het later noog eens.');
           }
         }
       );
