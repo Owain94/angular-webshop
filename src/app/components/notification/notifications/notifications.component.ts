@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, OnDestroy, Input, Output, ViewEncapsulation } from '@angular/core';
 
-import { NotificationsService } from '../../../services/notifications.service';
-
 import { Options } from '../../../interfaces/notifications/options.type';
 import { Notification } from '../../../interfaces/notifications/notification.type';
+
+import { NotificationsService } from '../../../services/notifications.service';
 
 import { Subscription } from 'rxjs/Subscription';
 

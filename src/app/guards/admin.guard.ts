@@ -5,7 +5,7 @@ import { Router, CanActivate, CanLoad, CanActivateChild } from '@angular/router'
 import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../services/admin.service';
-import { LocalStorageService } from './../services/localstorage.service';
+import { LocalStorageService } from '../services/localstorage.service';
 
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 

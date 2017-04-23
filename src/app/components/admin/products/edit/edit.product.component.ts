@@ -2,7 +2,6 @@
 /// <reference path="../../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../../interfaces/products/categories.interface.ts" />
 
-import { url } from './../../../../../constants';
 import { Component, OnInit, ViewChild, } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -17,6 +16,8 @@ import { ProductService } from '../../../../services/product.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
+
+import { url } from '../../../../../constants';
 
 import { Subscription } from 'rxjs/Rx';
 
@@ -118,7 +119,7 @@ export class AdminEditProductComponent implements OnInit {
     );
 
     this.editProductForm = this.formBuilder.group({
-      'name': [null, [Validators.required, Validators.maxLength(32)]],
+      'name': [null, [Validators.required, Validators.maxLength(30)]],
       'category': [null, Validators.required],
       'amount': [-1, Validators.required],
       'price': [null,

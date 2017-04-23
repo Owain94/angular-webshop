@@ -6,20 +6,22 @@ app-header([headerHeading]="['Winkelwagen', 'Producten die u wilt kopen.']")
       h2 Winkelwagen
       div(*ngFor="let product of products")
         .row.product-row
-          .large-2.columns
+          .large-2.medium-8.columns.text-center
             img.product-img(*ngIf="product[4]", [src]="'assets/products/' + product[4]")
-          .large-3.columns
+          .medium-4.show-for-medium-only(style="float: left")
+            button.button((click)="removeProduct(product[0])", style="margin-top: 30px; margin-bottom: 30px;") Verwijder
+          .large-3.medium-6.columns
             span {{ product[2] }}
-          .large-1.columns
+          .large-1.medium-6.columns
             span {{ product[3] | currency:'EUR':true | fixCurrency }}
-          .large-2.columns
+          .large-2.medium-6.columns
             .row
-              .large-5.columns Aantal:
-              .large-6.columns.input-margin
+              .large-5.medium-5.small-2.small-offset-4.medium-offset-0.large-offset-0.columns Aantal:
+              .large-6.medium-3.small-2.end.columns.input-margin
                 input([value]="product[1]", type="number", (change)="changeAmount(product[0], $event)")
-          .large-2.columns
+          .large-2.medium-6.columns
             span  Totaal: {{ product[1] * product[3] | currency:'EUR':true | fixCurrency }}
-          .large-2.columns
+          .large-2.hide-for-medium-only.columns
             button.button((click)="removeProduct(product[0])") Verwijder
         hr
 
