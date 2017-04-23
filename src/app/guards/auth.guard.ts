@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common/';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 
 import { LocalStorageService } from '../services/localstorage.service';
@@ -9,10 +10,11 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthGuard implements CanActivate {
 
   constructor(private router: Router,
-              private localStorageService: LocalStorageService) { }
+              private localStorageService: LocalStorageService,
+              @Inject(PLATFORM_ID) private platformId: Object) { }
 
   canActivate(): boolean {
-    if (typeof(window) !== 'undefined' && this.localStorageService.get('user')) {
+    if (isPlatformBrowser(this.platformId) && this.localStorageService.get('user')) {
       if (!tokenNotExpired(null, <string> this.localStorageService.get('user'))) {
         this.localStorageService.remove('user');
         this.router.navigate(['/login']);
@@ -26,7 +28,7 @@ export class AuthGuard implements CanActivate {
   }
 
   public check(): boolean {
-    if (typeof(window) !== 'undefined' && this.localStorageService.get('user')) {
+    if (isPlatformBrowser(this.platformId) && this.localStorageService.get('user')) {
       if (!tokenNotExpired(null, <string> this.localStorageService.get('user'))) {
         this.localStorageService.remove('user');
         this.router.navigate(['/login']);
