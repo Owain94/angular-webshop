@@ -1,10 +1,11 @@
-import { LocalStorageService } from './../services/localstorage.service';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, CanActivate, CanLoad, CanActivateChild } from '@angular/router';
 
 import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../services/admin.service';
+import { LocalStorageService } from './../services/localstorage.service';
 
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
@@ -19,7 +20,8 @@ export class AdminGuard implements CanActivate, CanLoad {
 
   constructor(private router: Router,
               private adminService: AdminService,
-              private localStorageService: LocalStorageService) { }
+              private localStorageService: LocalStorageService,
+              @Inject(PLATFORM_ID) private platformId: Object) { }
 
   canActivate(): boolean {
     if (this.checkLocal()) {
@@ -40,7 +42,7 @@ export class AdminGuard implements CanActivate, CanLoad {
   }
 
   public checkLocal(): boolean {
-    if (typeof(window) !== 'undefined' && this.localStorageService.get('user')) {
+    if (isPlatformBrowser(this.platformId) && this.localStorageService.get('user')) {
       if (!tokenNotExpired(null, <string> this.localStorageService.get('user'))) {
         this.localStorageService.remove('user');
         this.router.navigate(['/login']);

@@ -1,4 +1,5 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { TransferState } from '../../modules/transfer-state/transfer-state';
@@ -22,12 +23,13 @@ export class MainComponent implements OnInit {
 
   constructor(private transferState: TransferState,
               private userService: UserService,
-              private router: Router) {}
+              private router: Router,
+              @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     this.routerEventsSubscription = this.router.events.subscribe(path => {
       if (path instanceof NavigationEnd) {
-        if (typeof(window) !== 'undefined') {
+        if (isPlatformBrowser(this.platformId)) {
           window.scroll(0, 0);
         }
       }
