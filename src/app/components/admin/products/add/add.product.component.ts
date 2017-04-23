@@ -89,7 +89,7 @@ export class AdminAddProductComponent implements OnInit {
     );
 
     this.addProductForm = this.formBuilder.group({
-      'name': [null, Validators.required],
+      'name': [null, [Validators.required, Validators.maxLength(32)]],
       'category': [null, Validators.required],
       'amount': [-1, Validators.required],
       'price': [null,

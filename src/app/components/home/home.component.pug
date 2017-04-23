@@ -7,5 +7,5 @@ app-header([headerHeading]="['Inkie\\'s webshop', 'Voor al uw gestolen goederen.
 
   .row
     .large-4.columns.text-center.clickable.end(*ngFor="let product of products; let i = index; trackBy: trackByFn", [routerLink]="['products/product', product._id]")
-      h3 {{ product.name }}
+      h4 {{ product.name }}
       img.product-img([src]="'assets/products/' + product.photo", [alt]="product.name" height="300" width="300")
