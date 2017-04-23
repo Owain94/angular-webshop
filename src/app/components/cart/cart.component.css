@@ -24,6 +24,12 @@ hr {
   margin-top: 10px;
 }
 
+@media (max-width: 640px) {
+  .product-row > div {
+    text-align: center;
+  }
+}
+
 @media (max-width: 767px) {
   .product-row > div {
     line-height: initial;
@@ -31,5 +37,21 @@ hr {
 
   .input-margin {
     margin-top: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .product-row > div {
+    line-height: 40px;
+  }
+
+  .input-margin {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  button {
+    margin: 0;
   }
 }
