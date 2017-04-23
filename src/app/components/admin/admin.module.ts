@@ -4,9 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HeaderModule } from '../main/header/header.module';
-import { FilterPipeModule } from '../../pipes/pipe.filter.module';
+import { FilterPipeModule } from '../../pipes/filter.pipe.module';
 import { HighlightPipeModule } from '../../pipes/highlight.pipe.module';
 import { NotificationsModule } from '../notification/notification.module';
+
 import { ImageCropperModule } from 'ng2-img-cropper';
 
 import { AdminComponent } from './admin.component';

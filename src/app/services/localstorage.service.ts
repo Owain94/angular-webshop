@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 
 import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
 
-import { INotifyOptions } from './../interfaces/localstorage/notify-options.interface';
-import { ILocalStorageEvent } from './../interfaces/localstorage/local-storage-events.interface';
+import { INotifyOptions } from '../interfaces/localstorage/notify-options.interface';
+import { ILocalStorageEvent } from '../interfaces/localstorage/local-storage-events.interface';
 
 import {Observable} from 'rxjs/Observable';
 import {Subscriber} from 'rxjs/Subscriber';

@@ -2,7 +2,6 @@
 /// <reference path="../../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../../interfaces/products/categories.interface.ts" />
 
-import { url } from './../../../../../constants';
 import { Component, OnInit, ViewChild, } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -17,6 +16,8 @@ import { ProductService } from '../../../../services/product.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
+
+import { url } from '../../../../../constants';
 
 import { Subscription } from 'rxjs/Rx';
 
