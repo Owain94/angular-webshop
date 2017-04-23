@@ -103,7 +103,6 @@ export class UserService {
     return this.http.get(`${url}/api/generate_tfa_token/`, this.options)
       .map((res: any) => res.json())
       .map((res: tfaTokenInterface.RootObject) => {
-        console.log(JSON.stringify(res));
         return res;
       });
   }
