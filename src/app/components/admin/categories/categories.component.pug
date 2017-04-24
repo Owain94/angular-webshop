@@ -4,21 +4,21 @@
 
 form([formGroup]="addCategoryForm", (ngSubmit)="submitForm(addCategoryForm.value)")
   .row
-    .large-10.columns
+    .large-10.medium-9.small-12.columns
       label([ngClass]="{ 'error': !addCategoryForm.controls['name'].valid && addCategoryForm.controls['name'].touched }") Categorie
         input(type="text", [formControl]="addCategoryForm.controls['name']", [ngClass]="{ 'error': !addCategoryForm.controls['name'].valid && addCategoryForm.controls['name'].touched }")
       small.error(*ngIf="!addCategoryForm.controls['name'].valid && addCategoryForm.controls['name'].touched") Categorie naam is verplicht
 
-    .large-2.columns
+    .large-2.medium-3.small-12.columns
       button.button.button-margin(type="submit", [disabled]="!addCategoryForm.valid || disabled") Toevoegen
 
 .row(*ngFor="let category of categories; let i = index; trackBy: trackByFn")
-  .large-10.columns {{ category.category }}
-  .large-1.columns.actions-margin
+  .large-10.medium-10.small-10.columns {{ category.category }}
+  .large-1.medium-1.small-1.columns.actions-margin.text-center
     a((click)="edit(category.category, category._id)")
       span.icon.icon-pencil
 
-  .large-1.columns.actions-margin
+  .large-1.medium-1.small-1.columns.actions-margin.text-center
     a((click)="delete(category.category, category._id)")
       span.icon.icon-trash
 

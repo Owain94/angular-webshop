@@ -26,11 +26,11 @@ app-header([headerHeading]="['Winkelwagen', 'Producten die u wilt kopen.']")
         hr
 
   .row(*ngIf="products.length !== 0")
-    h5.large-3.large-push-9.columns.text-center Prijs: {{ price[1] | currency:'EUR':true | fixCurrency }}
+    h5.large-3.large-push-9.medium-3.medium-push-9.columns.text-center Prijs: {{ price[1] | currency:'EUR':true | fixCurrency }}
   .row(*ngIf="products.length !== 0")
-    h5.large-3.large-push-9.columns.text-center BTW: {{ price[2] | currency:'EUR':true | fixCurrency }}
+    h5.large-3.large-push-9.medium-3.medium-push-9.columns.text-center BTW: {{ price[2] | currency:'EUR':true | fixCurrency }}
   .row(*ngIf="products.length !== 0")
-    h4.large-3.large-push-9.columns.text-center Totaal: {{ price[0] | currency:'EUR':true | fixCurrency }}
+    h4.large-3.large-push-9.medium-3.medium-push-9.columns.text-center Totaal: {{ price[0] | currency:'EUR':true | fixCurrency }}
 
 
   ng-template.row.text-center(#emptyCart="")
