@@ -6,18 +6,18 @@ app-header([headerHeading]="['Alle producten', '']")
       h2 Producten
 
   .row
-    .large-2.columns.filter-margin
+    .large-2.columns.filter-margin.hide-for-medium-only
       span Filter
 
-    .large-4.columns
+    .large-4.medium-6.columns
       input(type="text", placeholder="Zoek", [formControl]="filterInput")
 
-    .large-4.columns
+    .large-4.medium-6.columns
       select([formControl]="filterCategory")
         option(value="")
         option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category") {{category.category}}
 
-    .large-2.columns
+    .large-2.medium-12.columns.end.text-center
       button.button((click)="reset()") Reset
 
   .row(*ngIf='(products | filter: { name: filterText } | filter: { category: filterCategoryText })?.length > 0; else noProducts')

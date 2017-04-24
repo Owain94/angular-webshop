@@ -15,25 +15,25 @@
 
 form([formGroup]="addProductForm",(ngSubmit)="submitForm(addProductForm.value)")
   .row
-    .large-5.columns
+    .large-5.medium-6.columns
       label([ngClass]="{ 'error': !addProductForm.controls['name'].valid && addProductForm.controls['name'].touched }") Product naam
         input(type="text", [formControl]="addProductForm.controls['name']", [ngClass]="{ 'error': !addProductForm.controls['name'].valid && addProductForm.controls['name'].touched }")
       small.error(*ngIf="!addProductForm.controls['name'].valid && addProductForm.controls['name'].touched") Product naam is verplicht en mag maximaal 30 karakters lang zijn
 
-    .large-4.columns
+    .large-4.medium-6.columns
       label([ngClass]="{ 'error': !addProductForm.controls['category'].valid && addProductForm.controls['category'].touched }") Categorie
         select([formControl]="addProductForm.controls['category']", [ngClass]="{ 'error': !addProductForm.controls['category'].valid && addProductForm.controls['category'].touched }")
           option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category") {{category.category}}
       small.error(*ngIf="!addProductForm.controls['category'].valid && addProductForm.controls['category'].touched") Categorie is verplicht
 
-    .large-2.columns
+    .large-2.medium-6.columns
       label(for="price", [ngClass]="{ 'error': !addProductForm.controls['price'].valid && addProductForm.controls['price'].touched }") Prijs
       .input-group
         span.input-group-label &euro;
         input.input-group-field(type="number", [formControl]="addProductForm.controls['price']", [ngClass]="{ 'error': !addProductForm.controls['price'].valid && addProductForm.controls['price'].touched }")
       small.error(*ngIf="!addProductForm.controls['price'].valid && addProductForm.controls['price'].touched", style="margin-top: -16px") Prijs is verplicht
 
-    .large-1.columns
+    .large-1.medium-6.columns
       label([ngClass]="{ 'error': !addProductForm.controls['amount'].valid && addProductForm.controls['amount'].touched }") Aantal
         input(type="number", [formControl]="addProductForm.controls['amount']", [ngClass]="{ 'error': !addProductForm.controls['amount'].valid && addProductForm.controls['amount'].touched }")
       small.error(*ngIf="!addProductForm.controls['amount'].valid && addProductForm.controls['amount'].touched") Aantal is verplicht
