@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 
 import { enableProdMode } from '@angular/core';
 import { AppServerModuleNgFactory } from './aot/src/app/modules/app.server.module.ngfactory';
-import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
+import { ngExpressEngine } from '@nguniversal/express-engine';
 
 import * as express from 'express';
 import { ROUTES } from './routes';
