@@ -12,13 +12,13 @@ import { MainComponent } from '../components/main/main.component';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
 
-export function boot(state: TransferState, applicationRef: ApplicationRef) {
-  return function () {
+export function onBootstrap(applicationRef: ApplicationRef, transferState: TransferState) {
+  return () => {
     applicationRef.isStable
-      .filter((stable: boolean) => stable)
+      .filter(stable => stable)
       .first()
       .subscribe(() => {
-        state.inject();
+        transferState.inject();
       });
   };
 }
@@ -38,11 +38,11 @@ export function boot(state: TransferState, applicationRef: ApplicationRef) {
   providers: [
     {
       provide: APP_BOOTSTRAP_LISTENER,
+      useFactory: onBootstrap,
       multi: true,
-      useFactory: boot,
       deps: [
-        TransferState,
-        ApplicationRef
+        ApplicationRef,
+        TransferState
       ]
     }
   ]

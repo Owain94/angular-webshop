@@ -8,7 +8,7 @@ import 'rxjs/Rx';
 
 import { platformServer, renderModuleFactory } from '@angular/platform-server';
 import { AppServerModule } from './app/modules/app.server.module';
-import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
+import { ngExpressEngine } from '@nguniversal/express-engine';
 
 import * as express from 'express';
 import { ROUTES } from './routes';
