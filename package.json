@@ -107,7 +107,7 @@
     "sw-precache": "5.1.0",
     "ts-node": "3.0.2",
     "tslint": "4.5.1",
-    "typescript": "2.2.2",
+    "typescript": "2.3.0",
     "url-loader": "0.5.8",
     "webpack": "2.4.1",
     "webpack-dev-server": "2.4.5"
