@@ -7,6 +7,7 @@
     "./src/main.server.ts"
   ],
   "angularCompilerOptions": {
+    "debug": false,
     "genDir": "src/aot",
     "entryModule": "./src/app/modules/app.server.module#AppServerModule"
   }

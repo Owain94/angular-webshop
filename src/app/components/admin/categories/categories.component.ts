@@ -135,7 +135,7 @@ export class AdminCategoriesComponent implements OnInit {
     });
   }
 
-  public trackByFn(index: number, item): string {
+  public trackByFn(index: number, item: categoriesInterface.RootObject): string {
     return(item._id);
   }
 }

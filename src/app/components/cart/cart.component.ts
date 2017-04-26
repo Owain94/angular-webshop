@@ -46,7 +46,7 @@ export class CartComponent implements OnInit {
     this.products = <Array<[string, number, string, number, string]>> products;
   }
 
-  public changeAmount(id: string, event): void {
+  public changeAmount(id: string, event: any): void {
     if (Number(event.target.value) < 1) {
       this.removeProduct(id);
     } else {
@@ -84,7 +84,7 @@ export class CartComponent implements OnInit {
     this.price[2] = this.roundToTwo(price / 121 * 21);
   }
 
-  private roundToTwo(num) {
+  private roundToTwo(num: number) {
     return Number(Math.round(Number(`${num}e+2`)) + 'e-2');
   }
 }

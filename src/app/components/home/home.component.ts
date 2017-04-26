@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  public trackByFn(index: number, item): string {
+  public trackByFn(index: number, item: productsInterface.RootObject): string {
     return(item._id);
   }
 }

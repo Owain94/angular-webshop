@@ -2,7 +2,7 @@ import {PipeTransform, Pipe} from '@angular/core';
 
 @Pipe({ name: 'highlight' })
 export class HighlightPipe implements PipeTransform {
-  transform(text: string, search): string {
+  transform(text: string, search: string): string {
     let pattern = search.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     pattern = pattern.split(' ').filter((t) => {
       return t.length > 0;

@@ -10,10 +10,10 @@ export const REQUEST_IDLE_CALLBACK = new OpaqueToken('REQUEST_IDLE_CALLBACK');
 export function requestIdle(ngzone: NgZone) {
   if (typeof(window) !== 'undefined') {
     if ('requestIdleCallback' in window) {
-      return (fn) => window['requestIdleCallback'](fn);
+      return (fn: any) => window['requestIdleCallback'](fn);
     }
 
-    return (fn) => ngzone.runOutsideAngular(() => window.setTimeout(fn, 10));
+    return (fn: any) => ngzone.runOutsideAngular(() => window.setTimeout(fn, 10));
   }
 }
 

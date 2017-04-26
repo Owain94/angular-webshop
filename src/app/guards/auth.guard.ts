@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
     if (isPlatformBrowser(this.platformId) && this.localStorageService.get('user')) {
-      if (!tokenNotExpired(null, <string> this.localStorageService.get('user'))) {
+      if (!tokenNotExpired(undefined, <string> this.localStorageService.get('user'))) {
         this.localStorageService.remove('user');
         this.router.navigate(['/login']);
         return false;
@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
 
   public check(): boolean {
     if (isPlatformBrowser(this.platformId) && this.localStorageService.get('user')) {
-      if (!tokenNotExpired(null, <string> this.localStorageService.get('user'))) {
+      if (!tokenNotExpired(undefined, <string> this.localStorageService.get('user'))) {
         this.localStorageService.remove('user');
         this.router.navigate(['/login']);
         return false;
