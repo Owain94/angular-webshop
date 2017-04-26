@@ -54,7 +54,7 @@
     "qrcodejs2": "0.0.2",
     "rxjs": "5.3.0",
     "speakeasy": "2.0.0",
-    "sweetalert2": "6.6.1",
+    "sweetalert2": "6.6.2",
     "web-animations-js": "2.2.5",
     "zone.js": "0.8.9"
   },
