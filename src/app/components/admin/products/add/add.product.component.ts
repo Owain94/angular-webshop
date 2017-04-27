@@ -107,7 +107,11 @@ export class AdminAddProductComponent implements OnInit {
     this.croppedHeight = bounds.bottom - bounds.top;
     this.croppedWidth = bounds.right - bounds.left;
 
-    this.addProductForm.get('photo').setValue(this.data.image) ;
+    const photoField = this.addProductForm.get('photo');
+
+    if (photoField) {
+      photoField.setValue(this.data.image) ;
+    }
   }
 
   public fileChangeListener($event: any) {

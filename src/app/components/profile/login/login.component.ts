@@ -59,32 +59,42 @@ export class LoginComponent implements OnInit {
       'tfa': [null]
     });
 
-    this.emailSubscription = this.loginForm.get('email').valueChanges
-    .debounceTime(1000)
-    .distinctUntilChanged()
-    .subscribe(
-      (input: string) => {
-        const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-          if (regexp.test(input)) {
-            this.checkTfaSubscription = this.userService.checkTfa(input).subscribe(
-              (res: boolean) => {
-                if (res) {
-                  this.loginForm.get('tfa').setValidators(
-                    Validators.compose(
-                      [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
-                    )
-                  );
-                } else {
-                  this.loginForm.get('tfa').clearValidators();
-                }
+    const emailField = this.loginForm.get('email');
+    if (emailField) {
+      this.emailSubscription = emailField.valueChanges
+      .debounceTime(1000)
+      .distinctUntilChanged()
+      .subscribe(
+        (input: string) => {
+          const tfaField = this.loginForm.get('tfa');
+          const regexp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (regexp.test(input)) {
+              this.checkTfaSubscription = this.userService.checkTfa(input).subscribe(
+                (res: boolean) => {
+                  if (res) {
+                    if (tfaField) {
+                      tfaField.setValidators(
+                        Validators.compose(
+                          [Validators.required, Validators.minLength(6), Validators.maxLength(6)]
+                        )
+                      );
+                    }
+                  } else {
+                    if (tfaField) {
+                      tfaField.clearValidators();
+                    }
+                  }
 
-                this.loginForm.get('tfa').updateValueAndValidity();
-                this.tfa = res;
-              }
-            );
-          }
-      }
-    );
+                  if (tfaField) {
+                    tfaField.updateValueAndValidity();
+                  }
+                  this.tfa = res;
+                }
+              );
+            }
+        }
+      );
+    }
   }
 
   public submitForm(value: Object): void {

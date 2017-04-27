@@ -72,24 +72,35 @@ export class RegisterComponent implements OnInit {
     this.registerForm.setValidators(PasswordValidator.mismatchedPasswords());
     this.registerForm.setValidators(this.postalcode());
 
+    const countryField = this.registerForm.get('country');
+    const postalCodeField = this.registerForm.get('postal_code');
+    const streetnameField = this.registerForm.get('streetname');
+    const cityField = this.registerForm.get('city');
+
     this.countrySubscription = this.country
       .distinctUntilChanged()
       .debounceTime(250)
       .subscribe((value) => {
-        this.registerForm.get('country').setValue(value);
+        if (countryField) {
+          countryField.setValue(value);
+        }
 
-        if (value === 'Nederland') {
+        if (postalCodeField && value === 'Nederland') {
           this.postalcodeDataSubscription = this.postalcodeService.getPostalcodeData(
-            this.registerForm.get('postal_code').value.replace(' ', '')
+            postalCodeField.value.replace(' ', '')
           ).subscribe((data: [string, string]) => {
-            try {
-              this.registerForm.get('streetname').setValue(data[1]);
-            } catch (err) {
+            if (streetnameField) {
+              try {
+                streetnameField.setValue(data[1]);
+              } catch (err) {
+              }
             }
 
-            try {
-              this.registerForm.get('city').setValue(data[0]);
-            } catch (err) {
+            if (cityField) {
+              try {
+                cityField.setValue(data[0]);
+              } catch (err) {
+              }
             }
           });
         }
@@ -98,21 +109,22 @@ export class RegisterComponent implements OnInit {
 
   private postalcode = (): ValidatorFn => {
     return (group: AbstractControl): { [key: string]: any } => {
-      const postalcodeValue = group.get('postal_code').value;
+      const postalcodeField = group.get('postal_code');
 
       const dutch = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
       const belgian = /^[1-9]{1}[0-9]{3}$/i;
 
-      if (dutch.test(postalcodeValue)) {
-        this.country.next('Nederland');
-        return undefined;
-      } else if (belgian.test(postalcodeValue)) {
-        this.country.next('België');
-        return undefined;
-      }
+      if (postalcodeField) {
+        if (dutch.test(postalcodeField.value)) {
+          this.country.next('Nederland');
+          return undefined;
+        } else if (belgian.test(postalcodeField.value)) {
+          this.country.next('België');
+          return undefined;
+        }
 
-      group.get('postal_code')
-        .setErrors({ 'postalcodeInvalid': true });
+        postalcodeField.setErrors({ 'postalcodeInvalid': true });
+      }
       return { 'postalcodeInvalid': true };
     };
   }

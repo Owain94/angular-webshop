@@ -48,14 +48,39 @@ export class ProfileGeneralComponent implements OnInit {
 
     this.profileDataSubscription = this.userService.profileData()
       .subscribe((res:  profileInterface.RootObject) => {
-        this.profileForm.get('firstname').setValue(res['data']['firstname']);
-        this.profileForm.get('surname_prefix').setValue(res['data']['surname_prefix']);
-        this.profileForm.get('surname').setValue(res['data']['surname']);
-        this.profileForm.get('streetname').setValue(res['data']['streetname']);
-        this.profileForm.get('house_number').setValue(res['data']['house_number']);
-        this.profileForm.get('postal_code').setValue(res['data']['postal_code']);
-        this.profileForm.get('city').setValue(res['data']['city']);
-        this.profileForm.get('country').setValue(res['data']['country']);
+        const firstnameField = this.profileForm.get('firstname');
+        const surnamePrefixField = this.profileForm.get('surname_prefix');
+        const surnameField = this.profileForm.get('surname');
+        const streetnameField = this.profileForm.get('streetname');
+        const houseNumberField = this.profileForm.get('house_number');
+        const postalCodeField = this.profileForm.get('postal_code');
+        const cityField = this.profileForm.get('city');
+        const countryField = this.profileForm.get('country');
+
+        if (firstnameField) {
+          firstnameField.setValue(res['data']['firstname']);
+        }
+        if (surnamePrefixField) {
+          surnamePrefixField.setValue(res['data']['surname_prefix']);
+        }
+        if (surnameField) {
+          surnameField.setValue(res['data']['surname']);
+        }
+        if (streetnameField) {
+          streetnameField.setValue(res['data']['streetname']);
+        }
+        if (houseNumberField) {
+          houseNumberField.setValue(res['data']['house_number']);
+        }
+        if (postalCodeField) {
+          postalCodeField.setValue(res['data']['postal_code']);
+        }
+        if (cityField) {
+          cityField.setValue(res['data']['city']);
+        }
+        if (countryField) {
+          countryField.setValue(res['data']['country']);
+        }
     });
   }
 

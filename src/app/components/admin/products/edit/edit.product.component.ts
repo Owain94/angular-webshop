@@ -92,14 +92,36 @@ export class AdminEditProductComponent implements OnInit {
 
       this.productSubscription = this.productService.product(id).subscribe(
         (res: productsInterface.RootObject) => {
-          this.editProductForm.get('name').setValue(res.name);
-          this.editProductForm.get('category').setValue(res.category);
-          this.editProductForm.get('description').setValue(res.description);
-          this.editProductForm.get('photo').setValue(res.photo);
-          this.editProductForm.get('price').setValue(res.price);
-          this.editProductForm.get('amount').setValue(res.amount);
+          const nameField = this.editProductForm.get('name');
+          const categoryField = this.editProductForm.get('category');
+          const descriptionField = this.editProductForm.get('description');
+          const photoField = this.editProductForm.get('photo');
+          const priceField = this.editProductForm.get('price');
+          const amountField = this.editProductForm.get('amount');
+          const idField = this.editProductForm.get('id');
 
-          this.editProductForm.get('id').setValue(id);
+          if (nameField) {
+            nameField.setValue(res.name);
+          }
+          if (categoryField) {
+            categoryField.setValue(res.category);
+          }
+          if (descriptionField) {
+            descriptionField.setValue(res.description);
+          }
+          if (photoField) {
+            photoField.setValue(res.photo);
+          }
+          if (priceField) {
+            priceField.setValue(res.price);
+          }
+          if (amountField) {
+            amountField.setValue(res.amount);
+          }
+          if (idField) {
+            idField.setValue(id);
+          }
+
           this.data.image = res.photo;
 
           const image: any = new Image();
@@ -154,7 +176,11 @@ export class AdminEditProductComponent implements OnInit {
     this.croppedHeight = bounds.bottom - bounds.top;
     this.croppedWidth = bounds.right - bounds.left;
 
-    this.editProductForm.get('photo').setValue(this.data.image);
+    const photo = this.editProductForm.get('photo');
+
+    if (photo !== null) {
+      photo.setValue(this.data.image) ;
+    }
   }
 
   public fileChangeListener($event: any) {
