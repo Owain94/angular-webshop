@@ -21,7 +21,7 @@ export class TransferHttp {
 
   request(uri: string | Request, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getData(uri, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getData(uri, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.request(url, options);
     });
   }
@@ -30,7 +30,7 @@ export class TransferHttp {
    */
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getData(url, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getData(url, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.get(url, options);
     });
   }
@@ -39,7 +39,7 @@ export class TransferHttp {
    */
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getPostData(url, body, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getPostData(url, body, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.post(url, body. options);
     });
   }
@@ -48,7 +48,7 @@ export class TransferHttp {
    */
   put(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getData(url, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getData(url, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.put(url, options);
     });
   }
@@ -57,7 +57,7 @@ export class TransferHttp {
    */
   delete(url: string, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getData(url, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getData(url, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.delete(url, options);
     });
   }
@@ -66,7 +66,7 @@ export class TransferHttp {
    */
   patch(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getPostData(url, body, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getPostData(url, body, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.patch(url, body.options);
     });
   }
@@ -75,7 +75,7 @@ export class TransferHttp {
    */
   head(url: string, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getData(url, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getData(url, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.head(url, options);
     });
   }
@@ -84,7 +84,7 @@ export class TransferHttp {
    */
   options(url: string, options?: RequestOptionsArgs): Observable<any> {
     // tslint:disable-next-line:no-shadowed-variable
-    return this.getData(url, options, (url: string, options: RequestOptionsArgs) => {
+    return this.getData(url, <RequestOptionsArgs> options, (url: string, options: RequestOptionsArgs) => {
       return this.http.options(url, options);
     });
   }
@@ -150,11 +150,11 @@ export class TransferHttp {
     return Observable.of(data);
   }
 
-  private setCache(key, data) {
+  private setCache(key: string, data: any) {
     return this.transferState.set(key, data);
   }
 
-  private getFromCache(key): any {
+  private getFromCache(key: string): any {
     return this.transferState.get(key);
   }
 }

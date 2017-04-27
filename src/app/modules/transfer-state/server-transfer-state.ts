@@ -27,26 +27,14 @@ export class ServerTransferState extends TransferState {
         data: {}
       });
 
-      let rootNode: any = document;
-      let headNode: any;
-
-      document.childNodes.some(child => isTag('html', child) && !!(rootNode = child));
-
-      if (!rootNode) {
-        rootNode = document;
+      const head = document.head;
+      if (head.name !== 'head') {
+        throw new Error('Please have <head> as the first element in your document');
       }
 
-      rootNode.childNodes.some(child => isTag('head', child) && !!(headNode = child));
-
       const script = renderer.createElement('script');
-      renderer.setValue(script, `
-try {
-  window['TRANSFER_STATE'] = ${ transferStateString };
-} catch (e) {
-}
-      `);
-      renderer.appendChild(headNode, script);
-      renderer.setAttribute(script, 'angular', 'universal');
+      renderer.setValue(script, `window['TRANSFER_STATE'] = ${transferStateString}`);
+      renderer.appendChild(head, script);
     } catch (e) {
       console.error(e);
     }

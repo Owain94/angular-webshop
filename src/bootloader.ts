@@ -1,6 +1,6 @@
 const attachFastClick = require('fastclick');
 
-export function bootloader (main): void {
+export function bootloader (main: any): void {
   function domReadyHandler() {
     document.removeEventListener('DOMContentLoaded', domReadyHandler, false);
     main();

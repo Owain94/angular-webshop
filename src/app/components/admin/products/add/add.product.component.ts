@@ -107,10 +107,10 @@ export class AdminAddProductComponent implements OnInit {
     this.croppedHeight = bounds.bottom - bounds.top;
     this.croppedWidth = bounds.right - bounds.left;
 
-    this.addProductForm.get('photo').setValue(this.data.image);
+    this.addProductForm.get('photo').setValue(this.data.image) ;
   }
 
-  public fileChangeListener($event) {
+  public fileChangeListener($event: any) {
     const image: any = new Image();
     const file: File = $event.target.files[0];
     const myReader: FileReader = new FileReader();
@@ -148,7 +148,7 @@ export class AdminAddProductComponent implements OnInit {
       });
   }
 
-  public trackByFn(index: number, item): string {
+  public trackByFn(index: number, item: categoriesInterface.RootObject): string {
     return(item._id);
   }
 }

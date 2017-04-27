@@ -15,28 +15,38 @@ module.exports = {
   "plugins": [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
+      "output": {
+        "comments": false
+      },
       "mangle": {
         "keep_fnames": true,
         "screw_ie8": true
       },
-      compress: {
-        "warnings" : false
+      "compress": {
+        "warnings" : false,
+        "conditionals": true,
+        "unused": true,
+        "comparisons": true,
+        "sequences": true,
+        "dead_code": true,
+        "evaluate": true,
+        "if_return": true,
+        "join_vars": true,
+        "negate_iife": false
       }
     }),
     new PurifyCSSPlugin({
-      paths: glob.sync(
+      "paths": glob.sync(
         path.join(process.cwd(), "src/app/**/*.pug"),
         path.join(process.cwd(), "src/app/**/*.html")
       ),
-      minimize: true,
-      purifyOptions: {
-        whitelist: ["*swal2*", "mark", "*simple-notification*"]
+      "minimize": true,
+      "purifyOptions": {
+        "whitelist": ["*swal2*", "mark", "*simple-notification*"]
       }
     }),
     new webpack.DefinePlugin({
-      "process.env": {
-        "ENV": JSON.stringify("production")
-      }
+      "process.env.NODE_ENV": JSON.stringify("production")
     })
   ]
 };

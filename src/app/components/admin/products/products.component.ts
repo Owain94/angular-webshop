@@ -149,7 +149,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
     });
   }
 
-  public trackByFn(index: number, item): string {
+  public trackByFn(index: number, item: productsInterface.RootObject | categoriesInterface.RootObject): string {
     return(item._id);
   }
 }

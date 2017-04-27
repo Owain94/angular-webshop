@@ -53,7 +53,7 @@ export class LocalStorageService {
   }
 
   //noinspection FunctionNamingConventionJS
-  public get <T>(key: string): T {
+  public get <T>(key: string): T | null {
     if (!this.isSupported) {
       this.warnings.next(LOCAL_STORAGE_NOT_SUPPORTED);
       return null;
@@ -71,8 +71,8 @@ export class LocalStorageService {
     }
   }
 
-  public getPromise(key: string) {
-    return new Promise((resolve) => {{
+  public getPromise(key: string): Promise<any> {
+    return new Promise((resolve: any) => {{
       resolve(this.get(key));
     }});
   }

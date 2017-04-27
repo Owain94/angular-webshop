@@ -49,17 +49,17 @@ export class MainComponent implements OnInit {
       elementY;
     const diff = targetY - 50 - startingY;
 
-    const easing = (t) => {
+    const easing = (t: number) => {
       return t < .5 ? 4 * t * t * t : (t  - 1)  * (2 * t - 2)  *  (2 * t - 2) + 1;
     };
 
-    let start;
+    let start: number;
 
     if (!diff) {
       return;
     }
 
-    windowRef.requestAnimationFrame(function step(timestamp) {
+    windowRef.requestAnimationFrame(function step(timestamp: number) {
       if (!start) {
         start = timestamp;
       }
