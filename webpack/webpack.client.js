@@ -39,12 +39,13 @@ module.exports = {
       "inject": true,
       "compile": true,
       "favicon": false,
-      "minify": false,
+      "minify": {
+        "collapseWhitespace": true
+      },
       "cache": true,
       "showErrors": true,
       "chunks": "all",
       "excludeChunks": [],
-      "xhtml": true,
       "chunksSortMode": function sort(left, right) {
         let leftIndex = entryPoints.indexOf(left.names[0]);
         let rightindex = entryPoints.indexOf(right.names[0]);
