@@ -1,20 +1,24 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
+
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.pug',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   public products: Array<[string, number, string, number, string]> = [];
   // tslint:disable-next-line:no-inferrable-types
   public price: [number, number, number] = [0, 0, 0];
+
+  private productSubscriptions: Array<Subscription> = [];
 
   constructor(private metaService: MetaService,
               private  cartService: CartService,
@@ -27,17 +31,26 @@ export class CartComponent implements OnInit {
     this.getCart();
   }
 
+  ngOnDestroy(): void {
+    for (const productSubscription in this.productSubscriptions) {
+      if (this.productSubscriptions.hasOwnProperty(productSubscription) &&
+        (typeof this.productSubscriptions[productSubscription] === 'function')) {
+        this.productSubscriptions[productSubscription].unsubscribe();
+      }
+    }
+  }
+
   private getCart() {
     const products = this.cartService.getCart();
     for (const product in products) {
       if (products.hasOwnProperty(product)) {
-        this.productService.product(products[product][0]).subscribe((res: productsInterface.RootObject) => {
+        this.productSubscriptions.push(this.productService.product(products[product][0]).subscribe((res: productsInterface.RootObject) => {
           products[product][2] = res.name;
           products[product][3] = Number(res.price);
           products[product][4] = res.photo;
 
           this.getTotalPrice();
-        });
+        }));
       }
     }
 
