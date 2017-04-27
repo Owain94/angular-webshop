@@ -10,7 +10,6 @@ import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper'
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
-import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
@@ -47,7 +46,6 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
-              private metaService: MetaService,
               private adminService: AdminService,
               private adminGuard: AdminGuard,
               private router: Router,
@@ -79,7 +77,6 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.categoriesSubscription = this.productService.categories().subscribe(

@@ -9,7 +9,6 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
-import { MetaService } from '../../../services/meta.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
@@ -51,12 +50,10 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
               private adminService: AdminService,
               private adminGuard: AdminGuard,
               private productService: ProductService,
-              private metaService: MetaService,
               private notificationsService: NotificationsService) {
   }
 
   ngOnInit(): void {
-    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.getProducts();

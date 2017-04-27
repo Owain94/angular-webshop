@@ -15,6 +15,7 @@ import { AdminCategoriesComponent } from './categories/categories.component';
 import { AdminProductsComponent } from './products/products.component';
 import { AdminAddProductComponent } from './products/add/add.product.component';
 import { AdminEditProductComponent } from './products/edit/edit.product.component';
+import { AdminStatsComponent } from './stats/stats.component';
 
 import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
@@ -49,6 +50,10 @@ const routes: Routes =
         {
           path: 'editproduct/:id',
           component: AdminEditProductComponent
+        },
+        {
+          path: 'stats',
+          component: AdminStatsComponent
         }
       ]
     }
@@ -60,7 +65,8 @@ const routes: Routes =
     AdminCategoriesComponent,
     AdminProductsComponent,
     AdminAddProductComponent,
-    AdminEditProductComponent
+    AdminEditProductComponent,
+    AdminStatsComponent
   ],
   imports: [
     HeaderModule,
