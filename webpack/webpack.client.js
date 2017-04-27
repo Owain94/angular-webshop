@@ -59,7 +59,7 @@ module.exports = {
       }
     }),
     new ScriptExtHtmlWebpackPlugin({
-      async: 'main'
+      "async": "main"
     }),
     new CommonsChunkPlugin({
       "name": "inline",
