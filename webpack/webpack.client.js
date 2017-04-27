@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const { CommonsChunkPlugin } = require("webpack").optimize;
 
@@ -43,21 +44,21 @@ module.exports = {
       "showErrors": true,
       "chunks": "all",
       "excludeChunks": [],
-      "title": "Webpack App",
       "xhtml": true,
       "chunksSortMode": function sort(left, right) {
         let leftIndex = entryPoints.indexOf(left.names[0]);
         let rightindex = entryPoints.indexOf(right.names[0]);
         if (leftIndex > rightindex) {
             return 1;
-        }
-        else if (leftIndex < rightindex) {
+        } else if (leftIndex < rightindex) {
             return -1;
-        }
-        else {
+        } else {
             return 0;
         }
       }
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      async: 'main'
     }),
     new CommonsChunkPlugin({
       "name": "inline",
