@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Router, CanActivate, CanLoad, CanActivateChild } from '@angular/router';
+import { Router, CanActivate, CanLoad } from '@angular/router';
 
 import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
 

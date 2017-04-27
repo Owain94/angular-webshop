@@ -11,6 +11,12 @@
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictNullChecks": false,
+    "noUnusedLocals": true,
+    "allowUnusedLabels": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "alwaysStrict": true,
     "target": "es5",
     "module": "commonjs",
     "lib": [

@@ -6,8 +6,6 @@ import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
 
-import { Subscription } from 'rxjs/Subscription';
-
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.pug',

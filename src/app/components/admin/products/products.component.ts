@@ -112,7 +112,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
       imageUrl: `${url}/assets/products/${photo}`
     }).then(() => {
       // pass
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }
@@ -144,7 +144,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
           }
         }
       );
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }

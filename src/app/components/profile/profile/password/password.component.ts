@@ -6,7 +6,6 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
-import { MetaService } from '../../../../services/meta.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { PasswordValidator } from '../../../../helpers/password.validator';

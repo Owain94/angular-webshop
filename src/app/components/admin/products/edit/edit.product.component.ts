@@ -203,7 +203,7 @@ export class AdminEditProductComponent implements OnInit {
       imageUrl: this.data.image
     }).then(() => {
       // pass
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }

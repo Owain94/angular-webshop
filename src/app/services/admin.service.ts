@@ -4,7 +4,6 @@
 import { LocalStorageService } from './localstorage.service';
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
-import { Router } from '@angular/router';
 
 import { url } from '../../constants';
 

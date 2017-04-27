@@ -7,7 +7,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
-import { MetaService } from '../../../../services/meta.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { Subscription } from 'rxjs/Rx';

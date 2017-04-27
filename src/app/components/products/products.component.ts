@@ -2,7 +2,6 @@
 /// <reference path="../../interfaces/products/categories.interface.ts" />
 
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';

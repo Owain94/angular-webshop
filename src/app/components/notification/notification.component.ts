@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, ViewEncapsulation, NgZone} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, NgZone} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 

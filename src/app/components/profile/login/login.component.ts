@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,7 +14,6 @@ import { NotificationsService } from '../../../services/notifications.service';
 import { AuthGuard } from '../../../guards/auth.guard';
 
 import { Subscription } from 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
