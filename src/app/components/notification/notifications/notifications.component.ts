@@ -3,6 +3,8 @@ import { Component, EventEmitter, OnInit, OnDestroy, Input, Output } from '@angu
 import { Options } from '../../../interfaces/notifications/options.type';
 import { Notification } from '../../../interfaces/notifications/notification.type';
 
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
+
 import { NotificationsService } from '../../../services/notifications.service';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -12,7 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './notifications.component.pug',
   styleUrls: ['./notifications.component.css']
 })
-
+@AutoUnsubscribe()
 export class NotificationsComponent implements OnInit, OnDestroy {
 
   @Input() set options(opt: Options) {
@@ -186,8 +188,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.listener) {
-      this.listener.unsubscribe();
-    }
+    // pass
   }
 }
