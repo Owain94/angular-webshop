@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -24,7 +24,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 
 @AutoUnsubscribe()
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   // tslint:disable-next-line:no-inferrable-types
@@ -94,6 +94,10 @@ export class LoginComponent implements OnInit {
         }
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public submitForm(value: Object): void {

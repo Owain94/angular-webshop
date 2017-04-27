@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 
 @AutoUnsubscribe()
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
   public loggedIn: boolean;
   // tslint:disable-next-line:no-inferrable-types
   public admin: boolean = false;
@@ -44,6 +44,10 @@ export class MenuComponent implements OnInit {
 
     this.loggedIn = this.authGuard.check();
     this.admin = this.adminGuard.checkLocal();
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public navBarClick(force: boolean = false): void {

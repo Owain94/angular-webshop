@@ -1,9 +1,10 @@
 /// <reference path="../interfaces/generic.interface.ts" />
 /// <reference path="../interfaces/admin/verify.interface.ts" />
 
-import { LocalStorageService } from './localstorage.service';
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
+
+import { LocalStorageService } from './localstorage.service';
 
 import { url } from '../../constants';
 

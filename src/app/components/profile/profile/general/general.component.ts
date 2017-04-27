@@ -1,7 +1,7 @@
 /// <reference path="../../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../../interfaces/user/profile.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 
 @AutoUnsubscribe()
-export class ProfileGeneralComponent implements OnInit {
+export class ProfileGeneralComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types
   public disabledProfileForm: boolean = false;
@@ -81,6 +81,10 @@ export class ProfileGeneralComponent implements OnInit {
           countryField.setValue(res['data']['country']);
         }
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public submitProfileForm(value: Object): void {

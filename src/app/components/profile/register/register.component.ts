@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
@@ -27,7 +27,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 
 @AutoUnsubscribe()
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   public registerForm: FormGroup;
@@ -104,6 +104,10 @@ export class RegisterComponent implements OnInit {
           });
         }
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   private postalcode = (): ValidatorFn => {

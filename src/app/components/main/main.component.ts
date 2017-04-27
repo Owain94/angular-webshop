@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 
 @AutoUnsubscribe()
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   private routerEventsSubscription: Subscription;
 
@@ -33,6 +33,10 @@ export class MainComponent implements OnInit {
     });
 
     this.transferState.set('cached', true);
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public scrollTo(event: any): void {

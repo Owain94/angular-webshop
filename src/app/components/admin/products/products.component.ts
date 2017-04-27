@@ -1,7 +1,7 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
@@ -29,7 +29,7 @@ import swal from 'sweetalert2';
 })
 
 @AutoUnsubscribe()
-export class AdminProductsComponent implements OnInit, AfterContentInit {
+export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
   public products: productsInterface.RootObject;
 
   public categories: categoriesInterface.RootObject;
@@ -87,6 +87,10 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
         }
       }, 100);
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   private getProducts(): void {

@@ -1,7 +1,7 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 /// <reference path="../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
@@ -20,7 +20,7 @@ import 'rxjs/add/operator/debounceTime';
 })
 
 @AutoUnsubscribe()
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
 
   public products: productsInterface.RootObject;
 
@@ -60,6 +60,10 @@ export class ProductsComponent implements OnInit {
       .subscribe(category => {
         this.filterCategoryText = category;
       });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   private getProducts(): void {

@@ -1,7 +1,7 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -24,8 +24,7 @@ import swal from 'sweetalert2';
 })
 
 @AutoUnsubscribe()
-export class AdminCategoriesComponent implements OnInit {
-
+export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   public addCategoryForm: FormGroup;
@@ -53,6 +52,10 @@ export class AdminCategoriesComponent implements OnInit {
     this.addCategoryForm = this.formBuilder.group({
       'name': [null, Validators.required]
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   private getCategories(): void {

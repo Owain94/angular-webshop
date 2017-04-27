@@ -1,7 +1,7 @@
 /// <reference path="../../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
@@ -27,7 +27,7 @@ import swal from 'sweetalert2';
 })
 
 @AutoUnsubscribe()
-export class AdminAddProductComponent implements OnInit {
+export class AdminAddProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
   public data: any;
@@ -101,6 +101,10 @@ export class AdminAddProductComponent implements OnInit {
       'description': [null, Validators.required],
       'photo': [null, Validators.required]
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public cropped(bounds: Bounds) {
