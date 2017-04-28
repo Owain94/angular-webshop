@@ -57,7 +57,7 @@ import {NotificationsService} from '../../services/notifications.service';
     ])
   ],
   templateUrl: './notification.component.pug',
-  styleUrls: ['./notification.component.css']
+  styleUrls: ['./notification.component.styl']
 })
 
 export class NotificationComponent implements OnInit, OnDestroy {

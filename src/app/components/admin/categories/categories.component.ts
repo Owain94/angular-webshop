@@ -19,7 +19,7 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-categories',
   templateUrl: './categories.component.pug',
-  styleUrls: ['./categories.component.css']
+  styleUrls: ['./categories.component.styl']
 })
 
 @AutoUnsubscribe()

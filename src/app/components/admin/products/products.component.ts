@@ -24,7 +24,7 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-products',
   templateUrl: './products.component.pug',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.styl']
 })
 
 @AutoUnsubscribe()

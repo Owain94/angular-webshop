@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.pug',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.styl']
 })
 export class CartComponent implements OnInit, OnDestroy {
   public products: Array<[string, number, string, number, string]> = [];

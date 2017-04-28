@@ -6,8 +6,7 @@ import { AdminGuard } from './../../../guards/admin.guard';
 
 @Component({
   selector: 'app-admin-stats',
-  templateUrl: './stats.component.pug',
-  styleUrls: ['./stats.component.css']
+  templateUrl: './stats.component.pug'
 })
 
 @AutoUnsubscribe()

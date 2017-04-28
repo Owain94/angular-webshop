@@ -16,7 +16,7 @@ import 'rxjs/add/operator/debounceTime';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.pug',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.styl']
 })
 
 @AutoUnsubscribe()

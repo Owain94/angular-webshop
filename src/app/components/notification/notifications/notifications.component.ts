@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.pug',
-  styleUrls: ['./notifications.component.css']
+  styleUrls: ['./notifications.component.styl']
 })
 @AutoUnsubscribe()
 export class NotificationsComponent implements OnInit, OnDestroy {

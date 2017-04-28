@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-profile-tfa',
   templateUrl: './twofactor.component.pug',
-  styleUrls: ['./twofactor.component.css']
+  styleUrls: ['./twofactor.component.styl']
 })
 
 @AutoUnsubscribe()

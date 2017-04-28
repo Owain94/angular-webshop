@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-producs',
   templateUrl: './product.component.pug',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.styl']
 })
 
 @AutoUnsubscribe()

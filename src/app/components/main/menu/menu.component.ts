@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.pug',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.styl']
 })
 
 @AutoUnsubscribe()

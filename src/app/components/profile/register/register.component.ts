@@ -23,7 +23,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.pug',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.styl']
 })
 
 @AutoUnsubscribe()
