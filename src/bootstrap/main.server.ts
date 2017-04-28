@@ -1,17 +1,13 @@
-import './polyfills.server';
-
-import { enableProdMode } from '@angular/core';
-import { AppServerModuleNgFactory } from './aot/src/app/modules/app.server.module.ngfactory';
-import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
+import '../polyfills/polyfills.server';
+import { AppServerModule } from './../app/modules/app.server.module';
+import { ngExpressEngine } from './../app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
-import { ROUTES } from './routes';
-import { JWTKey } from './constants';
+import { ROUTES } from './../helpers/routes';
+import { JWTKey } from './../helpers/constants';
 
 const port = 8000;
 const baseUrl = `http://localhost:${port}`;
-
-enableProdMode();
 
 const compression = require('compression');
 const bodyParser = require('body-parser');
@@ -29,13 +25,11 @@ const pww = credential();
 const imageBasePath = 'dist/assets/products/';
 
 function capitalizeFirstLetter(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-app.use(compression());
-
 app.engine('html', ngExpressEngine({
-  bootstrap: AppServerModuleNgFactory
+  bootstrap: AppServerModule
 }));
 
 app.set('view engine', 'html');

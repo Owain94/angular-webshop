@@ -7,7 +7,7 @@ const webpack = require("webpack");
 module.exports = {
   "entry": {
     "main": [
-      "./src/main.server.ts"
+      "./src/bootstrap/main.server.ts"
     ]
   },
   "output": {

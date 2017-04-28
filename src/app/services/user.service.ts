@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 
 import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
 
-import { url } from '../../constants';
+import { url } from '../../helpers/constants';
 
 import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
