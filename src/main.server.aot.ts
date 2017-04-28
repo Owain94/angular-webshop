@@ -1,8 +1,4 @@
-import 'zone.js/dist/zone-node';
-import './polyfills';
-
-import 'reflect-metadata';
-import 'rxjs/Rx';
+import './polyfills.server';
 
 import { enableProdMode } from '@angular/core';
 import { AppServerModuleNgFactory } from './aot/src/app/modules/app.server.module.ngfactory';

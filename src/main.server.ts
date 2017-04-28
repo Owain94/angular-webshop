@@ -1,9 +1,4 @@
-import 'zone.js/dist/zone-node';
-import './polyfills';
-
-import 'reflect-metadata';
-import 'rxjs/Rx';
-
+import './polyfills.server';
 import { AppServerModule } from './app/modules/app.server.module';
 import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
 

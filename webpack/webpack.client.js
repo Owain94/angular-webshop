@@ -17,7 +17,7 @@ module.exports = {
       "./src/main.ts"
     ],
     "polyfills": [
-      "./src/polyfills.ts"
+      "./src/polyfills.browser.ts"
     ],
     "styles": [
       "./src/assets/css/foundation.css",
