@@ -1,6 +1,6 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
@@ -14,11 +14,11 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.pug',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.styl']
 })
 
 @AutoUnsubscribe()
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];
   public products: productsInterface.RootObject;
 
@@ -40,6 +40,10 @@ export class HomeComponent implements OnInit {
         this.products = res;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public trackByFn(index: number, item: productsInterface.RootObject): string {

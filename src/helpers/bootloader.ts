@@ -12,8 +12,11 @@ export function bootloader (main: any): void {
       break;
     case 'complete':
       attachFastClick(document.body);
-    // tslint:disable-next-line:no-switch-case-fall-through
+      main();
+      break;
     case 'interactive':
+      main();
+      break;
     default:
       main();
   }

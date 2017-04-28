@@ -66,7 +66,6 @@ module.exports = {
       {
         "exclude": [
           path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
           path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.css$/,
@@ -78,37 +77,7 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
-          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
-        ],
-        "test": /\.scss$|\.sass$/,
-        "loaders": [
-          "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader",
-          "sass-loader"
-        ]
-      },
-      {
-        "exclude": [
-          path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
-          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
-        ],
-        "test": /\.less$/,
-        "loaders": [
-          "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader",
-          "less-loader"
-        ]
-      },
-      {
-        "exclude": [
-          path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
-          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
+          path.join(process.cwd(), "src/assets/css/styles.styl")
         ],
         "test": /\.styl$/,
         "loaders": [
@@ -121,7 +90,6 @@ module.exports = {
       {
         "include": [
           path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
           path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
         ],
         "test": /\.css$/,
@@ -136,43 +104,7 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
-          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
-        ],
-        "test": /\.scss$|\.sass$/,
-        "loaders": ExtractTextPlugin.extract({
-          "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-            "postcss-loader",
-            "sass-loader"
-          ],
-          "fallback": "style-loader",
-          "publicPath": ""
-        })
-      },
-      {
-        "include": [
-          path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
-          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
-        ],
-        "test": /\.less$/,
-        "loaders": ExtractTextPlugin.extract({
-          "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-            "postcss-loader",
-            "less-loader"
-          ],
-          "fallback": "style-loader",
-          "publicPath": ""
-        })
-      },
-      {
-        "include": [
-          path.join(process.cwd(), "src/assets/css/foundation.css"),
-          path.join(process.cwd(), "src/styles.css"),
-          path.join(process.cwd(), "node_modules/sweetalert2/dist/sweetalert2.min.css")
+          path.join(process.cwd(), "src/assets/css/styles.styl")
         ],
         "test": /\.styl$/,
         "loaders": ExtractTextPlugin.extract({
@@ -209,13 +141,6 @@ module.exports = {
                 )
             )
         ],
-        "sassLoader": {
-          "sourceMap": false,
-          "includePaths": []
-        },
-        "lessLoader": {
-          "sourceMap": false
-        },
         "context": ""
       }
     }),

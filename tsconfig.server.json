@@ -4,7 +4,7 @@
     "src/**/*"
   ],
   "exclude": [
-    "./src/main.server.aot.ts"
+    "./src/bootstrap/main.server.aot.ts"
   ],
   "angularCompilerOptions": {
     "entryModule": "./src/app/modules/app.server.module#AppServerModule"

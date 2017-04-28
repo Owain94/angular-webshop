@@ -1,7 +1,9 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Input, Output } from '@angular/core';
 
 import { Options } from '../../../interfaces/notifications/options.type';
 import { Notification } from '../../../interfaces/notifications/notification.type';
+
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { NotificationsService } from '../../../services/notifications.service';
 
@@ -10,9 +12,9 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.pug',
-  styleUrls: ['./notifications.component.css']
+  styleUrls: ['./notifications.component.styl']
 })
-
+@AutoUnsubscribe()
 export class NotificationsComponent implements OnInit, OnDestroy {
 
   @Input() set options(opt: Options) {
@@ -186,8 +188,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.listener) {
-      this.listener.unsubscribe();
-    }
+    // pass
   }
 }

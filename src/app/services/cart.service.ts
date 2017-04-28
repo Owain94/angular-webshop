@@ -1,5 +1,6 @@
-import { LocalStorageService } from './localstorage.service';
 import { Injectable } from '@angular/core';
+
+import { LocalStorageService } from './localstorage.service';
 
 @Injectable()
 export class CartService {

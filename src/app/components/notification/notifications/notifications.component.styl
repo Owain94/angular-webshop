@@ -1,0 +1,18 @@
+.simple-notification-wrapper
+  position fixed
+  width 300px
+  z-index 1000
+  &.left
+    left 20px
+  &.top
+    top 20px
+  &.right
+    right 20px
+  &.bottom
+    bottom 20px
+
+@media (max-width: 340px)
+  .simple-notification-wrapper
+    width auto
+    left 20px
+    right 20px

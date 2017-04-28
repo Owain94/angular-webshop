@@ -2,7 +2,7 @@
 /// <reference path="../../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
@@ -11,13 +11,12 @@ import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper'
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
-import { MetaService } from '../../../../services/meta.service';
 import { ProductService } from '../../../../services/product.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
 
-import { url } from '../../../../../constants';
+import { url } from '../../../../../helpers/constants';
 
 import { Subscription } from 'rxjs/Rx';
 
@@ -26,11 +25,11 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-product',
   templateUrl: './edit.product.component.pug',
-  styleUrls: ['./edit.product.component.css']
+  styleUrls: ['./edit.product.component.styl']
 })
 
 @AutoUnsubscribe()
-export class AdminEditProductComponent implements OnInit {
+export class AdminEditProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
   public data: any;
@@ -52,7 +51,6 @@ export class AdminEditProductComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
               private adminService: AdminService,
-              private metaService: MetaService,
               private adminGuard: AdminGuard,
               private route: ActivatedRoute,
               private router: Router,
@@ -84,22 +82,43 @@ export class AdminEditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.routeParamSubscription = this.route.params.subscribe(params => {
       const id = params['id'];
 
-      this.productSubscription = this.productService.product(id).subscribe(
+      this.productSubscription = this.productService.product(id, true).subscribe(
         (res: productsInterface.RootObject) => {
-          this.editProductForm.get('name').setValue(res.name);
-          this.editProductForm.get('category').setValue(res.category);
-          this.editProductForm.get('description').setValue(res.description);
-          this.editProductForm.get('photo').setValue(res.photo);
-          this.editProductForm.get('price').setValue(res.price);
-          this.editProductForm.get('amount').setValue(res.amount);
+          const nameField = this.editProductForm.get('name');
+          const categoryField = this.editProductForm.get('category');
+          const descriptionField = this.editProductForm.get('description');
+          const photoField = this.editProductForm.get('photo');
+          const priceField = this.editProductForm.get('price');
+          const amountField = this.editProductForm.get('amount');
+          const idField = this.editProductForm.get('id');
 
-          this.editProductForm.get('id').setValue(id);
+          if (nameField) {
+            nameField.setValue(res.name);
+          }
+          if (categoryField) {
+            categoryField.setValue(res.category);
+          }
+          if (descriptionField) {
+            descriptionField.setValue(res.description);
+          }
+          if (photoField) {
+            photoField.setValue(res.photo);
+          }
+          if (priceField) {
+            priceField.setValue(res.price);
+          }
+          if (amountField) {
+            amountField.setValue(res.amount);
+          }
+          if (idField) {
+            idField.setValue(id);
+          }
+
           this.data.image = res.photo;
 
           const image: any = new Image();
@@ -112,7 +131,7 @@ export class AdminEditProductComponent implements OnInit {
       );
     });
 
-    this.categoriesSubscription = this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories(true).subscribe(
       (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }
@@ -132,6 +151,10 @@ export class AdminEditProductComponent implements OnInit {
       'photo': [null, Validators.required],
       'id': [null, Validators.required]
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   private toDataUrl(url: string, callback: any) {
@@ -154,7 +177,11 @@ export class AdminEditProductComponent implements OnInit {
     this.croppedHeight = bounds.bottom - bounds.top;
     this.croppedWidth = bounds.right - bounds.left;
 
-    this.editProductForm.get('photo').setValue(this.data.image);
+    const photo = this.editProductForm.get('photo');
+
+    if (photo !== null) {
+      photo.setValue(this.data.image) ;
+    }
   }
 
   public fileChangeListener($event: any) {
@@ -177,7 +204,7 @@ export class AdminEditProductComponent implements OnInit {
       imageUrl: this.data.image
     }).then(() => {
       // pass
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }

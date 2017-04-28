@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
 
-import { postalKey } from '../../constants';
+import { postalKey } from '../../helpers/constants';
 
 import { Observable } from 'rxjs/Observable';
 

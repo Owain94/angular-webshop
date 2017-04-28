@@ -1,16 +1,12 @@
-import 'zone.js/dist/zone-node';
-import './polyfills';
-
-import 'reflect-metadata';
-import 'rxjs/Rx';
+import '../polyfills/polyfills.server';
 
 import { enableProdMode } from '@angular/core';
-import { AppServerModuleNgFactory } from './aot/src/app/modules/app.server.module.ngfactory';
-import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
+import { AppServerModuleNgFactory } from './../aot/src/app/modules/app.server.module.ngfactory';
+import { ngExpressEngine } from './../app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
-import { ROUTES } from './routes';
-import { JWTKey } from './constants';
+import { ROUTES } from './../helpers/routes';
+import { JWTKey } from './../helpers/constants';
 
 const port = 8000;
 const baseUrl = `http://localhost:${port}`;

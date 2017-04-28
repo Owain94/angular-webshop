@@ -1,18 +1,10 @@
-import { decode } from 'punycode';
-import { consoleTestResultHandler } from 'tslint/lib/test';
-import 'zone.js/dist/zone-node';
-import './polyfills';
-
-import 'reflect-metadata';
-import 'rxjs/Rx';
-
-import { platformServer, renderModuleFactory } from '@angular/platform-server';
-import { AppServerModule } from './app/modules/app.server.module';
-import { ngExpressEngine } from './app/modules/ng-express-engine/express-engine';
+import '../polyfills/polyfills.server';
+import { AppServerModule } from './../app/modules/app.server.module';
+import { ngExpressEngine } from './../app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
-import { ROUTES } from './routes';
-import { JWTKey } from './constants';
+import { ROUTES } from './../helpers/routes';
+import { JWTKey } from './../helpers/constants';
 
 const port = 8000;
 const baseUrl = `http://localhost:${port}`;

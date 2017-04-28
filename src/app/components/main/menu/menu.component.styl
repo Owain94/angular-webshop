@@ -1,0 +1,89 @@
+#top
+  background white !important
+  z-index 100
+  padding 0 !important
+
+.background
+  background transparent
+
+.top-bar,
+.top-bar-section ul,
+.top-bar-section li a:not(.button)
+  background white !important
+  color #222
+  font-size 20px
+  font-weight 200
+
+.top-bar
+  height 78px
+  line-height 78px
+  .logo
+    height 78px
+    line-height 100px
+    img
+      display inline-block
+  &.collapsed
+    height auto
+    .title-area
+      background white
+    .top-bar-section
+      li
+        border-top 1px solid #e1e1e1
+        a
+          &:not(.button)
+            line-height 40px
+  .active
+    a
+      color #cd2e6b !important
+
+.top-bar-section
+  li
+    a
+      &:not(.button)
+        line-height 78px
+        color #222
+      &:hover
+        &:not(.button)
+          color #666
+  ul
+    li
+      &:last-child
+        line-height 58px
+      & > a
+        &.button
+          min-width inherit !important
+          padding-left 30px
+          padding-right 30px
+          height auto
+          display inline-block
+
+.toggle-topbar
+  margin-top 10px
+
+.top-bar .toggle-topbar.menu-icon a,
+.top-bar .toggle-topbar a
+  color #222
+  font-weight normal
+
+.top-bar .toggle-topbar.menu-icon span,
+.top-bar .toggle-topbar span
+  padding-right 20px
+  text-indent -60px
+
+.top-bar.collapsed .toggle-topbar.menu-icon a,
+.top-bar.collapsed .toggle-topbar a
+  color #888
+
+@media (max-width: 767px)
+  #top
+    position static !important
+    top auto !important
+    left auto
+    right 0
+  .top-bar-section
+    li
+      a
+        &:not(.button)
+          background white !important
+    ul
+      background white !important

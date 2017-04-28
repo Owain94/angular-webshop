@@ -1,12 +1,11 @@
 /// <reference path="../../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
-import { MetaService } from '../../../../services/meta.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { PasswordValidator } from '../../../../helpers/password.validator';
@@ -19,7 +18,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 
 @AutoUnsubscribe()
-export class ProfilePasswordComponent implements OnInit {
+export class ProfilePasswordComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types
   public disabledPasswordForm: boolean = false;
@@ -42,6 +41,10 @@ export class ProfilePasswordComponent implements OnInit {
     });
 
     this.passwordForm.setValidators(PasswordValidator.mismatchedPasswords());
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public submitPasswordForm(value: Object): void {

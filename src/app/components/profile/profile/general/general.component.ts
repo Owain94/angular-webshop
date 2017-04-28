@@ -1,13 +1,12 @@
 /// <reference path="../../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../../interfaces/user/profile.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
-import { MetaService } from '../../../../services/meta.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { Subscription } from 'rxjs/Rx';
@@ -18,7 +17,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 
 @AutoUnsubscribe()
-export class ProfileGeneralComponent implements OnInit {
+export class ProfileGeneralComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types
   public disabledProfileForm: boolean = false;
@@ -48,15 +47,44 @@ export class ProfileGeneralComponent implements OnInit {
 
     this.profileDataSubscription = this.userService.profileData()
       .subscribe((res:  profileInterface.RootObject) => {
-        this.profileForm.get('firstname').setValue(res['data']['firstname']);
-        this.profileForm.get('surname_prefix').setValue(res['data']['surname_prefix']);
-        this.profileForm.get('surname').setValue(res['data']['surname']);
-        this.profileForm.get('streetname').setValue(res['data']['streetname']);
-        this.profileForm.get('house_number').setValue(res['data']['house_number']);
-        this.profileForm.get('postal_code').setValue(res['data']['postal_code']);
-        this.profileForm.get('city').setValue(res['data']['city']);
-        this.profileForm.get('country').setValue(res['data']['country']);
+        const firstnameField = this.profileForm.get('firstname');
+        const surnamePrefixField = this.profileForm.get('surname_prefix');
+        const surnameField = this.profileForm.get('surname');
+        const streetnameField = this.profileForm.get('streetname');
+        const houseNumberField = this.profileForm.get('house_number');
+        const postalCodeField = this.profileForm.get('postal_code');
+        const cityField = this.profileForm.get('city');
+        const countryField = this.profileForm.get('country');
+
+        if (firstnameField) {
+          firstnameField.setValue(res['data']['firstname']);
+        }
+        if (surnamePrefixField) {
+          surnamePrefixField.setValue(res['data']['surname_prefix']);
+        }
+        if (surnameField) {
+          surnameField.setValue(res['data']['surname']);
+        }
+        if (streetnameField) {
+          streetnameField.setValue(res['data']['streetname']);
+        }
+        if (houseNumberField) {
+          houseNumberField.setValue(res['data']['house_number']);
+        }
+        if (postalCodeField) {
+          postalCodeField.setValue(res['data']['postal_code']);
+        }
+        if (cityField) {
+          cityField.setValue(res['data']['city']);
+        }
+        if (countryField) {
+          countryField.setValue(res['data']['country']);
+        }
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public submitProfileForm(value: Object): void {
