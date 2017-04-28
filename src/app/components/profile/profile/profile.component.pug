@@ -3,8 +3,9 @@ app-header([headerHeading]="['Profiel', 'Instellingen aanpassen']")
 .section
   .row
     .large-12.columns
-      a.button(routerLink="/profile/general") Algemeen
-      a.button(routerLink="/profile/password") Wachtwoord
-      a.button(routerLink="/profile/tfa") Two Factor
+      .button-group
+        a.button(routerLink="/profile/general") Algemeen
+        a.button(routerLink="/profile/password") Wachtwoord
+        a.button(routerLink="/profile/tfa") Two Factor
 
   router-outlet
