@@ -216,7 +216,7 @@
       "error": true
     },
     "universal": false,
-    "valid": false,
+    "valid": true,
     "zeroUnits": {
       "expect": "never",
       "error": true
