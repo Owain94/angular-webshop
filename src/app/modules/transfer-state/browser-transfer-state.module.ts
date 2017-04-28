@@ -1,5 +1,4 @@
-import { NgModule, RendererFactory2 } from '@angular/core';
-import { PlatformState } from '@angular/platform-server';
+import { NgModule } from '@angular/core';
 
 import { TransferState } from './transfer-state';
 

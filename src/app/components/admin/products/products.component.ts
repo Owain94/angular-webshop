@@ -1,7 +1,7 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
@@ -9,7 +9,6 @@ import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator'
 
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
-import { MetaService } from '../../../services/meta.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
@@ -25,11 +24,11 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-products',
   templateUrl: './products.component.pug',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.styl']
 })
 
 @AutoUnsubscribe()
-export class AdminProductsComponent implements OnInit, AfterContentInit {
+export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
   public products: productsInterface.RootObject;
 
   public categories: categoriesInterface.RootObject;
@@ -51,12 +50,10 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
               private adminService: AdminService,
               private adminGuard: AdminGuard,
               private productService: ProductService,
-              private metaService: MetaService,
               private notificationsService: NotificationsService) {
   }
 
   ngOnInit(): void {
-    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.getProducts();
@@ -89,6 +86,10 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
     });
   }
 
+  ngOnDestroy(): void {
+    // pass
+  }
+
   private getProducts(): void {
     this.productsSubscription = this.productService.products(Infinity).subscribe(
       (res: productsInterface.RootObject) => {
@@ -112,7 +113,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
       imageUrl: `${url}/assets/products/${photo}`
     }).then(() => {
       // pass
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }
@@ -144,7 +145,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit {
           }
         }
       );
-    }, (dismiss) => {
+    }, (dismiss: any) => {
       // pass
     });
   }

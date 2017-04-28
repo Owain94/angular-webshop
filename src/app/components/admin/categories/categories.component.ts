@@ -1,14 +1,13 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
-import { MetaService } from '../../../services/meta.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
@@ -20,12 +19,11 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-categories',
   templateUrl: './categories.component.pug',
-  styleUrls: ['./categories.component.css']
+  styleUrls: ['./categories.component.styl']
 })
 
 @AutoUnsubscribe()
-export class AdminCategoriesComponent implements OnInit {
-
+export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   public addCategoryForm: FormGroup;
@@ -39,13 +37,11 @@ export class AdminCategoriesComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
               private productService: ProductService,
-              private metaService: MetaService,
               private adminGuard: AdminGuard,
               private notificationsService: NotificationsService) {
   }
 
   ngOnInit(): void {
-    this.metaService.addTags();
     this.adminGuard.checkRemote();
 
     this.getCategories();
@@ -53,6 +49,10 @@ export class AdminCategoriesComponent implements OnInit {
     this.addCategoryForm = this.formBuilder.group({
       'name': [null, Validators.required]
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   private getCategories(): void {

@@ -3,7 +3,9 @@ app-header([headerHeading]="['Admin panel', '']")
 .section
   .row
     .large-12.columns
-      a.button(routerLink="/admin/categories") Categorieën
-      a.button(routerLink="/admin/products") Producten
+      .button-group
+        a.button(routerLink="/admin/categories") Categorieën
+        a.button(routerLink="/admin/products") Producten
+        a.button(routerLink="/admin/stats") Statistieken
 
   router-outlet

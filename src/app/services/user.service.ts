@@ -5,7 +5,7 @@
 /// <reference path="../interfaces/user/check.tfa.interface.ts" />
 
 import { LocalStorageService } from './localstorage.service';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
 import { Router } from '@angular/router';
 
@@ -18,7 +18,7 @@ import { Observable } from 'rxjs/Observable';
 
 @AutoUnsubscribe()
 @Injectable()
-export class UserService {
+export class UserService implements OnDestroy {
   private options: RequestOptions;
 
   private verifyLogoutSubscription: Subscription;
@@ -29,6 +29,10 @@ export class UserService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     this.options = new RequestOptions({ headers: headers });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public register(data: Object): Observable<genericInterface.RootObject> {

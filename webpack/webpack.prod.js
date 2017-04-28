@@ -32,7 +32,8 @@ module.exports = {
         "evaluate": true,
         "if_return": true,
         "join_vars": true,
-        "negate_iife": false
+        "negate_iife": false,
+        "screw_ie8": true
       }
     }),
     new PurifyCSSPlugin({

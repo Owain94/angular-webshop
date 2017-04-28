@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, ViewEncapsulation, NgZone} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, NgZone} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
@@ -57,7 +57,7 @@ import {NotificationsService} from '../../services/notifications.service';
     ])
   ],
   templateUrl: './notification.component.pug',
-  styleUrls: ['./notification.component.css']
+  styleUrls: ['./notification.component.styl']
 })
 
 export class NotificationComponent implements OnInit, OnDestroy {

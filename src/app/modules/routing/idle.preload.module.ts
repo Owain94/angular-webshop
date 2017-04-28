@@ -7,7 +7,7 @@ import 'rxjs/add/observable/of';
 
 export const REQUEST_IDLE_CALLBACK = new OpaqueToken('REQUEST_IDLE_CALLBACK');
 
-export function requestIdle(ngzone: NgZone) {
+export function requestIdle(ngzone: NgZone): any | undefined {
   if (typeof(window) !== 'undefined') {
     if ('requestIdleCallback' in window) {
       return (fn: any) => window['requestIdleCallback'](fn);
@@ -15,12 +15,12 @@ export function requestIdle(ngzone: NgZone) {
 
     return (fn: any) => ngzone.runOutsideAngular(() => window.setTimeout(fn, 10));
   }
+  return undefined;
 }
 
 @Injectable()
 export class IdlePreload {
-  constructor(private ngZone: NgZone,
-              @Inject(REQUEST_IDLE_CALLBACK) private requestIdleCallback: any) {
+  constructor(@Inject(REQUEST_IDLE_CALLBACK) private requestIdleCallback: any) {
   }
 
   preload(route: any, fn: () => Observable<any>): Observable<any> {

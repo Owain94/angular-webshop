@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -15,11 +15,11 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-producs',
   templateUrl: './product.component.pug',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.styl']
 })
 
 @AutoUnsubscribe()
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
 
   public id: string;
   public product: productsInterface.RootObject;
@@ -48,6 +48,10 @@ export class ProductComponent implements OnInit {
     });
 
     this.cartService.initCart();
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public addToCart() {

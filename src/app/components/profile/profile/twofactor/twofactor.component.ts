@@ -2,12 +2,11 @@
 /// <reference path="../../../../interfaces/user/tfa.token.interface.ts" />
 /// <reference path="../../../../interfaces/user/profile.interface.ts" />
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
-import { MetaService } from '../../../../services/meta.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
 import { Subscription } from 'rxjs/Rx';
@@ -15,11 +14,11 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-profile-tfa',
   templateUrl: './twofactor.component.pug',
-  styleUrls: ['./twofactor.component.css']
+  styleUrls: ['./twofactor.component.styl']
 })
 
 @AutoUnsubscribe()
-export class ProfileTfaComponent implements OnInit {
+export class ProfileTfaComponent implements OnInit, OnDestroy {
   @ViewChild('tfaToken') tfaToken: ElementRef;
 
   public twoFactorCode: string;
@@ -49,6 +48,10 @@ export class ProfileTfaComponent implements OnInit {
           this.twoFactorShow = true;
         }
     });
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public twoFactor(value: boolean): void {

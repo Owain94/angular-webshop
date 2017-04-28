@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { AutoUnsubscribe } from '../decorators/auto.unsubscribe.decorator';
 
 import { INotifyOptions } from '../interfaces/localstorage/notify-options.interface';
 import { ILocalStorageEvent } from '../interfaces/localstorage/local-storage-events.interface';
 
-import {Observable} from 'rxjs/Observable';
-import {Subscriber} from 'rxjs/Subscriber';
+import { Observable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs/Subscriber';
 
 import 'rxjs/add/operator/share';
 
@@ -15,7 +15,7 @@ const LOCAL_STORAGE_NOT_SUPPORTED: string = 'LOCAL_STORAGE_NOT_SUPPORTED';
 
 @AutoUnsubscribe()
 @Injectable()
-export class LocalStorageService {
+export class LocalStorageService implements OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public isSupported: boolean = false;
 
@@ -46,6 +46,10 @@ export class LocalStorageService {
     this.warnings$ = new Observable<string>((observer: Subscriber<string>) => this.warnings = observer).share();
 
     this.isSupported = this.checkSupport();
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 
   public deriveKey(key: string): string {
