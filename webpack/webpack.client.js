@@ -21,7 +21,7 @@ module.exports = {
     ],
     "styles": [
       "./src/assets/css/foundation.css",
-      "./src/styles.css",
+      "./src/assets/css/styles.styl",
       "./node_modules/sweetalert2/dist/sweetalert2.min.css"
     ]
   },
