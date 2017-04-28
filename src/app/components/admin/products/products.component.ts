@@ -13,7 +13,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
-import { url } from '../../../../constants';
+import { url } from '../../../../helpers/constants';
 
 import { Subscription } from 'rxjs/Rx';
 
@@ -91,7 +91,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   }
 
   private getProducts(): void {
-    this.productsSubscription = this.productService.products(Infinity).subscribe(
+    this.productsSubscription = this.productService.products(Infinity, true).subscribe(
       (res: productsInterface.RootObject) => {
         this.products = res;
       }
@@ -99,7 +99,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   }
 
   private getCategories(): void {
-    this.categoriesSubscription = this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories(true).subscribe(
       (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }

@@ -14,10 +14,10 @@ const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"
 module.exports = {
   "entry": {
     "main": [
-      "./src/main.ts"
+      "./src/bootstrap/main.ts"
     ],
     "polyfills": [
-      "./src/polyfills.browser.ts"
+      "./src/polyfills/polyfills.browser.ts"
     ],
     "styles": [
       "./src/assets/css/foundation.css",

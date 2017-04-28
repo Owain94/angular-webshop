@@ -6,7 +6,7 @@ import { Headers, RequestOptions, Http } from '@angular/http';
 
 import { LocalStorageService } from './localstorage.service';
 
-import { url } from '../../constants';
+import { url } from '../../helpers/constants';
 
 import { Observable } from 'rxjs/Observable';
 

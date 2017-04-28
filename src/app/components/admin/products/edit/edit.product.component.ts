@@ -16,7 +16,7 @@ import { NotificationsService } from '../../../../services/notifications.service
 
 import { AdminGuard } from '../../../../guards/admin.guard';
 
-import { url } from '../../../../../constants';
+import { url } from '../../../../../helpers/constants';
 
 import { Subscription } from 'rxjs/Rx';
 
@@ -87,7 +87,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
     this.routeParamSubscription = this.route.params.subscribe(params => {
       const id = params['id'];
 
-      this.productSubscription = this.productService.product(id).subscribe(
+      this.productSubscription = this.productService.product(id, true).subscribe(
         (res: productsInterface.RootObject) => {
           const nameField = this.editProductForm.get('name');
           const categoryField = this.editProductForm.get('category');
@@ -131,7 +131,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
       );
     });
 
-    this.categoriesSubscription = this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories(true).subscribe(
       (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }

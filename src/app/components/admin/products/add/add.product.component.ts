@@ -79,7 +79,7 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.adminGuard.checkRemote();
 
-    this.categoriesSubscription = this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories(true).subscribe(
       (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }

@@ -56,7 +56,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   }
 
   private getCategories(): void {
-    this.categoriesSubscription = this.productService.categories().subscribe(
+    this.categoriesSubscription = this.productService.categories(true).subscribe(
       (res: categoriesInterface.RootObject) => {
         this.categories = res;
       }

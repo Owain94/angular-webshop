@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 
-import { url } from '../../constants';
+import { url } from '../../helpers/constants';
 
 @Injectable()
 export class MetaService {
