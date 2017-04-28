@@ -103,6 +103,7 @@
     "style-loader": "0.16.1",
     "stylelint": "7.10.1",
     "stylelint-config-standard": "16.0.0",
+    "stylint": "^1.5.9",
     "stylus-loader": "3.0.1",
     "sw-precache": "5.1.0",
     "ts-node": "3.0.2",
@@ -121,7 +122,8 @@
   "lint-staged": {
     "*.ts": "tslint",
     "*.css": "stylelint",
-    "*.pug": "pug-lint"
+    "*.pug": "pug-lint",
+    "*.styl": "stylint"
   },
   "pre-commit": "lint-staged",
   "stylelint": {
@@ -136,5 +138,47 @@
         }
       ]
     }
+  },
+  "stylintrc": {
+    "blocks": false,
+    "brackets": "never",
+    "colons": "never",
+    "commaSpace": "always",
+    "commentSpace": "always",
+    "cssLiteral": "never",
+    "customProperties": [],
+    "depthLimit": false,
+    "duplicates": true,
+    "efficient": "always",
+    "exclude": [],
+    "extendPref": false,
+    "globalDupe": false,
+    "groupOutputByFile": true,
+    "indentPref": false,
+    "leadingZero": "never",
+    "maxErrors": false,
+    "maxWarnings": false,
+    "mixed": false,
+    "mixins": [],
+    "namingConvention": false,
+    "namingConventionStrict": false,
+    "none": "never",
+    "parenSpace": false,
+    "placeholders": "always",
+    "prefixVarsWithDollar": "always",
+    "quotePref": false,
+    "reporterOptions": {
+      "columns": ["lineData", "severity", "description", "rule"],
+      "columnSplitter": "  ",
+      "showHeaders": false,
+      "truncate": true
+    },
+    "semicolons": "never",
+    "stackedProperties": "never",
+    "trailingWhitespace": "never",
+    "universal": false,
+    "valid": false,
+    "zeroUnits": "never",
+    "zIndexNormalize": false
   }
 }
