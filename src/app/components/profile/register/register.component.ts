@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
@@ -23,7 +23,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.pug',
-  styleUrls: ['./register.component.styl']
+  styleUrls: ['./register.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

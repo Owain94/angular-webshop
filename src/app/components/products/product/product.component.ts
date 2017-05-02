@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -15,7 +15,8 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-producs',
   templateUrl: './product.component.pug',
-  styleUrls: ['./product.component.styl']
+  styleUrls: ['./product.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

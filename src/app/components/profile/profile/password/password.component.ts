@@ -1,6 +1,6 @@
 /// <reference path="../../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
@@ -14,7 +14,8 @@ import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-profile-passwword',
-  templateUrl: './password.component.pug'
+  templateUrl: './password.component.pug',
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

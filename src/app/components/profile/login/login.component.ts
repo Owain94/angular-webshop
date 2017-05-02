@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -20,7 +20,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.pug'
+  templateUrl: './login.component.pug',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 @AutoUnsubscribe()
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private loginSubscription: Subscription;
   private checkTfaSubscription: Subscription;
 
-  constructor(private router: Router,
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private router: Router,
               private formBuilder: FormBuilder,
               private userService: UserService,
               private authGuard: AuthGuard,
@@ -61,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const emailField = this.loginForm.get('email');
     if (emailField) {
       this.emailSubscription = emailField.valueChanges
-      .debounceTime(1000)
+      .debounceTime(250)
       .distinctUntilChanged()
       .subscribe(
         (input: string) => {
@@ -88,6 +90,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     tfaField.updateValueAndValidity();
                   }
                   this.tfa = res;
+                this.changeDetectorRef.markForCheck();
                 }
               );
             }

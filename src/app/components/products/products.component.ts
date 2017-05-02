@@ -1,7 +1,7 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 /// <reference path="../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
@@ -16,7 +16,8 @@ import 'rxjs/add/operator/debounceTime';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.pug',
-  styleUrls: ['./products.component.styl']
+  styleUrls: ['./products.component.styl'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 @AutoUnsubscribe()
@@ -37,7 +38,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private productSubscription: Subscription;
   private categoriesSubscription: Subscription;
 
-  constructor(private productService: ProductService,
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private productService: ProductService,
               private metaService: MetaService) {
   }
 
@@ -52,13 +54,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .debounceTime(250)
       .subscribe(term => {
         this.filterText = term;
+        this.changeDetectorRef.markForCheck();
       });
 
     this.filterCategorySubscription = this.filterCategory
       .valueChanges
-      .debounceTime(250)
       .subscribe(category => {
         this.filterCategoryText = category;
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -70,6 +73,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.productSubscription = this.productService.products(Infinity).subscribe(
       (res: productsInterface.RootObject) => {
         this.products = res;
+        this.changeDetectorRef.markForCheck();
       }
     );
   }
@@ -78,6 +82,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.categoriesSubscription = this.productService.categories().subscribe(
       (res: categoriesInterface.RootObject) => {
         this.categories = res;
+        this.changeDetectorRef.markForCheck();
       }
     );
   }
@@ -87,6 +92,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.filterCategory.setValue('');
     this.filterText = '';
     this.filterCategoryText = '';
+
+    this.changeDetectorRef.markForCheck();
   }
 
   public trackByFn(index: number, item: productsInterface.RootObject | categoriesInterface.RootObject): string {

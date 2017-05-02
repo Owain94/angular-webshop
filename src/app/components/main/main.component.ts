@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
@@ -11,7 +11,8 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-root',
   templateUrl: './main.component.pug',
-  styleUrls: ['./main.component.styl']
+  styleUrls: ['./main.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

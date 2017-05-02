@@ -1,7 +1,7 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
@@ -24,7 +24,8 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-products',
   templateUrl: './products.component.pug',
-  styleUrls: ['./products.component.styl']
+  styleUrls: ['./products.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

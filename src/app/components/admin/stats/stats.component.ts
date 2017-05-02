@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
@@ -6,7 +6,8 @@ import { AdminGuard } from './../../../guards/admin.guard';
 
 @Component({
   selector: 'app-admin-stats',
-  templateUrl: './stats.component.pug'
+  templateUrl: './stats.component.pug',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 @AutoUnsubscribe()
