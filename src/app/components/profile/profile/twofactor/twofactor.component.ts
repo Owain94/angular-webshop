@@ -2,7 +2,7 @@
 /// <reference path="../../../../interfaces/user/tfa.token.interface.ts" />
 /// <reference path="../../../../interfaces/user/profile.interface.ts" />
 
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
@@ -14,7 +14,8 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
   selector: 'app-profile-tfa',
   templateUrl: './twofactor.component.pug',
-  styleUrls: ['./twofactor.component.styl']
+  styleUrls: ['./twofactor.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

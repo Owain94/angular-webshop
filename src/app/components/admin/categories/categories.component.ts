@@ -1,7 +1,7 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -19,7 +19,8 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-categories',
   templateUrl: './categories.component.pug',
-  styleUrls: ['./categories.component.styl']
+  styleUrls: ['./categories.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

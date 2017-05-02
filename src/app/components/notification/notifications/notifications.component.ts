@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Input, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { Options } from '../../../interfaces/notifications/options.type';
 import { Notification } from '../../../interfaces/notifications/notification.type';
@@ -12,7 +12,8 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.pug',
-  styleUrls: ['./notifications.component.styl']
+  styleUrls: ['./notifications.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 @AutoUnsubscribe()
 export class NotificationsComponent implements OnInit, OnDestroy {

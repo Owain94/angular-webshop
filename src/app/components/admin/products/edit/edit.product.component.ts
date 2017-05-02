@@ -2,7 +2,7 @@
 /// <reference path="../../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
@@ -25,7 +25,8 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-edit-product',
   templateUrl: './edit.product.component.pug',
-  styleUrls: ['./edit.product.component.styl']
+  styleUrls: ['./edit.product.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()

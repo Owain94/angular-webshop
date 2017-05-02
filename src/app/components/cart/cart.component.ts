@@ -1,6 +1,6 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
@@ -20,9 +20,15 @@ export class CartComponent implements OnInit, OnDestroy {
 
   private productSubscriptions: Array<Subscription> = [];
 
-  constructor(private metaService: MetaService,
-              private  cartService: CartService,
-              private  productService: ProductService) {}
+
+  private static roundToTwo(num: number) {
+    return Number(Math.round(Number(`${num}e+2`)) + 'e-2');
+  }
+
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private metaService: MetaService,
+              private cartService: CartService,
+              private productService: ProductService) {}
 
   ngOnInit(): void {
     this.metaService.addTags();
@@ -69,7 +75,6 @@ export class CartComponent implements OnInit, OnDestroy {
             this.products[tProduct][1] = event.target.value;
 
             this.getTotalPrice();
-            return;
           }
         }
       }
@@ -91,12 +96,10 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     this.price[0] = price;
-    this.price[1] = this.roundToTwo(price / 121 * 100);
-    this.price[2] = this.roundToTwo(price / 121 * 21);
-  }
+    this.price[1] = CartComponent.roundToTwo(price / 121 * 100);
+    this.price[2] = CartComponent.roundToTwo(price / 121 * 21);
 
-  private roundToTwo(num: number) {
-    return Number(Math.round(Number(`${num}e+2`)) + 'e-2');
+    this.changeDetectorRef.markForCheck();
   }
 }
 
