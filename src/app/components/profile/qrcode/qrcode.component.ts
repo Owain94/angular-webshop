@@ -1,5 +1,7 @@
 import { Component, Input, ElementRef, OnInit, Renderer, ChangeDetectionStrategy } from '@angular/core';
 
+import { Log } from '../../../decorators/log.decorator';
+
 import * as qrcode from 'qrcode-generator';
 
 @Component({
@@ -7,6 +9,7 @@ import * as qrcode from 'qrcode-generator';
   template: '',
   changeDetection: ChangeDetectionStrategy.Default
 })
+@Log()
 export class QRCodeComponent implements OnInit {
 
   // tslint:disable-next-line:no-inferrable-types

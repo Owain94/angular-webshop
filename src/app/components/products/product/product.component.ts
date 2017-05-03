@@ -3,6 +3,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../../services/product.service';
@@ -18,7 +19,7 @@ import { Subscription } from 'rxjs/Rx';
   styleUrls: ['./product.component.styl'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
 export class ProductComponent implements OnInit, OnDestroy {
 

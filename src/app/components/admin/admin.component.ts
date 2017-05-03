@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
+import { Log } from '../../decorators/log.decorator';
+
 import { AdminGuard } from '../../guards/admin.guard';
 
 import { MetaService } from '../../services/meta.service';
@@ -9,6 +11,7 @@ import { MetaService } from '../../services/meta.service';
   templateUrl: './admin.component.pug',
   changeDetection: ChangeDetectionStrategy.Default
 })
+@Log()
 export class AdminComponent implements OnInit {
 
   constructor(private adminGuard: AdminGuard,

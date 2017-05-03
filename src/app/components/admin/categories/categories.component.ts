@@ -4,6 +4,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
+import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -22,7 +23,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./categories.component.styl'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
 export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
