@@ -11,26 +11,26 @@ app-header([headerHeading]="['Winkelwagen', 'Producten die u wilt kopen.']")
           .medium-4.show-for-medium-only(style="float: left")
             button.button((click)="removeProduct(product[0])", style="margin-top: 30px; margin-bottom: 30px;") Verwijder
           .large-3.medium-6.columns
-            span {{ product[2] }}
+            span([innerText]="product[2]")
           .large-1.medium-6.columns
-            span {{ product[3] | currency:'EUR':true | fixCurrency }}
+            span([innerText]="product[3] | currency:'EUR':true | fixCurrency")
           .large-2.medium-6.columns
             .row
               .large-5.medium-5.small-2.small-offset-4.medium-offset-0.large-offset-0.columns Aantal:
               .large-6.medium-3.small-2.end.columns.input-margin
                 input([value]="product[1]", type="number", (change)="changeAmount(product[0], $event)")
           .large-2.medium-6.columns
-            span  Totaal: {{ product[1] * product[3] | currency:'EUR':true | fixCurrency }}
+            span([innerText]="'Totaal: ' + (product[1] * product[3] | currency:'EUR':true | fixCurrency)")
           .large-2.hide-for-medium-only.columns
             button.button((click)="removeProduct(product[0])") Verwijder
         hr
 
   .row(*ngIf="products.length !== 0")
-    h5.large-3.large-push-9.medium-3.medium-push-9.columns.text-center Prijs: {{ price[1] | currency:'EUR':true | fixCurrency }}
+    h5.large-3.large-push-9.medium-3.medium-push-9.columns.text-center([innerText]="'Prijs: ' + (price[1] | currency:'EUR':true | fixCurrency)")
   .row(*ngIf="products.length !== 0")
-    h5.large-3.large-push-9.medium-3.medium-push-9.columns.text-center BTW: {{ price[2] | currency:'EUR':true | fixCurrency }}
+    h5.large-3.large-push-9.medium-3.medium-push-9.columns.text-center([innerText]="'BTW: ' + (price[2] | currency:'EUR':true | fixCurrency)")
   .row(*ngIf="products.length !== 0")
-    h4.large-3.large-push-9.medium-3.medium-push-9.columns.text-center Totaal: {{ price[0] | currency:'EUR':true | fixCurrency }}
+    h4.large-3.large-push-9.medium-3.medium-push-9.columns.text-center([innerText]="'Totaal: ' + (price[0] | currency:'EUR':true | fixCurrency)")
 
 
   ng-template.row.text-center(#emptyCart="")

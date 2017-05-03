@@ -13,7 +13,7 @@ form([formGroup]="addCategoryForm", (ngSubmit)="submitForm(addCategoryForm.value
       button.button.button-margin(type="submit", [disabled]="!addCategoryForm.valid || disabled") Toevoegen
 
 .row(*ngFor="let category of categories; let i = index; trackBy: trackByFn")
-  .large-10.medium-10.small-10.columns {{ category.category }}
+  .large-10.medium-10.small-10.columns([innerText]="category.category")
   .large-1.medium-1.small-1.columns.actions-margin.text-center
     a((click)="edit(category.category, category._id)")
       span.icon.icon-pencil
