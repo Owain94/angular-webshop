@@ -1,6 +1,6 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
@@ -11,7 +11,8 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.pug',
-  styleUrls: ['./cart.component.styl']
+  styleUrls: ['./cart.component.styl'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit, OnDestroy {
   public products: Array<[string, number, string, number, string]> = [];
