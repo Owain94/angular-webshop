@@ -5,14 +5,12 @@ import { APP_BOOTSTRAP_LISTENER, APP_ID, ModuleWithProviders, NgModule } from '@
 
 export function removeStyleTags(document: HTMLDocument): Function {
   return () => {
-    if (typeof(window) !== 'undefined') {
-      const dom = ɵgetDOM();
+    const dom = ɵgetDOM();
 
-      const styles: HTMLElement[] =
-        Array.prototype.slice.apply(dom.querySelectorAll(document, 'style[ng-transition]'));
+    const styles: HTMLElement[] =
+      Array.prototype.slice.apply(dom.querySelectorAll(document, 'style[ng-transition]'));
 
-      styles.forEach(el => dom.remove(el));
-    }
+    styles.forEach(el => dom.remove(el));
   };
 }
 
