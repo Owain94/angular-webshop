@@ -4,6 +4,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
+import { Log } from '../../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
@@ -16,7 +17,7 @@ import { Subscription } from 'rxjs/Rx';
   templateUrl: './general.component.pug',
   changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
 export class ProfileGeneralComponent implements OnInit, OnDestroy {
 

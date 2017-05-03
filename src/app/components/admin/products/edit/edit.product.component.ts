@@ -8,6 +8,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
+import { Log } from '../../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
@@ -28,7 +29,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./edit.product.component.styl'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
 export class AdminEditProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;

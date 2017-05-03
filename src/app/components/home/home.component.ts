@@ -2,6 +2,7 @@
 
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
+import { Log } from '../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -17,7 +18,7 @@ import { Subscription } from 'rxjs/Rx';
   styleUrls: ['./home.component.styl'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
+@Log()
 @AutoUnsubscribe()
 export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];

@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../services/user.service';
@@ -23,7 +24,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
   templateUrl: './login.component.pug',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
+@Log()
 @AutoUnsubscribe()
 export class LoginComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types

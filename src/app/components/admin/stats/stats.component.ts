@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
+import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminGuard } from './../../../guards/admin.guard';
@@ -9,7 +10,7 @@ import { AdminGuard } from './../../../guards/admin.guard';
   templateUrl: './stats.component.pug',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
+@Log()
 @AutoUnsubscribe()
 export class AdminStatsComponent implements OnInit, OnDestroy {
 

@@ -4,6 +4,7 @@
 
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
+import { Log } from '../../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
@@ -17,7 +18,7 @@ import { Subscription } from 'rxjs/Rx';
   styleUrls: ['./twofactor.component.styl'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
 export class ProfileTfaComponent implements OnInit, OnDestroy {
   @ViewChild('tfaToken') tfaToken: ElementRef;

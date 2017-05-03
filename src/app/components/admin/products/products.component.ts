@@ -5,6 +5,7 @@ import { Component, OnInit, AfterContentInit, OnDestroy, ChangeDetectionStrategy
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
+import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -27,7 +28,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./products.component.styl'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
 export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
   public products: productsInterface.RootObject;

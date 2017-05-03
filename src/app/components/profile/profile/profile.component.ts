@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
+import { Log } from '../../../decorators/log.decorator';
+
 import { MetaService } from '../../../services/meta.service';
 import { UserService } from '../../../services/user.service';
 
@@ -8,6 +10,7 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './profile.component.pug',
   changeDetection: ChangeDetectionStrategy.Default
 })
+@Log()
 export class ProfileComponent implements OnInit {
 
   constructor(private metaService: MetaService,
