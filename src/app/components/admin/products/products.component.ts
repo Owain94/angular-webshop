@@ -69,7 +69,6 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
 
     this.filterCategorySubscription = this.filterCategory
       .valueChanges
-      .debounceTime(250)
       .subscribe(category => {
         this.filterCategoryText = category;
       });
