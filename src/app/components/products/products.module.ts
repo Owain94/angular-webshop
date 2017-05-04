@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '../main/header/header.module';
-import { FilterPipeModule } from '../../pipes/filter.pipe.module';
 import { HighlightPipeModule } from '../../pipes/highlight.pipe.module';
 import { FixCurrencyPipeModule } from '../../pipes/fix.currency.pipe.module';
 import { NotificationsModule } from '../notification/notification.module';
@@ -23,7 +22,6 @@ import { AnalyticsService } from '../../services/analytics.service';
   ],
   imports: [
     HeaderModule,
-    FilterPipeModule,
     HighlightPipeModule,
     FixCurrencyPipeModule,
     NotificationsModule,

@@ -27,10 +27,10 @@ import 'rxjs/add/operator/debounceTime';
 @PageAnalytics('Products')
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit, OnDestroy {
-
-  @LogObservable public products: Observable<productsInterface.RootObject>;
-
   @LogObservable public categories: Observable<categoriesInterface.RootObject>;
+
+  public products: Array<productsInterface.RootObject>;
+  public productsFiltered: Array<productsInterface.RootObject>;
   // tslint:disable-next-line:no-inferrable-types
   public filterText: string = '';
   // tslint:disable-next-line:no-inferrable-types
@@ -40,6 +40,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
+  private productSubscription: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private productService: ProductService,
@@ -57,14 +58,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .debounceTime(250)
       .subscribe(term => {
         this.filterText = term;
-        this.changeDetectorRef.markForCheck();
+        this.filterProducts();
       });
 
     this.filterCategorySubscription = this.filterCategory
       .valueChanges
       .subscribe(category => {
         this.filterCategoryText = category;
-        this.changeDetectorRef.markForCheck();
+        this.filterProducts();
       });
   }
 
@@ -73,7 +74,28 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   private getProducts(): void {
-    this.products = this.productService.products(Infinity);
+    this.productSubscription = this.productService.products(Infinity).subscribe(
+      (res: Array<productsInterface.RootObject>) => {
+        this.products = res;
+        this.filterProducts();
+      }
+    );
+  }
+
+  private filterProducts(): void {
+    if (this.filterText !== '' && this.filterCategoryText !== '') {
+      this.productsFiltered = this.products.filter(
+        product => product.name.toLowerCase().includes(this.filterText.toLowerCase()) &&
+        product.category === this.filterCategoryText
+      );
+    } else if (this.filterText !== '') {
+      this.productsFiltered = this.products.filter(product => product.name.toLowerCase().includes(this.filterText.toLowerCase()));
+    } else if (this.filterCategoryText !== '') {
+      this.productsFiltered = this.products.filter(product => product.category === this.filterCategoryText);
+    } else {
+      this.productsFiltered = this.products;
+    }
+    this.changeDetectorRef.markForCheck();
   }
 
   private getCategories(): void {
