@@ -569,6 +569,10 @@ app.post('/api/delete_category', (req, res) => {
   });
 });
 
+app.get('*', function(req, res){
+  res.redirect('/404');
+});
+
 mongo.connect('mongodb://localhost:27017/ingrid', (err: any, database: any) => {
   if (err) {
     return console.log(err);
