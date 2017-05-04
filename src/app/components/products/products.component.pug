@@ -15,13 +15,13 @@ app-header([headerHeading]="['Alle producten', '']")
     .large-4.medium-6.columns
       select([formControl]="filterCategory")
         option(value="")
-        option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
+        option(*ngFor="let category of (categories | async); let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
 
     .large-2.medium-12.columns.end.text-center
       button.button((click)="reset()") Reset
 
-  .row(*ngIf='(products | filter: { name: filterText } | filter: { category: filterCategoryText })?.length > 0; else noProducts')
-    .large-4.medium-6.small-12.columns.text-center.clickable.end.product(*ngFor='let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn', [routerLink]="['product', product._id]")
+  .row(*ngIf='(products | async | filter: { name: filterText } | filter: { category: filterCategoryText })?.length > 0; else noProducts')
+    .large-4.medium-6.small-12.columns.text-center.clickable.end.product(*ngFor='let product of (products | async | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn', [routerLink]="['product', product._id]")
       img.product-img([alt]='product.name', [src]="'assets/products/' + product.photo", height='300', width='300')
       h5([innerHTML]='product.name | highlight : filterText')
 

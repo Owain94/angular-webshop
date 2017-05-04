@@ -23,7 +23,7 @@ form([formGroup]="addProductForm",(ngSubmit)="submitForm(addProductForm.value)")
     .large-4.medium-6.columns
       label([ngClass]="{ 'error': !addProductForm.controls['category'].valid && addProductForm.controls['category'].touched }") Categorie
         select([formControl]="addProductForm.controls['category']", [ngClass]="{ 'error': !addProductForm.controls['category'].valid && addProductForm.controls['category'].touched }")
-          option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
+          option(*ngFor="let category of (categories | async); let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
       small.error(*ngIf="!addProductForm.controls['category'].valid && addProductForm.controls['category'].touched") Categorie is verplicht
 
     .large-2.medium-6.columns

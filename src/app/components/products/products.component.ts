@@ -11,6 +11,7 @@ import { ProductService } from '../../services/product.service';
 import { MetaService } from '../../services/meta.service';
 
 import { Subscription } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';
 
@@ -24,9 +25,9 @@ import 'rxjs/add/operator/debounceTime';
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit, OnDestroy {
 
-  public products: productsInterface.RootObject;
+  public products: Observable<productsInterface.RootObject>;
 
-  public categories: categoriesInterface.RootObject;
+  public categories: Observable<categoriesInterface.RootObject>;
   // tslint:disable-next-line:no-inferrable-types
   public filterText: string = '';
   // tslint:disable-next-line:no-inferrable-types
@@ -36,8 +37,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
-  private productSubscription: Subscription;
-  private categoriesSubscription: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private productService: ProductService,
@@ -71,21 +70,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   private getProducts(): void {
-    this.productSubscription = this.productService.products(Infinity).subscribe(
-      (res: productsInterface.RootObject) => {
-        this.products = res;
-        this.changeDetectorRef.markForCheck();
-      }
-    );
+    this.products = this.productService.products(Infinity);
   }
 
   private getCategories(): void {
-    this.categoriesSubscription = this.productService.categories().subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-        this.changeDetectorRef.markForCheck();
-      }
-    );
+    this.categories = this.productService.categories();
   }
 
   public reset(): void {

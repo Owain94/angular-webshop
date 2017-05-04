@@ -17,6 +17,7 @@ import { NotificationsService } from '../../../../services/notifications.service
 import { AdminGuard } from '../../../../guards/admin.guard';
 
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import swal from 'sweetalert2';
 
@@ -40,10 +41,9 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
   public addProductForm: FormGroup;
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
-  public categories: categoriesInterface.RootObject;
+  public categories: Observable<categoriesInterface.RootObject>;
 
 
-  private categoriesSubscription: Subscription;
   private addProductSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -81,11 +81,7 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.adminGuard.checkRemote();
 
-    this.categoriesSubscription = this.productService.categories(true).subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-      }
-    );
+    this.categories = this.productService.categories(true);
 
     this.addProductForm = this.formBuilder.group({
       'name': [null, [Validators.required, Validators.maxLength(30)]],
