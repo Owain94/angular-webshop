@@ -24,7 +24,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 @PageAnalytics('Home')
 export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];
-  @LogObservable public products: Observable<productsInterface.RootObject>;
+  @LogObservable public products: Observable<Array<productsInterface.RootObject>>;
 
   constructor(private authGuard: AuthGuard,
               private productService: ProductService,
