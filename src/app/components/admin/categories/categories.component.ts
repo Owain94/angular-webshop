@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
+import { LogObservable } from '../../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -30,7 +31,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   public addCategoryForm: FormGroup;
-  public categories: Observable<categoriesInterface.RootObject>;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
   private addCategorySubscription: Subscription;
   private updateCategorySubscription: Subscription;

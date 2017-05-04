@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { FormControl } from '@angular/forms';
 
 import { Log } from '../../decorators/log.decorator';
+import { LogObservable } from '../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -25,9 +26,9 @@ import 'rxjs/add/operator/debounceTime';
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit, OnDestroy {
 
-  public products: Observable<productsInterface.RootObject>;
+  @LogObservable public products: Observable<productsInterface.RootObject>;
 
-  public categories: Observable<categoriesInterface.RootObject>;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
   // tslint:disable-next-line:no-inferrable-types
   public filterText: string = '';
   // tslint:disable-next-line:no-inferrable-types

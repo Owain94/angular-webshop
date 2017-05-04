@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
+import { LogObservable } from '../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -21,7 +22,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 @AutoUnsubscribe()
 export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];
-  public products: Observable<productsInterface.RootObject>;
+  @LogObservable public products: Observable<productsInterface.RootObject>;
 
   constructor(private authGuard: AuthGuard,
               private productService: ProductService,
