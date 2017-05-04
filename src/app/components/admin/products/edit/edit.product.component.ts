@@ -10,6 +10,7 @@ import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper'
 
 import { Log } from '../../../../decorators/log.decorator';
 import { LogObservable } from '../../../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
@@ -20,7 +21,7 @@ import { AdminGuard } from '../../../../guards/admin.guard';
 
 import { url } from '../../../../../helpers/constants';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import swal from 'sweetalert2';
@@ -33,6 +34,7 @@ import swal from 'sweetalert2';
 })
 @Log()
 @AutoUnsubscribe()
+@PageAnalytics('AdminEditProduct')
 export class AdminEditProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 

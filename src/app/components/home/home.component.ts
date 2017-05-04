@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 
 import { Log } from '../../decorators/log.decorator';
 import { LogObservable } from '../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -20,9 +21,10 @@ import { AuthGuard } from '../../guards/auth.guard';
 })
 @Log()
 @AutoUnsubscribe()
+@PageAnalytics('Home')
 export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];
-  @LogObservable public products: Observable<productsInterface.RootObject>;
+  @LogObservable public products: Observable<Array<productsInterface.RootObject>>;
 
   constructor(private authGuard: AuthGuard,
               private productService: ProductService,

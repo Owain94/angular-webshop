@@ -6,7 +6,6 @@ import { AppModule } from './app.module';
 import { ServerTransition } from './routing/server-transition.module';
 import { BrowserTransferStateModule } from './transfer-state/browser-transfer-state.module';
 
-
 import { MainComponent } from '../components/main/main.component';
 
 @NgModule({

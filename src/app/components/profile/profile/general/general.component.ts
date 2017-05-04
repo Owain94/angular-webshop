@@ -5,12 +5,13 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Log } from '../../../../decorators/log.decorator';
+import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile-general',
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 @Log()
 @AutoUnsubscribe()
+@PageAnalytics('ProfileGeneral')
 export class ProfileGeneralComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types

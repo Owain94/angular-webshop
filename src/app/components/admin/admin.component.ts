@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
 import { AdminGuard } from '../../guards/admin.guard';
 
@@ -12,6 +13,7 @@ import { MetaService } from '../../services/meta.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 @Log()
+@PageAnalytics('Admin')
 export class AdminComponent implements OnInit {
 
   constructor(private adminGuard: AdminGuard,

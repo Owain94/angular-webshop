@@ -8,7 +8,7 @@ import { UserService } from '../../../services/user.service';
 import { AuthGuard } from '../../../guards/auth.guard';
 import { AdminGuard } from '../../../guards/admin.guard';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-menu',

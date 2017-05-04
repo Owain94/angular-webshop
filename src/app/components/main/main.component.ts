@@ -5,8 +5,9 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TransferState } from '../../modules/transfer-state/transfer-state';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 
 @AutoUnsubscribe()
+@PageAnalytics('Main')
 export class MainComponent implements OnInit, OnDestroy {
 
   private routerEventsSubscription: Subscription;
