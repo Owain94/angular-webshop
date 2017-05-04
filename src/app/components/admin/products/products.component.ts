@@ -108,18 +108,8 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
 
   private filterProducts(): void {
     this.productsFiltered = this.products.filter(
-      product => {
-        if (this.filterText !== '' && this.filterCategoryText !== '') {
-          return product.name.toLowerCase().includes(this.filterText.toLowerCase()) &&
-          product.category === this.filterCategoryText;
-        } else if (this.filterText !== '') {
-          return product.name.toLowerCase().includes(this.filterText.toLowerCase());
-        } else if (this.filterCategoryText !== '') {
-          return product.category === this.filterCategoryText;
-        } else {
-          return true;
-        }
-      }
+      product => product.name.toLowerCase().includes(this.filterText.toLowerCase()) &&
+      product.category.includes(this.filterCategoryText)
     );
   }
 
