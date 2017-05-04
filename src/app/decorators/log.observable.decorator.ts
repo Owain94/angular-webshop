@@ -8,7 +8,7 @@ export function LogObservable(target: any, propertyKey: string) {
   }
 
   function setter(value: any ) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && typeof(window) !== 'undefined') {
       if (value instanceof Observable) {
         propertyValue = value.do(res => {
           const isArrayOfObjects = Array.isArray(res) && typeof res[0] === 'object';
