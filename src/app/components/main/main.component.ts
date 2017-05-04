@@ -7,7 +7,7 @@ import { TransferState } from '../../modules/transfer-state/transfer-state';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',

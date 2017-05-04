@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, Input, NgZone, ChangeDetectionStrategy } from '@angular/core';
-import {trigger, state, style, transition, animate} from '@angular/animations';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { Log } from '../../decorators/log.decorator';
 
-import {Notification} from '../../interfaces/notifications/notification.type';
+import { Notification } from '../../interfaces/notifications/notification.type';
 
-import {NotificationsService} from '../../services/notifications.service';
+import { NotificationsService } from '../../services/notifications.service';
 
 
 @Component({

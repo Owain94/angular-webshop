@@ -12,7 +12,7 @@ import { NotificationsService } from '../../../../services/notifications.service
 
 import { PasswordValidator } from '../../../../helpers/password.validator';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile-passwword',

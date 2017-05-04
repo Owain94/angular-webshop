@@ -17,7 +17,8 @@ import { AuthGuard } from '../../../guards/auth.guard';
 
 import { PasswordValidator } from '../../../helpers/password.validator';
 
-import { Subject, Subscription } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';

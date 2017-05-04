@@ -11,7 +11,7 @@ import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile-tfa',

@@ -12,7 +12,7 @@ import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 import { ProductService } from '../../services/product.service';
 import { MetaService } from '../../services/meta.service';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';

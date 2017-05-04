@@ -18,7 +18,7 @@ import { AdminGuard } from '../../../guards/admin.guard';
 
 import { url } from '../../../../helpers/constants';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';

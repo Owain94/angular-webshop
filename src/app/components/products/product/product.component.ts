@@ -14,7 +14,7 @@ import { MetaService } from '../../../services/meta.service';
 import { CartService } from '../../../services/cart.service';
 import { NotificationsService } from '../../../services/notifications.service';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-producs',

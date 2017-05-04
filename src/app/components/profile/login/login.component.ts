@@ -15,7 +15,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
