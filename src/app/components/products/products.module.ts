@@ -14,6 +14,7 @@ import { ProductComponent } from './product/product.component';
 
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CartService } from '../../services/cart.service';
   ],
   providers: [
     MetaService,
-    CartService
+    CartService,
+    AnalyticsService
   ]
 })
 export class ProductsModule {}

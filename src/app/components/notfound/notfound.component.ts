@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
 import { MetaService } from '../../services/meta.service';
 
@@ -10,6 +11,7 @@ import { MetaService } from '../../services/meta.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Log()
+@PageAnalytics('404')
 export class NotFoundComponent implements OnInit {
   constructor(private metaService: MetaService) {}
 

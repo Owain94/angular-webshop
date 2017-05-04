@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
 import { LogObservable } from '../../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -32,6 +33,7 @@ import swal from 'sweetalert2';
 })
 @Log()
 @AutoUnsubscribe()
+@PageAnalytics('AdminProducts')
 export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
   @LogObservable public products: Observable<productsInterface.RootObject>;
 

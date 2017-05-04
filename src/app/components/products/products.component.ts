@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 
 import { Log } from '../../decorators/log.decorator';
 import { LogObservable } from '../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -23,6 +24,7 @@ import 'rxjs/add/operator/debounceTime';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Log()
+@PageAnalytics('Products')
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit, OnDestroy {
 

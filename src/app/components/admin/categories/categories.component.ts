@@ -6,6 +6,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
 import { LogObservable } from '../../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -27,6 +28,7 @@ import swal from 'sweetalert2';
 })
 @Log()
 @AutoUnsubscribe()
+@PageAnalytics('AdminCategories')
 export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;

@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectionStr
 
 import { Log } from '../../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
+import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 
 import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
@@ -20,6 +21,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 @Log()
 @AutoUnsubscribe()
+@PageAnalytics('Profile2FA')
 export class ProfileTfaComponent implements OnInit, OnDestroy {
   @ViewChild('tfaToken') tfaToken: ElementRef;
 

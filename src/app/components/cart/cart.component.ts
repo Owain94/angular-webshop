@@ -3,6 +3,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
@@ -17,6 +18,7 @@ import { Subscription } from 'rxjs/Subscription';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Log()
+@PageAnalytics('Cart')
 export class CartComponent implements OnInit, OnDestroy {
   public products: Array<[string, number, string, number, string]> = [];
   // tslint:disable-next-line:no-inferrable-types
