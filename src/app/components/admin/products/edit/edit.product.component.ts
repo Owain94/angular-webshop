@@ -9,6 +9,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 import { Log } from '../../../../decorators/log.decorator';
+import { LogObservable } from '../../../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
@@ -20,6 +21,7 @@ import { AdminGuard } from '../../../../guards/admin.guard';
 import { url } from '../../../../../helpers/constants';
 
 import { Subscription } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import swal from 'sweetalert2';
 
@@ -43,11 +45,10 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
   public editProductForm: FormGroup;
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
-  public categories: categoriesInterface.RootObject;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
   private routeParamSubscription: Subscription;
   private productSubscription: Subscription;
-  private categoriesSubscription: Subscription;
   private updateProductSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -133,11 +134,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
       );
     });
 
-    this.categoriesSubscription = this.productService.categories(true).subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-      }
-    );
+    this.categories = this.productService.categories(true);
 
     this.editProductForm = this.formBuilder.group({
       'name': [null, [Validators.required, Validators.maxLength(30)]],

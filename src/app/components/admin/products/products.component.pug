@@ -13,14 +13,14 @@
   .large-5.medium-6.columns
     select([formControl]="filterCategory")
       option(value="")
-      option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
+      option(*ngFor="let category of (categories | async); let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
 
   .large-2.columns.end
     button.button((click)="reset()") Reset
 
 hr.hr-margin
 
-.row(*ngFor="let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn")
+.row(*ngFor="let product of (products | async | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn")
   .large-4.medium-.small-12.columns.actions-margin([innerHTML]="'Naam: ' + product.name | highlight : filterText")
   .large-4.medium-5.small-6.columns.actions-margin([innerHTML]="'Categorie: ' + product.category | highlight : filterCategoryText")
   .large-2.medium-5.small-6.columns.text-center

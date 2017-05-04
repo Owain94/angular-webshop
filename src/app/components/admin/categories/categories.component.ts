@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
+import { LogObservable } from '../../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -14,6 +15,7 @@ import { NotificationsService } from '../../../services/notifications.service';
 import { AdminGuard } from '../../../guards/admin.guard';
 
 import { Subscription } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import swal from 'sweetalert2';
 
@@ -29,9 +31,8 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   public addCategoryForm: FormGroup;
-  public categories: categoriesInterface.RootObject;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
-  private categoriesSubscription: Subscription;
   private addCategorySubscription: Subscription;
   private updateCategorySubscription: Subscription;
   private deleteCategorySubscription: Subscription;
@@ -58,11 +59,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   }
 
   private getCategories(): void {
-    this.categoriesSubscription = this.productService.categories(true).subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-      }
-    );
+    this.categories = this.productService.categories(true);
   }
 
   public submitForm(value: Object): void {

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
+import { LogObservable } from '../../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -17,6 +18,7 @@ import { AdminGuard } from '../../../guards/admin.guard';
 import { url } from '../../../../helpers/constants';
 
 import { Subscription } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';
 
@@ -31,9 +33,9 @@ import swal from 'sweetalert2';
 @Log()
 @AutoUnsubscribe()
 export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
-  public products: productsInterface.RootObject;
+  @LogObservable public products: Observable<productsInterface.RootObject>;
 
-  public categories: categoriesInterface.RootObject;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
   // tslint:disable-next-line:no-inferrable-types
   public filterText: string = '';
   // tslint:disable-next-line:no-inferrable-types
@@ -44,8 +46,6 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   private activatedRouteParamSubscription: Subscription;
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
-  private productsSubscription: Subscription;
-  private categoriesSubscription: Subscription;
   private deleteProductSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -92,19 +92,11 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   }
 
   private getProducts(): void {
-    this.productsSubscription = this.productService.products(Infinity, true).subscribe(
-      (res: productsInterface.RootObject) => {
-        this.products = res;
-      }
-    );
+    this.products = this.productService.products(Infinity, true);
   }
 
   private getCategories(): void {
-    this.categoriesSubscription = this.productService.categories(true).subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-      }
-    );
+    this.categories = this.productService.categories(true);
   }
 
   public preview(photo: string) {
