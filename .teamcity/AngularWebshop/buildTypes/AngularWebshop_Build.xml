@@ -24,7 +24,7 @@ run build:all:aot]]></param>
       <runner id="RUNNER_9" name="Run: yarn cache clean" type="jonnyzzz.yarn">
         <parameters>
           <param name="teamcity.step.mode" value="default" />
-          <param name="yarn_commands" value="yarn cache clean" />
+          <param name="yarn_commands" value="cache clean" />
         </parameters>
       </runner>
     </build-runners>
