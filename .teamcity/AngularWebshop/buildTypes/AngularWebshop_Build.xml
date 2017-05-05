@@ -14,11 +14,11 @@
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
-      <runner id="RUNNER_4" name="Run: yarn build" type="jonnyzzz.yarn">
+      <runner id="RUNNER_4" name="Run: npm build" type="jonnyzzz.npm">
         <parameters>
-          <param name="teamcity.step.mode" value="default" />
-          <param name="yarn_commands"><![CDATA[run build:all
+          <param name="npm_commands"><![CDATA[run build:all
 run build:all:aot]]></param>
+          <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
     </build-runners>
