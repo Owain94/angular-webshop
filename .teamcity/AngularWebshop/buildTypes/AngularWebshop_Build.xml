@@ -21,6 +21,12 @@
 run build:all:aot]]></param>
         </parameters>
       </runner>
+      <runner id="RUNNER_9" name="Run: yarn cache clean" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="yarn cache clean" />
+        </parameters>
+      </runner>
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="AngularWebshop_HttpsGithubComOwain94angularWebshopRefsHeadsMaster" />
