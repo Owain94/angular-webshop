@@ -1,9 +1,11 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
+import { Log } from '../../../decorators/log.decorator';
+import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../services/user.service';
@@ -15,7 +17,8 @@ import { AuthGuard } from '../../../guards/auth.guard';
 
 import { PasswordValidator } from '../../../helpers/password.validator';
 
-import { Subject, Subscription } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -23,10 +26,12 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.pug',
-  styleUrls: ['./register.component.styl']
+  styleUrls: ['./register.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('Register')
 export class RegisterComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;

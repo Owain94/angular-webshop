@@ -1,22 +1,26 @@
 /// <reference path="../../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../../interfaces/user/profile.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
+import { Log } from '../../../../decorators/log.decorator';
+import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile-general',
-  templateUrl: './general.component.pug'
+  templateUrl: './general.component.pug',
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('ProfileGeneral')
 export class ProfileGeneralComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types

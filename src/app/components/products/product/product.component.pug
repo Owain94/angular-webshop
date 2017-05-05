@@ -6,9 +6,9 @@ app-header([headerHeading]="[product?.name, '']")
       img.product-img([src]="'assets/products/' + product?.photo", [alt]="product?.name", height="300", width="300")
 
     .large-6.columns.text-center
-      h2 {{ product?.name }}
-      h3 Prijs: {{ product?.price | currency:'EUR':true | fixCurrency }}
-      h4 {{ product?.description }}
+      h2([innerText]="product?.name")
+      h3([innerText]="'Prijs: ' + (product?.price | currency:'EUR':true | fixCurrency)")
+      h4([innerText]="product?.description")
       br
       div(*ngIf="product?.amount !== 0; else soldOut")
         button.button((click)="addToCart()") Toevoegen aan winkelwagen

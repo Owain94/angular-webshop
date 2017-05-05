@@ -1,9 +1,11 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { Log } from '../../../decorators/log.decorator';
+import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../services/user.service';
@@ -13,17 +15,19 @@ import { NotificationsService } from '../../../services/notifications.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.pug'
+  templateUrl: './login.component.pug',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('Login')
 export class LoginComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
@@ -35,7 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private loginSubscription: Subscription;
   private checkTfaSubscription: Subscription;
 
-  constructor(private router: Router,
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private router: Router,
               private formBuilder: FormBuilder,
               private userService: UserService,
               private authGuard: AuthGuard,
@@ -61,7 +66,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const emailField = this.loginForm.get('email');
     if (emailField) {
       this.emailSubscription = emailField.valueChanges
-      .debounceTime(1000)
+      .debounceTime(250)
       .distinctUntilChanged()
       .subscribe(
         (input: string) => {
@@ -88,6 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     tfaField.updateValueAndValidity();
                   }
                   this.tfa = res;
+                this.changeDetectorRef.markForCheck();
                 }
               );
             }

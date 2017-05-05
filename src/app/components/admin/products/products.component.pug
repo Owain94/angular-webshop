@@ -13,27 +13,32 @@
   .large-5.medium-6.columns
     select([formControl]="filterCategory")
       option(value="")
-      option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category") {{category.category}}
+      option(*ngFor="let category of (categories | async); let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
 
   .large-2.columns.end
     button.button((click)="reset()") Reset
 
-hr.hr-margin
+hr.hr-margin(*ngIf='productsFiltered?.length > 0')
 
-.row(*ngFor="let product of (products | filter: { name: filterText } | filter: { category: filterCategoryText }); let i = index; trackBy: trackByFn")
-  .large-4.medium-.small-12.columns.actions-margin([innerHTML]="'Naam: ' + product.name | highlight : filterText")
-  .large-4.medium-5.small-6.columns.actions-margin([innerHTML]="'Categorie: ' + product.category | highlight : filterCategoryText")
-  .large-2.medium-5.small-6.columns.text-center
-    button.button((click)="preview(product.photo)") Foto
+.row(*ngIf='productsFiltered?.length > 0; else noProducts')
+  .row(*ngFor="let product of productsFiltered; let i = index; trackBy: trackByFn")
+    .large-4.medium-.small-12.columns.actions-margin([innerHTML]="'Naam: ' + product.name | highlight : filterText")
+    .large-4.medium-5.small-6.columns.actions-margin([innerHTML]="'Categorie: ' + product.category | highlight : filterCategoryText")
+    .large-2.medium-5.small-6.columns.text-center
+      button.button((click)="preview(product.photo)") Foto
 
-  .large-1.medium-1.small-6.columns.actions-margin.text-center
-    a([routerLink]="['/admin/editproduct', product._id]")
-      span.icon.icon-pencil
+    .large-1.medium-1.small-6.columns.actions-margin.text-center
+      a([routerLink]="['/admin/editproduct', product._id]")
+        span.icon.icon-pencil
 
-  .large-1.medium-1.small-6.columns.actions-margin.text-center
-    a((click)="delete(product._id, product.name)")
-      span.icon.icon-trash
+    .large-1.medium-1.small-6.columns.actions-margin.text-center
+      a((click)="delete(product._id, product.name)")
+        span.icon.icon-trash
 
-  hr.hr-margin
+    hr.hr-margin
+
+ng-template(#noProducts='')
+  .row.text-center
+    h3 Geen producten gevonden
 
 app-notifications

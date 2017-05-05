@@ -2,12 +2,15 @@
 /// <reference path="../../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
+import { Log } from '../../../../decorators/log.decorator';
+import { LogObservable } from '../../../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
@@ -18,17 +21,20 @@ import { AdminGuard } from '../../../../guards/admin.guard';
 
 import { url } from '../../../../../helpers/constants';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-edit-product',
   templateUrl: './edit.product.component.pug',
-  styleUrls: ['./edit.product.component.styl']
+  styleUrls: ['./edit.product.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('AdminEditProduct')
 export class AdminEditProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
@@ -41,11 +47,10 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
   public editProductForm: FormGroup;
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
-  public categories: categoriesInterface.RootObject;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
   private routeParamSubscription: Subscription;
   private productSubscription: Subscription;
-  private categoriesSubscription: Subscription;
   private updateProductSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -131,11 +136,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
       );
     });
 
-    this.categoriesSubscription = this.productService.categories(true).subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-      }
-    );
+    this.categories = this.productService.categories(true);
 
     this.editProductForm = this.formBuilder.group({
       'name': [null, [Validators.required, Validators.maxLength(30)]],

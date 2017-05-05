@@ -1,0 +1,72 @@
+doctype html
+html(itemscope='', itemtype='http://schema.org/Product')
+  head
+    meta(charset='UTF-8')
+
+    base(href='/')
+    title Inkie&apos;s webshop
+
+    meta(http-equiv='language', content='NL')
+    meta(name='description', content="Inkie's webshop")
+    meta(name='author', content='Owain van Brakel')
+    meta(name='robots', content='index, follow')
+    meta(name='revisit-after', content='1 days')
+
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='default')
+
+    link(rel='apple-touch-icon', sizes='180x180', href='assets/icons/apple-touch-icon.png')
+    link(rel='icon', type='image/png', href='assets/icons/favicon-32x32.png', sizes='32x32')
+    link(rel='icon', type='image/png', href='assets/icons/android-chrome-192x192.png', sizes='192x192')
+    link(rel='icon', type='image/png', href='assets/icons/favicon-16x16.png', sizes='16x16')
+    link(rel='manifest', href='assets/icons/manifest.json')
+    link(rel='mask-icon', href='assets/icons/safari-pinned-tab.svg', color='#ea4c88')
+    link(rel='shortcut icon', href='assets/icons/favicon.ico')
+    meta(name='apple-mobile-web-app-title', content="Inkie's webshop")
+
+    meta(name='application-name', content="Inkie's webshop")
+    meta(name='msapplication-TileColor', content='#ea4c88')
+    meta(name='msapplication-TileImage', content='assets/icons/mstile-144x144.png')
+    meta(name='msapplication-config', content='assets/icons/browserconfig.xml')
+    meta(name='theme-color', content='#ea4c88')
+  body.pink
+    app-root
+      #wrapper
+        #main
+          #top
+            .row
+              .large-12.columns
+                nav.top-bar([class.collapsed]='!collapsed', #navbar='')
+                  ul.title-area
+                    li.name.logo
+                    li.toggle-topbar((click)='navBarClick()')
+                      a
+                        span Menu
+                  section.top-bar-section
+                    ul.right
+                      li
+                        a Home
+                      li
+                        a Producten
+                      li
+                        a
+                          img.background(src="assets/img/cart.png", alt="", width="30", height="30")
+                      li
+                        a.button.radius Aanmelden
+          header#header
+            .row
+              .large-12.columns.align-center
+                h1
+                span.subheading
+              .large-12.columns.align-center
+                img(src='assets/img/header-macbook.png', alt='')
+      footer
+        .row
+          .large-12.columns.align-center
+            span.copyright Gemaakt met
+            span.icon.icon-heart-2.pink
+            span.copyright door
+              a(href='https://owain.nl', target='_blank', rel='noopener') Owain van Brakel
+      #back-top((click)='scrollTo($event)')
+        span.icon.icon-play

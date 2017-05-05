@@ -1,8 +1,10 @@
 /// <reference path="../../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
+import { Log } from '../../../../decorators/log.decorator';
+import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
@@ -10,14 +12,16 @@ import { NotificationsService } from '../../../../services/notifications.service
 
 import { PasswordValidator } from '../../../../helpers/password.validator';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile-passwword',
-  templateUrl: './password.component.pug'
+  templateUrl: './password.component.pug',
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('ProfilePassword')
 export class ProfilePasswordComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types

@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '../main/header/header.module';
-import { FilterPipeModule } from '../../pipes/filter.pipe.module';
 import { HighlightPipeModule } from '../../pipes/highlight.pipe.module';
 import { FixCurrencyPipeModule } from '../../pipes/fix.currency.pipe.module';
 import { NotificationsModule } from '../notification/notification.module';
@@ -14,6 +13,7 @@ import { ProductComponent } from './product/product.component';
 
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,6 @@ import { CartService } from '../../services/cart.service';
   ],
   imports: [
     HeaderModule,
-    FilterPipeModule,
     HighlightPipeModule,
     FixCurrencyPipeModule,
     NotificationsModule,
@@ -46,7 +45,8 @@ import { CartService } from '../../services/cart.service';
   ],
   providers: [
     MetaService,
-    CartService
+    CartService,
+    AnalyticsService
   ]
 })
 export class ProductsModule {}
