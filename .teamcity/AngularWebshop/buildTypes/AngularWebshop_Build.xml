@@ -8,10 +8,10 @@
     </options>
     <parameters />
     <build-runners>
-      <runner id="RUNNER_3" name="Run: yarn install" type="jonnyzzz.yarn">
+      <runner id="RUNNER_3" name="Run: npm install" type="jonnyzzz.npm">
         <parameters>
+          <param name="npm_commands" value="install" />
           <param name="teamcity.step.mode" value="default" />
-          <param name="yarn_commands" value="install" />
         </parameters>
       </runner>
       <runner id="RUNNER_4" name="Run: yarn build" type="jonnyzzz.yarn">
