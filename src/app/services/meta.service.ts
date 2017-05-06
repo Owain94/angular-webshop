@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+import { Meta, MetaDefinition } from '@angular/platform-browser';
 
 import { url } from '../../helpers/constants';
 
@@ -17,52 +17,48 @@ export class MetaService {
     this.removeTags();
 
     if (item) {
-      this.meta.addTags([
-        { itemprop: 'name', content: name },
-        { itemprop: 'description', content: description },
-        { itemprop: 'image', content: `${url}/assets/products/${id}` },
+      this.meta.addTag(<MetaDefinition> { itemprop: 'name', content: name });
+      this.meta.addTag(<MetaDefinition> { itemprop: 'description', content: description });
+      this.meta.addTag(<MetaDefinition> { itemprop: 'image', content: `${url}/assets/products/${id}` });
 
-        { name: 'twitter:card', content: 'summary' },
-        { name: 'twitter:title', content: name },
-        { name: 'twitter:description', content: description },
-        { name: 'twitter:image', content: `${url}/assets/products/${id}` },
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:card', content: 'summary' });
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:title', content: name });
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:description', content: description });
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:image', content: `${url}/assets/products/${id}` });
 
-        { name: 'og:title', content: name },
-        { name: 'og:type', content: 'website' },
-        { name: 'og:url', content: `${url}/products/product/${id}` },
-        { name: 'og:image', content: `${url}/assets/products/${id}` },
-        { name: 'og:image:secure_url', content: `${url}/assets/products/${id}` },
-        { name: 'og:image:width', content: '300' },
-        { name: 'og:image:height', content: '300' },
-        { name: 'og:description', content: description },
-        { name: 'og:site_name', content: 'Inkie\'s webshop' },
-        { name: 'og:price:amount', content: price },
-        { name: 'og:price:currency', content: 'EUR' },
-      ]);
+      this.meta.addTag(<MetaDefinition> { name: 'og:title', content: name });
+      this.meta.addTag(<MetaDefinition> { name: 'og:type', content: 'website' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:url', content: `${url}/products/product/${id}` });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image', content: `${url}/assets/products/${id}` });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image:secure_url', content: `${url}/assets/products/${id}` });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image:width', content: '300' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image:height', content: '300' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:description', content: description });
+      this.meta.addTag(<MetaDefinition> { name: 'og:site_name', content: 'Inkie\'s webshop' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:price:amount', content: price });
+      this.meta.addTag(<MetaDefinition> { name: 'og:price:currency', content: 'EUR' });
     } else {
-      this.meta.addTags([
-        { itemprop: 'name', content: 'Inkie\'s webshop' },
-        // TODO:Edit
-        { itemprop: 'description', content: 'TODO' },
-        { itemprop: 'image', content: `${url}/assets/products/${id}` },
+      this.meta.addTag(<MetaDefinition> { itemprop: 'name', content: 'Inkie\'s webshop' });
+      // TODO:Edit
+      this.meta.addTag(<MetaDefinition> { itemprop: 'description', content: 'TODO' });
+      this.meta.addTag(<MetaDefinition> { itemprop: 'image', content: `${url}/assets/products/${id}` });
 
-        { name: 'twitter:card', content: 'summary' },
-        { name: 'twitter:title', content: 'Inkie\'s webshop' },
-        // TODO:Edit
-        { name: 'twitter:description', content: 'TODO' },
-        { name: 'twitter:image', content: `${url}/assets/products/${id}` },
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:card', content: 'summary' });
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:title', content: 'Inkie\'s webshop' });
+      // TODO:Edit
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:description', content: 'TODO' });
+      this.meta.addTag(<MetaDefinition> { name: 'twitter:image', content: `${url}/assets/products/${id}` });
 
-        { name: 'og:title', content: 'Inkie\'s webshop' },
-        { name: 'og:type', content: 'website' },
-        { name: 'og:url', content: url },
-        { name: 'og:image', content: `${url}/assets/icons/android-chrome-512x512.png` },
-        { name: 'og:image:secure_url', content: `${url}/assets/icons/android-chrome-512x512.png` },
-        { name: 'og:image:width', content: '512' },
-        { name: 'og:image:height', content: '512' },
-        // TODO:Edit
-        { name: 'og:description', content: 'TODO' },
-        { name: 'og:site_name', content: 'Inkie\'s webshop' }
-      ]);
+      this.meta.addTag(<MetaDefinition> { name: 'og:title', content: 'Inkie\'s webshop' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:type', content: 'website' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:url', content: url });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image', content: `${url}/assets/icons/android-chrome-512x512.png` });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image:secure_url', content: `${url}/assets/icons/android-chrome-512x512.png` });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image:width', content: '512' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:image:height', content: '512' });
+      // TODO:Edit
+      this.meta.addTag(<MetaDefinition> { name: 'og:description', content: 'TODO' });
+      this.meta.addTag(<MetaDefinition> { name: 'og:site_name', content: 'Inkie\'s webshop' });
     }
   }
 

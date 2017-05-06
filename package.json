@@ -21,6 +21,7 @@
     "server": "nodemon dist/main.server.bundle.js",
     "sw": "sw-precache --config=sw-precache-config.js",
     "test": "karma start ./karma.conf.js",
+    "lint": "tslint src/**/*.ts",
     "lint-staged": "lint-staged",
     "stylelint-staged": "stylelint",
     "e2e": "protractor ./protractor.conf.js",

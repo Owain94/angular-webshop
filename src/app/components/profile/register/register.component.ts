@@ -125,10 +125,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       if (postalcodeField) {
         if (dutch.test(postalcodeField.value)) {
           this.country.next('Nederland');
-          return undefined;
+          return { 'postalcodeInvalid': false };
         } else if (belgian.test(postalcodeField.value)) {
           this.country.next('België');
-          return undefined;
+          return { 'postalcodeInvalid': false };
         }
 
         postalcodeField.setErrors({ 'postalcodeInvalid': true });
