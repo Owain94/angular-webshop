@@ -10,7 +10,7 @@
     "removeComments": true,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noUnusedLocals": true,
     "allowUnusedLabels": false,
     "noImplicitReturns": true,

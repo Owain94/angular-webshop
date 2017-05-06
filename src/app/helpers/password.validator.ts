@@ -9,8 +9,10 @@ export class PasswordValidator {
       if (passwordField && passwordConfirmField && passwordField.value !== passwordConfirmField.value) {
         passwordConfirmField.setErrors({ 'mismatchedPasswords': true });
         return { 'mismatchedPasswords': true };
+      } else if (passwordField && passwordConfirmField && passwordField.value === passwordConfirmField.value) {
+        return { 'mismatchedPasswords': false };
       }
-      return undefined;
+      return { 'mismatchedPasswords': true };
     };
   }
 }
