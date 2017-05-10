@@ -1,9 +1,12 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
+import { Log } from '../../../decorators/log.decorator';
+import { LogObservable } from '../../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -12,24 +15,26 @@ import { NotificationsService } from '../../../services/notifications.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-categories',
   templateUrl: './categories.component.pug',
-  styleUrls: ['./categories.component.styl']
+  styleUrls: ['./categories.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('AdminCategories')
 export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
   public addCategoryForm: FormGroup;
-  public categories: categoriesInterface.RootObject;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
-  private categoriesSubscription: Subscription;
   private addCategorySubscription: Subscription;
   private updateCategorySubscription: Subscription;
   private deleteCategorySubscription: Subscription;
@@ -56,11 +61,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   }
 
   private getCategories(): void {
-    this.categoriesSubscription = this.productService.categories(true).subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-      }
-    );
+    this.categories = this.productService.categories(true);
   }
 
   public submitForm(value: Object): void {

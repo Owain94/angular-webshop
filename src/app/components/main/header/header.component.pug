@@ -1,9 +1,9 @@
 header(id="header")
   .row
     .large-12.columns.align-center
-      h1 {{ headerHeading[0] }}
-      span.subheading {{ headerHeading[1] }}
-      a.button.white.radius.large(*ngIf="headerButton", [routerLink]="headerButton[0]") {{ headerButton[1] }}
+      h1([innerText]="headerHeading[0]")
+      span.subheading([innerText]="headerHeading[1]")
+      a.button.white.radius.large(*ngIf="headerButton", [routerLink]="headerButton[0]", [innerText]="headerButton[1]")
 
     .large-12.columns.align-center
       img(src="assets/img/header-macbook.png", alt="", width="450", height="265")

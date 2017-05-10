@@ -7,8 +7,8 @@
 'rtl-mode': rtl\
 }", (mouseenter)='onEnter()', (mouseleave)='onLeave()')
   div(*ngIf='!item.html')
-    .sn-title {{item.title}}
-    .sn-content {{item.content | max: maxLength}}
+    .sn-title([innerText]="item.title")
+    .sn-content([innerText]="item.content | max: maxLength")
     .icon(*ngIf="item.icon !== 'bare'", [innerHTML]='safeSvg')
   div(*ngIf='item.html', [innerHTML]='item.html')
   .sn-progress-loader(*ngIf='showProgressBar')

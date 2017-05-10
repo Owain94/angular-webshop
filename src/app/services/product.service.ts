@@ -21,17 +21,17 @@ export class ProductService {
     this.options = new RequestOptions({ headers: headers });
   }
 
-  public products(amount: number, admin: boolean = false): Observable<productsInterface.RootObject> {
+  public products(amount: number, admin: boolean = false): Observable<Array<productsInterface.RootObject>> {
     if (!admin) {
       return this.transferHttp.get(`${url}/api/products/${amount}`)
-        .map((res: productsInterface.RootObject) => {
+        .map((res: Array<productsInterface.RootObject>) => {
           return res;
         });
     }
 
     return this.http.get(`${url}/api/products/${amount}`)
       .map((res: any) => res.json())
-      .map((res: productsInterface.RootObject) => {
+      .map((res: Array<productsInterface.RootObject>) => {
         return res;
       });
   }

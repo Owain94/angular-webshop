@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -8,12 +8,13 @@ import { UserService } from '../../../services/user.service';
 import { AuthGuard } from '../../../guards/auth.guard';
 import { AdminGuard } from '../../../guards/admin.guard';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.pug',
-  styleUrls: ['./menu.component.styl']
+  styleUrls: ['./menu.component.styl'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 @AutoUnsubscribe()
@@ -28,7 +29,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   private routerEventsSubscription: Subscription;
 
-  constructor(private router: Router,
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+              private router: Router,
               private authGuard: AuthGuard,
               private adminGuard: AdminGuard,
               private userService: UserService) {}
@@ -39,6 +41,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.admin = this.adminGuard.checkLocal();
       if (typeof(url.url) !== 'undefined') {
         this.url = url.url;
+        this.changeDetectorRef.markForCheck();
       }
     });
 

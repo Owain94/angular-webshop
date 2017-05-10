@@ -33,7 +33,7 @@ module.exports = {
   "target": "web",
   "plugins": [
     new HtmlWebpackPlugin({
-      "template": "./src/index.html",
+      "template": "./src/index.pug",
       "filename": "./index.html",
       "hash": false,
       "inject": true,

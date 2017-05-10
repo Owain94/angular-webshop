@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 import {
   Request,
-  Response,
-  Send
+  Response
 } from 'express';
 
 import {
@@ -42,6 +41,11 @@ export interface RenderOptions extends NgSetupOptions {
   res?: Response;
 }
 
+interface Send {
+    (status: number | undefined, body?: any): Response;
+    (body?: any): Response;
+}
+
 /**
  * This holds a cached version of each index used.
  */
@@ -65,46 +69,47 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
     }
   ]);
 
-  setupOptions.providers = setupOptions.providers || [];
-
   return function (filePath: string, options: RenderOptions, callback: Send) {
 
     options.providers = options.providers || [];
+    setupOptions.providers = setupOptions.providers || [];
 
-    try {
-      const moduleOrFactory = options.bootstrap || setupOptions.bootstrap;
+    if (options.res) {
+      try {
+        const moduleOrFactory = options.bootstrap || setupOptions.bootstrap;
 
-      if (!moduleOrFactory) {
-        throw new Error('You must pass in a NgModule or NgModuleFactory to be bootstrapped');
-      }
+        if (!moduleOrFactory) {
+          throw new Error('You must pass in a NgModule or NgModuleFactory to be bootstrapped');
+        }
 
-      const extraProviders = setupOptions.providers.concat(
-        options.providers,
-        getReqResProviders(options.req, options.res),
-        [
-          {
-            provide: INITIAL_CONFIG,
-            useValue: {
-              document: getDocument(filePath),
-              url: options.req.originalUrl
+        const extraProviders = setupOptions.providers.concat(
+          options.providers,
+          getReqResProviders(options.req, options.res),
+          [
+            {
+              provide: INITIAL_CONFIG,
+              useValue: {
+                document: getDocument(filePath),
+                url: options.req.originalUrl
+              }
             }
-          }
-        ]);
+          ]);
 
-      getFactory(moduleOrFactory, compiler)
-        .then(factory => {
-          return renderModuleFactory(factory, {
-            extraProviders: extraProviders
+        getFactory(moduleOrFactory, compiler)
+          .then(factory => {
+            return renderModuleFactory(factory, {
+              extraProviders: extraProviders
+            });
+          })
+          .then((html: string) => {
+            callback(undefined, html);
+          }, (err) => {
+            callback(err);
+            throw err;
           });
-        })
-        .then((html: string) => {
-          callback(null, html);
-        }, (err) => {
-          callback(err);
-          throw err;
-        });
-    } catch (err) {
-      callback(err);
+      } catch (err) {
+        callback(err);
+      }
     }
   };
 }

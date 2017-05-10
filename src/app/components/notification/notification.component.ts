@@ -1,10 +1,12 @@
-import {Component, OnInit, OnDestroy, Input, NgZone} from '@angular/core';
-import {trigger, state, style, transition, animate} from '@angular/animations';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import { Component, OnInit, OnDestroy, Input, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import {Notification} from '../../interfaces/notifications/notification.type';
+import { Log } from '../../decorators/log.decorator';
 
-import {NotificationsService} from '../../services/notifications.service';
+import { Notification } from '../../interfaces/notifications/notification.type';
+
+import { NotificationsService } from '../../services/notifications.service';
 
 
 @Component({
@@ -57,9 +59,10 @@ import {NotificationsService} from '../../services/notifications.service';
     ])
   ],
   templateUrl: './notification.component.pug',
-  styleUrls: ['./notification.component.styl']
+  styleUrls: ['./notification.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 export class NotificationComponent implements OnInit, OnDestroy {
 
   @Input() public timeOut: number;

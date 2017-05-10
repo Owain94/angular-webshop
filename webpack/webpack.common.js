@@ -71,8 +71,8 @@ module.exports = {
         "test": /\.css$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader"
+          "css-loader?{\"sourceMap\":false,\"minimize\":true,\"importLoaders\":1}",
+          "postcss-loader?{\"postcss\": {}}"
         ]
       },
       {
@@ -82,8 +82,8 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": [
           "exports-loader?module.exports.toString()",
-          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-          "postcss-loader",
+          "css-loader?{\"sourceMap\":false,\"minimize\":true,\"importLoaders\":1}",
+          "postcss-loader?{\"postcss\": {}}",
           "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
         ]
       },
@@ -95,8 +95,8 @@ module.exports = {
         "test": /\.css$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-            "postcss-loader"
+            "css-loader?{\"sourceMap\":false,\"minimize\":true,\"importLoaders\":1}",
+            "postcss-loader?{\"postcss\": {}}"
           ],
           "fallback": "style-loader",
           "publicPath": ""
@@ -109,8 +109,8 @@ module.exports = {
         "test": /\.styl$/,
         "loaders": ExtractTextPlugin.extract({
           "use": [
-            "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
-            "postcss-loader",
+            "css-loader?{\"sourceMap\":false,\"minimize\":true,\"importLoaders\":1}",
+            "postcss-loader?{\"postcss\": {}}",
             "stylus-loader?{\"sourceMap\":false,\"paths\":[]}"
           ],
           "fallback": "style-loader",

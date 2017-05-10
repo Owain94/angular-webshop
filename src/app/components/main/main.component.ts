@@ -1,20 +1,23 @@
-import { Component, OnInit, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { TransferState } from '../../modules/transfer-state/transfer-state';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',
   templateUrl: './main.component.pug',
-  styleUrls: ['./main.component.styl']
+  styleUrls: ['./main.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()
+@PageAnalytics('Main')
 export class MainComponent implements OnInit, OnDestroy {
 
   private routerEventsSubscription: Subscription;

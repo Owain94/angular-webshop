@@ -1,7 +1,11 @@
+import { Observable } from 'rxjs/Observable';
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
+import { Log } from '../../decorators/log.decorator';
+import { LogObservable } from '../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -9,20 +13,18 @@ import { MetaService } from '../../services/meta.service';
 
 import { AuthGuard } from '../../guards/auth.guard';
 
-import { Subscription } from 'rxjs/Rx';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.pug',
-  styleUrls: ['./home.component.styl']
+  styleUrls: ['./home.component.styl'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('Home')
 export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];
-  public products: productsInterface.RootObject;
-
-  private productSubscription: Subscription;
+  @LogObservable public products: Observable<Array<productsInterface.RootObject>>;
 
   constructor(private authGuard: AuthGuard,
               private productService: ProductService,
@@ -35,11 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.button = ['/login', 'Aanmelden'];
     }
 
-    this.productSubscription = this.productService.products(6).subscribe(
-      (res: productsInterface.RootObject) => {
-        this.products = res;
-      }
-    );
+    this.products = this.productService.products(6);
   }
 
   ngOnDestroy(): void {

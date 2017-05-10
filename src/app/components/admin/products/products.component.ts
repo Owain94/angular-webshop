@@ -1,10 +1,13 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 /// <reference path="../../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
+import { Log } from '../../../decorators/log.decorator';
+import { LogObservable } from '../../../decorators/log.observable.decorator';
+import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -15,7 +18,8 @@ import { AdminGuard } from '../../../guards/admin.guard';
 
 import { url } from '../../../../helpers/constants';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';
 
@@ -24,14 +28,17 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-products',
   templateUrl: './products.component.pug',
-  styleUrls: ['./products.component.styl']
+  styleUrls: ['./products.component.styl'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
+@Log()
 @AutoUnsubscribe()
+@PageAnalytics('AdminProducts')
 export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
-  public products: productsInterface.RootObject;
+  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
-  public categories: categoriesInterface.RootObject;
+  public products: Array<productsInterface.RootObject>;
+  public productsFiltered: Array<productsInterface.RootObject>;
   // tslint:disable-next-line:no-inferrable-types
   public filterText: string = '';
   // tslint:disable-next-line:no-inferrable-types
@@ -42,8 +49,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   private activatedRouteParamSubscription: Subscription;
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
-  private productsSubscription: Subscription;
-  private categoriesSubscription: Subscription;
+  private productSubscription: Subscription;
   private deleteProductSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -64,13 +70,14 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
       .debounceTime(250)
       .subscribe(term => {
         this.filterText = term;
+        this.filterProducts();
       });
 
     this.filterCategorySubscription = this.filterCategory
       .valueChanges
-      .debounceTime(250)
       .subscribe(category => {
         this.filterCategoryText = category;
+        this.filterProducts();
       });
   }
 
@@ -91,19 +98,23 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   }
 
   private getProducts(): void {
-    this.productsSubscription = this.productService.products(Infinity, true).subscribe(
-      (res: productsInterface.RootObject) => {
+    this.productSubscription = this.productService.products(Infinity).subscribe(
+      (res: Array<productsInterface.RootObject>) => {
         this.products = res;
+        this.filterProducts();
       }
     );
   }
 
-  private getCategories(): void {
-    this.categoriesSubscription = this.productService.categories(true).subscribe(
-      (res: categoriesInterface.RootObject) => {
-        this.categories = res;
-      }
+  private filterProducts(): void {
+    this.productsFiltered = this.products.filter(
+      product => product.name.toLowerCase().includes(this.filterText.toLowerCase()) &&
+      product.category.includes(this.filterCategoryText)
     );
+  }
+
+  private getCategories(): void {
+    this.categories = this.productService.categories(true);
   }
 
   public preview(photo: string) {
