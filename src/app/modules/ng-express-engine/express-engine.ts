@@ -42,7 +42,7 @@ export interface RenderOptions extends NgSetupOptions {
 }
 
 interface Send {
-    (status: number | undefined, body?: any): Response;
+    (status: number | null, body?: any): Response;
     (body?: any): Response;
 }
 
@@ -69,47 +69,47 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
     }
   ]);
 
+  setupOptions.providers = setupOptions.providers || [];
+
   return function (filePath: string, options: RenderOptions, callback: Send) {
 
     options.providers = options.providers || [];
     setupOptions.providers = setupOptions.providers || [];
 
-    if (options.res) {
-      try {
-        const moduleOrFactory = options.bootstrap || setupOptions.bootstrap;
+    try {
+      const moduleOrFactory = options.bootstrap || setupOptions.bootstrap;
 
-        if (!moduleOrFactory) {
-          throw new Error('You must pass in a NgModule or NgModuleFactory to be bootstrapped');
-        }
-
-        const extraProviders = setupOptions.providers.concat(
-          options.providers,
-          getReqResProviders(options.req, options.res),
-          [
-            {
-              provide: INITIAL_CONFIG,
-              useValue: {
-                document: getDocument(filePath),
-                url: options.req.originalUrl
-              }
-            }
-          ]);
-
-        getFactory(moduleOrFactory, compiler)
-          .then(factory => {
-            return renderModuleFactory(factory, {
-              extraProviders: extraProviders
-            });
-          })
-          .then((html: string) => {
-            callback(undefined, html);
-          }, (err) => {
-            callback(err);
-            throw err;
-          });
-      } catch (err) {
-        callback(err);
+      if (!moduleOrFactory) {
+        throw new Error('You must pass in a NgModule or NgModuleFactory to be bootstrapped');
       }
+
+      const extraProviders = setupOptions.providers.concat(
+        options.providers,
+        getReqResProviders(options.req, options.res),
+        [
+          {
+            provide: INITIAL_CONFIG,
+            useValue: {
+              document: getDocument(filePath),
+              url: options.req.originalUrl
+            }
+          }
+        ]);
+
+      getFactory(moduleOrFactory, compiler)
+        .then(factory => {
+          return renderModuleFactory(factory, {
+            extraProviders: extraProviders
+          });
+        })
+        .then((html: string) => {
+          callback(null, html);
+        }, (err) => {
+          callback(err);
+          throw err;
+        });
+    } catch (err) {
+      callback(err);
     }
   };
 }
@@ -149,7 +149,7 @@ function getFactory(
 /**
  * Get providers of the request and response
  */
-function getReqResProviders(req: Request, res: Response): Provider[] {
+function getReqResProviders(req: Request, res: Response | undefined): Provider[] {
   const providers: Provider[] = [
     {
       provide: REQUEST,
