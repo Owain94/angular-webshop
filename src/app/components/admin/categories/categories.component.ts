@@ -6,12 +6,12 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
 import { LogObservable } from '../../../decorators/log.observable.decorator';
-import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
 import { NotificationsService } from '../../../services/notifications.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
@@ -28,7 +28,6 @@ import swal from 'sweetalert2';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('AdminCategories')
 export class AdminCategoriesComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
@@ -38,11 +37,13 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   private addCategorySubscription: Subscription;
   private updateCategorySubscription: Subscription;
   private deleteCategorySubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private adminService: AdminService,
               private productService: ProductService,
               private adminGuard: AdminGuard,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
   }
 
@@ -54,6 +55,8 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
     this.addCategoryForm = this.formBuilder.group({
       'name': [null, Validators.required]
     });
+
+    this.analyticSubscription = this.analyticsService.visit('AdminCategories').subscribe();
   }
 
   ngOnDestroy(): void {

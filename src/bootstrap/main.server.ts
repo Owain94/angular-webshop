@@ -569,6 +569,38 @@ app.post('/api/delete_category', (req, res) => {
   });
 });
 
+app.post('/api/stats_page', (req, res) => {
+  db.collection('stats', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true', 'msg': err.message});
+      return;
+    }
+
+    collection.insert({
+      date: new Date().setHours(0, 0, 0, 0),
+      page: req.body.page
+    });
+
+    res.json({'error': 'false'});
+  });
+});
+
+app.post('/api/stats_product', (req, res) => {
+  db.collection('stats', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true', 'msg': err.message});
+      return;
+    }
+
+    collection.insert({
+      date: new Date().setHours(0, 0, 0, 0),
+      product: req.body.product
+    });
+
+    res.json({'error': 'false'});
+  });
+});
+
 app.get('*', function(req, res){
   res.redirect('/404');
 });

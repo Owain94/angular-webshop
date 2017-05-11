@@ -10,12 +10,12 @@ import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper'
 
 import { Log } from '../../../../decorators/log.decorator';
 import { LogObservable } from '../../../../decorators/log.observable.decorator';
-import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
 import { ProductService } from '../../../../services/product.service';
 import { NotificationsService } from '../../../../services/notifications.service';
+import { AnalyticsService } from '../../../../services/analytics.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
 
@@ -34,7 +34,6 @@ import swal from 'sweetalert2';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('AdminEditProduct')
 export class AdminEditProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
@@ -52,6 +51,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
   private routeParamSubscription: Subscription;
   private productSubscription: Subscription;
   private updateProductSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
@@ -59,6 +59,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
               private adminGuard: AdminGuard,
               private route: ActivatedRoute,
               private router: Router,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
     this.cropperSettings = new CropperSettings();
 
@@ -152,6 +153,8 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
       'photo': [null, Validators.required],
       'id': [null, Validators.required]
     });
+
+    this.analyticSubscription = this.analyticsService.visit('AdminEditProduct').subscribe();
   }
 
   ngOnDestroy(): void {

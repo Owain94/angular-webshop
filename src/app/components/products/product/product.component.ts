@@ -1,18 +1,16 @@
-import { AnalyticsService } from './../../../services/analytics.service';
-import { AfterContentInit } from '@angular/core';
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Log } from '../../../decorators/log.decorator';
-import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../../services/product.service';
 import { MetaService } from '../../../services/meta.service';
 import { CartService } from '../../../services/cart.service';
 import { NotificationsService } from '../../../services/notifications.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -24,13 +22,14 @@ import { Subscription } from 'rxjs/Subscription';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('Product')
 export class ProductComponent implements OnInit, AfterContentInit, OnDestroy {
   public id: string;
   public product: productsInterface.RootObject;
 
   private activatedRouteParamSubscription: Subscription;
   private productSubscription: Subscription;
+  private analyticSubscription: Subscription;
+  private analyticProductSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,
               private productService: ProductService,
@@ -43,7 +42,7 @@ export class ProductComponent implements OnInit, AfterContentInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRouteParamSubscription = this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
-      this.analyticsService.product(this.id);
+      this.analyticProductSubscription = this.analyticsService.product(this.id).subscribe();
 
       this.productSubscription = this.productService.product(this.id).subscribe(
         (res: productsInterface.RootObject) => {
@@ -55,6 +54,8 @@ export class ProductComponent implements OnInit, AfterContentInit, OnDestroy {
     });
 
     this.cartService.initCart();
+
+    this.analyticSubscription = this.analyticsService.visit('Product').subscribe();
   }
 
   ngAfterContentInit(): void {

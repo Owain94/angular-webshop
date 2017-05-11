@@ -3,11 +3,13 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
-import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
+import { AnalyticsService } from '../../services/analytics.service';
+
+import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -18,13 +20,15 @@ import { Subscription } from 'rxjs/Subscription';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Log()
-@PageAnalytics('Cart')
+@AutoUnsubscribe()
 export class CartComponent implements OnInit, OnDestroy {
   public products: Array<[string, number, string, number, string]> = [];
   // tslint:disable-next-line:no-inferrable-types
   public price: [number, number, number] = [0, 0, 0];
 
   private productSubscriptions: Array<Subscription> = [];
+
+  private analyticSubscription: Subscription;
 
 
   private static roundToTwo(num: number) {
@@ -34,6 +38,7 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private metaService: MetaService,
               private cartService: CartService,
+              private analyticsService: AnalyticsService,
               private productService: ProductService) {}
 
   ngOnInit(): void {
@@ -41,6 +46,8 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartService.initCart();
 
     this.getCart();
+
+    this.analyticSubscription = this.analyticsService.visit('Cart').subscribe();
   }
 
   ngOnDestroy(): void {

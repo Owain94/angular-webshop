@@ -5,13 +5,13 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
-import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../services/user.service';
 import { PostalcodeService } from '../../../services/postalcode.service';
 import { MetaService } from '../../../services/meta.service';
 import { NotificationsService } from '../../../services/notifications.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
@@ -31,7 +31,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('Register')
 export class RegisterComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
@@ -41,6 +40,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private countrySubscription: Subscription;
   private postalcodeDataSubscription: Subscription;
   private registerSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private postalcodeService: PostalcodeService,
@@ -48,6 +48,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
               private router: Router,
               private authGuard: AuthGuard,
               private metaService: MetaService,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
 
   }
@@ -109,6 +110,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
           });
         }
     });
+
+    this.analyticSubscription = this.analyticsService.visit('Register').subscribe();
   }
 
   ngOnDestroy(): void {

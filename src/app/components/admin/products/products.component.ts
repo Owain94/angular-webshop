@@ -7,12 +7,12 @@ import { FormControl } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
 import { LogObservable } from '../../../decorators/log.observable.decorator';
-import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
 import { ProductService } from '../../../services/product.service';
 import { NotificationsService } from '../../../services/notifications.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 import { AdminGuard } from '../../../guards/admin.guard';
 
@@ -33,7 +33,6 @@ import swal from 'sweetalert2';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('AdminProducts')
 export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
   @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
@@ -51,11 +50,13 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   private filterCategorySubscription: Subscription;
   private productSubscription: Subscription;
   private deleteProductSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,
               private adminService: AdminService,
               private adminGuard: AdminGuard,
               private productService: ProductService,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
   }
 
@@ -79,6 +80,8 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
         this.filterCategoryText = category;
         this.filterProducts();
       });
+
+    this.analyticSubscription = this.analyticsService.visit('AdminProducts').subscribe();
   }
 
   ngAfterContentInit(): void {

@@ -5,11 +5,11 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Log } from '../../../../decorators/log.decorator';
-import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
+import { AnalyticsService } from '../../../../services/analytics.service';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -20,7 +20,6 @@ import { Subscription } from 'rxjs/Subscription';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('ProfileGeneral')
 export class ProfileGeneralComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types
@@ -30,9 +29,11 @@ export class ProfileGeneralComponent implements OnInit, OnDestroy {
 
   private profileDataSubscription: Subscription;
   private saveProfileDataSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
 
   }
@@ -85,6 +86,8 @@ export class ProfileGeneralComponent implements OnInit, OnDestroy {
           countryField.setValue(res['data']['country']);
         }
     });
+
+    this.analyticSubscription = this.analyticsService.visit('ProfileGeneral').subscribe();
   }
 
   ngOnDestroy(): void {
