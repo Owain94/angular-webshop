@@ -11,6 +11,7 @@ import { RegisterComponent } from './register.component';
 import { PostalcodeService } from '../../../services/postalcode.service';
 import { UserService } from '../../../services/user.service';
 import { MetaService } from '../../../services/meta.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MetaService } from '../../../services/meta.service';
   providers: [
     PostalcodeService,
     UserService,
-    MetaService
+    MetaService,
+    AnalyticsService
   ]
 })
 export class RegisterModule {}

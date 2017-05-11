@@ -7,6 +7,7 @@ import { HeaderModule } from '../main/header/header.module';
 import { NotFoundComponent } from './notfound.component';
 
 import { MetaService } from '../../services/meta.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MetaService } from '../../services/meta.service';
     )
   ],
   providers: [
-    MetaService
+    MetaService,
+    AnalyticsService
   ]
 })
 export class NotFoundModule {}

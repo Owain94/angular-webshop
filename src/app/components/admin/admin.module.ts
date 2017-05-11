@@ -20,6 +20,7 @@ import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
 import { AdminService } from '../../services/admin.service';
 import { MetaService } from '../../services/meta.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 import { AdminGuard } from '../../guards/admin.guard';
 
@@ -86,7 +87,8 @@ const routes: Routes =
     UserService,
     MetaService,
     AdminService,
-    AdminGuard
+    AdminGuard,
+    AnalyticsService
   ],
   exports: [
     AdminComponent

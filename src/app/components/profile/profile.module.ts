@@ -14,6 +14,7 @@ import { ProfileGeneralComponent } from './profile/general/general.component';
 
 import { UserService } from '../../services/user.service';
 import { MetaService } from '../../services/meta.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 const routes: Routes =
   [
@@ -63,7 +64,8 @@ const routes: Routes =
   ],
   providers: [
     UserService,
-    MetaService
+    MetaService,
+    AnalyticsService
   ]
 })
 export class ProfileModule {}
