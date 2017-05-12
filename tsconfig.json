@@ -23,8 +23,10 @@
       "es2016",
       "dom"
     ],
-    "plugins":
-    [
+    "plugins": [
+      {
+        "name": "tslint-language-service"
+      },
       {
         "name": "@angular/language-service"
       }
