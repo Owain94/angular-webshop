@@ -43,7 +43,7 @@ export class AnalyticsService {
     return Observable.of(false);
   }
 
-  public getTotalStats(): Observable<Object> {
+  public getTotalStats(): Observable<totalStats.RootObject> {
     return this.http.get(`${url}/api/total_stats/`, this.options)
     .map((res: any) => res.json())
     .map((res: totalStats.RootObject) => {

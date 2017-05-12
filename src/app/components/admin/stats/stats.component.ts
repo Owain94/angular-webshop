@@ -1,3 +1,5 @@
+/// <reference path="../../../interfaces/admin/total.stats.interface.ts" />
+
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
@@ -28,10 +30,15 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
   public options: NgDateRangePickerOptions;
   public dateRange: string;
 
-  @LogObservable private totalStats: Observable<Array<number>>;
+  @LogObservable public totalStats: Observable<totalStats.RootObject>;
 
   public doughnutChartLabels: string[] = ['Bekeken pagina\'s', 'Bekeken producten'];
   public doughnutChartData: number[];
+
+  // Countto stubs
+  public users: any;
+  public pages: any;
+  public products: any;
 
   private analyticSubscription: Subscription;
 
@@ -68,7 +75,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
     // pass
   }
 
-  onDateRangeChange() {
+  public onDateRangeChange() {
     const dates: Array<string> = this.dateRange.split('-');
     const from: Array<string> = dates[0].split('/');
     const to: Array<string> = dates[1].split('/');
