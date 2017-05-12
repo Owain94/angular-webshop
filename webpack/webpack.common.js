@@ -76,6 +76,15 @@ module.exports = {
         ]
       },
       {
+        "test": /\.scss$|\.sass$/,
+        "loaders": [
+          "exports-loader?module.exports.toString()",
+          "css-loader?{\"sourceMap\":false,\"importLoaders\":1}",
+          "postcss-loader?{\"postcss\": {}}",
+          "sass-loader"
+        ]
+      },
+      {
         "exclude": [
           path.join(process.cwd(), "src/assets/css/styles.styl")
         ],

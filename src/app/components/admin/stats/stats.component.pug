@@ -1,3 +1,22 @@
 .row
   .large-12.columns.text-center
     h2 Statistieken
+
+.row
+  .large-4.columns.text-center
+    h6 Aantal geregistreerde gebruikers
+    div(app-counto='', [step]='10', [countTo]='(totalStats | async)?.usercount', [countFrom]='0', [duration]='1', (countoChange)='users = $event', [innerText]='users | number : "1.0-0"')
+  .large-4.columns.text-center
+    h6 Totaal aantal bekeken pagina's
+    div(app-counto='', [step]='10', [countTo]='(totalStats | async)?.pageviews', [countFrom]='0', [duration]='1', (countoChange)='pages = $event', [innerText]='pages | number : "1.0-0"')
+  .large-4.columns.text-center
+    h6 Totaal aantal bekeken producten
+    div(app-counto='', [step]='10', [countTo]='(totalStats | async)?.productviews', [countFrom]='0', [duration]='1', (countoChange)='products = $event', [innerText]='products | number : "1.0-0"')
+
+.row.picker-margin
+  .large-12.columns.text-center
+    ng-daterangepicker([(ngModel)]='dateRange', [options]='options', (ngModelChange)='onDateRangeChange($event)')
+
+.row
+  .large-4.medium-4.columns.text-center
+    canvas(*ngIf='doughnutChartData', baseChart='', [data]='doughnutChartData', [labels]='doughnutChartLabels', chartType='doughnut')

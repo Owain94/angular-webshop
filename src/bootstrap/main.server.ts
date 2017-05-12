@@ -76,7 +76,7 @@ app.post('/api/register', (req, res) => {
           res.json({'error': 'true', 'msg': 'Dit email adres is al geregistreerd!'});
           return;
         } else {
-          collection.insert({
+          collection.insertOne({
             firstname: capitalizeFirstLetter(req.body.firstname.toLowerCase()),
             surname_prefix: req.body.surname_prefix.toLowerCase(),
             surname: capitalizeFirstLetter(req.body.surname.toLowerCase()),
@@ -390,7 +390,7 @@ app.post('/api/add_product', (req, res) => {
       return;
     }
 
-    collection.insert({
+    collection.insertOne({
       name: req.body.name,
       price: String(req.body.price).replace(',', '.'),
       amount: req.body.amount,
@@ -526,7 +526,7 @@ app.post('/api/add_category', (req, res) => {
       return;
     }
 
-    collection.insert({
+    collection.insertOne({
       category: req.body.name
     });
 
@@ -576,12 +576,19 @@ app.post('/api/stats_page', (req, res) => {
       return;
     }
 
-    collection.insert({
+    collection.insertOne({
       date: new Date().setHours(0, 0, 0, 0),
       page: req.body.page
-    });
+    }, (err2: any, result: any) => {
+      if (err2) {
+        res.json({'error': 'true', 'msg': err2.message});
+        return;
+      }
 
-    res.json({'error': 'false'});
+      console.log(result);
+
+      res.json({'error': 'false'});
+    });
   });
 });
 
@@ -592,16 +599,83 @@ app.post('/api/stats_product', (req, res) => {
       return;
     }
 
-    collection.insert({
+    collection.insertOne({
       date: new Date().setHours(0, 0, 0, 0),
       product: req.body.product
-    });
+    }, (err2: any, result: any) => {
+      if (err2) {
+        res.json({'error': 'true', 'msg': err2.message});
+        return;
+      }
 
-    res.json({'error': 'false'});
+      console.log(result);
+
+      res.json({'error': 'false'});
+    });
   });
 });
 
-app.get('*', function(req, res){
+app.get('/api/total_stats', (req, res) => {
+  db.collection('users', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true', 'msg': err.message});
+      return;
+    }
+
+    collection.count({}, (err2: any, numOfDocs: any) => {
+      if (err2) {
+        res.json({'error': 'true', 'msg': err2.message});
+        return;
+      }
+
+      db.collection('stats', (err3: any, collection2: any) => {
+        if (err3) {
+          res.json({'error': 'true', 'msg': err3.message});
+          return;
+        }
+
+        collection2.find({page: {$exists: true}}).count({}, (err4: any, numOfViews: any) => {
+          if (err4) {
+            res.json({'error': 'true', 'msg': err4.message});
+            return;
+          }
+
+          collection2.find({product: {$exists: true}}).count({}, (err5: any, numOfProductViews: any) => {
+            if (err5) {
+              res.json({'error': 'true', 'msg': err5.message});
+              return;
+            }
+
+            res.json({'error': 'false', 'usercount': numOfDocs, 'pageviews': numOfViews, 'productviews': numOfProductViews});
+          });
+        });
+      });
+    });
+  });
+});
+
+app.get('/api/range_stats', (req, res) => {
+  const from: string = req.query.from.replace('/', '');
+  const to: string = req.query.to.replace('/', '');
+
+  db.collection('stats', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true', 'msg': err.message});
+      return;
+    }
+
+    collection.find({date: { $gt: Number(from), $lt: Number(to)}}).toArray((err2: any, items: any) => {
+      if (err2) {
+        res.json({'error': 'true', 'msg': err2.message});
+        return;
+      }
+
+      res.send(items);
+    });
+  });
+});
+
+app.get('*', (req, res) => {
   res.redirect('/404');
 });
 

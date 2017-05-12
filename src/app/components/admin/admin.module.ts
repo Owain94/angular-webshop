@@ -6,8 +6,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderModule } from '../main/header/header.module';
 import { HighlightPipeModule } from '../../pipes/highlight.pipe.module';
 import { NotificationsModule } from '../notification/notification.module';
+import { CountoModule } from '../../directives/counto.module';
 
 import { ImageCropperModule } from 'ng2-img-cropper';
+import { NgDateRangePickerModule } from 'ng-daterangepicker';
+import { ChartsModule } from 'ng2-charts';
 
 import { AdminComponent } from './admin.component';
 import { AdminCategoriesComponent } from './categories/categories.component';
@@ -72,8 +75,11 @@ const routes: Routes =
     HeaderModule,
     HighlightPipeModule,
     NotificationsModule,
+    CountoModule,
 
     ImageCropperModule,
+    NgDateRangePickerModule,
+    ChartsModule,
 
     FormsModule,
     ReactiveFormsModule,
