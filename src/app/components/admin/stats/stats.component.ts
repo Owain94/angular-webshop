@@ -82,7 +82,6 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
   private getStatsInRange(from: number, to: number) {
     this.analyticsService.getStatsInRange(from, to).subscribe(
         (res: Array<rangeStats.RootObject>) => {
-          console.log(res);
           this.doughnutChartData = [
             res.filter((item: rangeStats.RootObject) => {
               return item.hasOwnProperty('page');

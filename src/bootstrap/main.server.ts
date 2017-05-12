@@ -585,8 +585,6 @@ app.post('/api/stats_page', (req, res) => {
         return;
       }
 
-      console.log(result);
-
       res.json({'error': 'false'});
     });
   });
@@ -607,8 +605,6 @@ app.post('/api/stats_product', (req, res) => {
         res.json({'error': 'true', 'msg': err2.message});
         return;
       }
-
-      console.log(result);
 
       res.json({'error': 'false'});
     });
