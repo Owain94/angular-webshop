@@ -10,6 +10,7 @@ import { CartComponent } from './cart.component';
 import { MetaService } from '../../services/meta.service';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ProductService } from '../../services/product.service';
   providers: [
     MetaService,
     CartService,
-    ProductService
+    ProductService,
+    AnalyticsService
   ]
 })
 export class CartModule {}

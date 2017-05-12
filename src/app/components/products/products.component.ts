@@ -6,11 +6,11 @@ import { FormControl } from '@angular/forms';
 
 import { Log } from '../../decorators/log.decorator';
 import { LogObservable } from '../../decorators/log.observable.decorator';
-import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
 import { MetaService } from '../../services/meta.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -24,7 +24,6 @@ import 'rxjs/add/operator/debounceTime';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Log()
-@PageAnalytics('Products')
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit, OnDestroy {
   @LogObservable public categories: Observable<categoriesInterface.RootObject>;
@@ -41,9 +40,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
   private productSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private productService: ProductService,
+              private analyticsService: AnalyticsService,
               private metaService: MetaService) {
   }
 
@@ -67,6 +68,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.filterCategoryText = category;
         this.filterProducts();
       });
+
+    this.analyticSubscription = this.analyticsService.visit('Products').subscribe();
   }
 
   ngOnDestroy(): void {

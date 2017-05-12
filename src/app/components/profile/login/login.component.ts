@@ -5,13 +5,13 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Log } from '../../../decorators/log.decorator';
-import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../services/user.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
 import { MetaService } from '../../../services/meta.service';
 import { NotificationsService } from '../../../services/notifications.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
@@ -27,7 +27,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('Login')
 export class LoginComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
@@ -38,6 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private emailSubscription: Subscription;
   private loginSubscription: Subscription;
   private checkTfaSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private router: Router,
@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               private authGuard: AuthGuard,
               private localStorageService: LocalStorageService,
               private metaService: MetaService,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
 
   }
@@ -100,6 +101,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       );
     }
+
+    this.analyticSubscription = this.analyticsService.visit('Login').subscribe();
   }
 
   ngOnDestroy(): void {

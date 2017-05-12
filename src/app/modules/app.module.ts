@@ -17,6 +17,7 @@ import { UserService } from '../services/user.service';
 import { AdminService } from '../services/admin.service';
 import { ProductService } from '../services/product.service';
 import { MetaService } from '../services/meta.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { AdminGuard } from '../guards/admin.guard';
@@ -42,6 +43,7 @@ import { AdminGuard } from '../guards/admin.guard';
     AdminService,
     ProductService,
     MetaService,
+    AnalyticsService,
     AuthGuard,
     AdminGuard
   ],

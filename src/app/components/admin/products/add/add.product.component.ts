@@ -9,12 +9,12 @@ import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper'
 
 import { Log } from '../../../../decorators/log.decorator';
 import { LogObservable } from '../../../../decorators/log.observable.decorator';
-import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
 import { ProductService } from '../../../../services/product.service';
 import { NotificationsService } from '../../../../services/notifications.service';
+import { AnalyticsService } from '../../../../services/analytics.service';
 
 import { AdminGuard } from '../../../../guards/admin.guard';
 
@@ -31,7 +31,6 @@ import swal from 'sweetalert2';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('AdminAddProduct')
 export class AdminAddProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
@@ -46,14 +45,15 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
   public disabled: boolean = false;
   @LogObservable public categories: Observable<categoriesInterface.RootObject>;
 
-
   private addProductSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
               private adminService: AdminService,
               private adminGuard: AdminGuard,
               private router: Router,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
     this.cropperSettings = new CropperSettings();
 
@@ -99,6 +99,8 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
       'description': [null, Validators.required],
       'photo': [null, Validators.required]
     });
+
+    this.analyticSubscription = this.analyticsService.visit('AdminAddProduct').subscribe();
   }
 
   ngOnDestroy(): void {

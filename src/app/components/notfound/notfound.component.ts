@@ -1,9 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
-import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 
 import { MetaService } from '../../services/meta.service';
+import { AnalyticsService } from '../../services/analytics.service';
+
+import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
+
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-not-found',
@@ -11,11 +15,21 @@ import { MetaService } from '../../services/meta.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Log()
-@PageAnalytics('404')
-export class NotFoundComponent implements OnInit {
-  constructor(private metaService: MetaService) {}
+@AutoUnsubscribe()
+export class NotFoundComponent implements OnInit, OnDestroy {
+
+  private analyticSubscription: Subscription;
+
+  constructor(private metaService: MetaService,
+              private analyticsService: AnalyticsService) {}
 
   ngOnInit(): void {
     this.metaService.addTags();
+
+    this.analyticSubscription = this.analyticsService.visit('404').subscribe();
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 }

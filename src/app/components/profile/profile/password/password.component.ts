@@ -4,11 +4,11 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Log } from '../../../../decorators/log.decorator';
-import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
+import { AnalyticsService } from '../../../../services/analytics.service';
 
 import { PasswordValidator } from '../../../../helpers/password.validator';
 
@@ -21,7 +21,6 @@ import { Subscription } from 'rxjs/Subscription';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('ProfilePassword')
 export class ProfilePasswordComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-inferrable-types
@@ -30,9 +29,11 @@ export class ProfilePasswordComponent implements OnInit, OnDestroy {
   public passwordForm: FormGroup;
 
   private saveProfileDataSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
 
   }
@@ -45,6 +46,8 @@ export class ProfilePasswordComponent implements OnInit, OnDestroy {
     });
 
     this.passwordForm.setValidators(PasswordValidator.mismatchedPasswords());
+
+    this.analyticSubscription = this.analyticsService.visit('ProfilePassword').subscribe();
   }
 
   ngOnDestroy(): void {

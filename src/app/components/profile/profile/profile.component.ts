@@ -1,10 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { Log } from '../../../decorators/log.decorator';
-import { PageAnalytics } from '../../../decorators/page.analytic.decorator';
 
 import { MetaService } from '../../../services/meta.service';
 import { UserService } from '../../../services/user.service';
+import { AnalyticsService } from '../../../services/analytics.service';
+
+import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
+
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-profile',
@@ -12,10 +16,13 @@ import { UserService } from '../../../services/user.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 @Log()
-@PageAnalytics('Profile')
-export class ProfileComponent implements OnInit {
+@AutoUnsubscribe()
+export class ProfileComponent implements OnInit, OnDestroy {
+
+  private analyticSubscription: Subscription;
 
   constructor(private metaService: MetaService,
+              private analyticsService: AnalyticsService,
               private userService: UserService) {
 
   }
@@ -23,5 +30,11 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.metaService.addTags();
     this.userService.verifyLogout();
+
+    this.analyticSubscription = this.analyticsService.visit('Profile').subscribe();
+  }
+
+  ngOnDestroy(): void {
+    // pass
   }
 }

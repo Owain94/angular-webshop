@@ -5,7 +5,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TransferState } from '../../modules/transfer-state/transfer-state';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
-import { PageAnalytics } from '../../decorators/page.analytic.decorator';
+
+import { AnalyticsService } from '../../services/analytics.service';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -17,13 +18,14 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 @AutoUnsubscribe()
-@PageAnalytics('Main')
 export class MainComponent implements OnInit, OnDestroy {
 
   private routerEventsSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private transferState: TransferState,
               private router: Router,
+              private analyticsService: AnalyticsService,
               @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
@@ -36,6 +38,8 @@ export class MainComponent implements OnInit, OnDestroy {
     });
 
     this.transferState.set('cached', true);
+
+    this.analyticSubscription = this.analyticsService.visit('Main').subscribe();
   }
 
   ngOnDestroy(): void {

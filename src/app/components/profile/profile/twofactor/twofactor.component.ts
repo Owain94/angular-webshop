@@ -6,10 +6,10 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy, ChangeDetectionStr
 
 import { Log } from '../../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
-import { PageAnalytics } from '../../../../decorators/page.analytic.decorator';
 
 import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
+import { AnalyticsService } from '../../../../services/analytics.service';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -21,7 +21,6 @@ import { Subscription } from 'rxjs/Subscription';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('Profile2FA')
 export class ProfileTfaComponent implements OnInit, OnDestroy {
   @ViewChild('tfaToken') tfaToken: ElementRef;
 
@@ -37,8 +36,10 @@ export class ProfileTfaComponent implements OnInit, OnDestroy {
   private tfaTokenSubscription: Subscription;
   private disableTfaSubscription: Subscription;
   private verifyTfaTokenSubscription: Subscription;
+  private analyticSubscription: Subscription;
 
   constructor(private userService: UserService,
+              private analyticsService: AnalyticsService,
               private notificationsService: NotificationsService) {
 
   }
@@ -52,6 +53,8 @@ export class ProfileTfaComponent implements OnInit, OnDestroy {
           this.twoFactorShow = true;
         }
     });
+
+    this.analyticSubscription = this.analyticsService.visit('Profile2FA').subscribe();
   }
 
   ngOnDestroy(): void {

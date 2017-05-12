@@ -5,13 +5,15 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 
 import { Log } from '../../decorators/log.decorator';
 import { LogObservable } from '../../decorators/log.observable.decorator';
-import { PageAnalytics } from '../../decorators/page.analytic.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
 import { MetaService } from '../../services/meta.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 import { AuthGuard } from '../../guards/auth.guard';
+
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-home',
@@ -21,14 +23,16 @@ import { AuthGuard } from '../../guards/auth.guard';
 })
 @Log()
 @AutoUnsubscribe()
-@PageAnalytics('Home')
 export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];
   @LogObservable public products: Observable<Array<productsInterface.RootObject>>;
 
+  private analyticSubscription: Subscription;
+
   constructor(private authGuard: AuthGuard,
               private productService: ProductService,
-              private metaService: MetaService) {}
+              private metaService: MetaService,
+              private analyticsService: AnalyticsService) {}
 
   ngOnInit(): void {
     this.metaService.addTags();
@@ -38,6 +42,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this.products = this.productService.products(6);
+
+    this.analyticSubscription = this.analyticsService.visit('Home').subscribe();
   }
 
   ngOnDestroy(): void {
