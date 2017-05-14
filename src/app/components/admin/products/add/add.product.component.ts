@@ -8,7 +8,6 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 import { Log } from '../../../../decorators/log.decorator';
-import { LogObservable } from '../../../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../../services/admin.service';
@@ -19,7 +18,6 @@ import { AnalyticsService } from '../../../../services/analytics.service';
 import { AdminGuard } from '../../../../guards/admin.guard';
 
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 
 import swal from 'sweetalert2';
 
@@ -43,9 +41,10 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
   public addProductForm: FormGroup;
   // tslint:disable-next-line:no-inferrable-types
   public disabled: boolean = false;
-  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
+  public categories: categoriesInterface.RootObject;
 
   private addProductSubscription: Subscription;
+  private categoriesSubscription: Subscription;
   private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -84,7 +83,11 @@ export class AdminAddProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.adminGuard.checkRemote();
 
-    this.categories = this.productService.categories(true);
+    this.categoriesSubscription = this.productService.categories(true).subscribe(
+      (res: categoriesInterface.RootObject) => {
+        this.categories = res;
+      }
+    );
 
     this.addProductForm = this.formBuilder.group({
       'name': [null, [Validators.required, Validators.maxLength(30)]],

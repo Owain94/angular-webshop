@@ -5,16 +5,16 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { FormControl } from '@angular/forms';
 
 import { Log } from '../../decorators/log.decorator';
-import { LogObservable } from '../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
 import { MetaService } from '../../services/meta.service';
 import { AnalyticsService } from '../../services/analytics.service';
 
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
+import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/debounceTime';
 
 @Component({
@@ -26,7 +26,7 @@ import 'rxjs/add/operator/debounceTime';
 @Log()
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit, OnDestroy {
-  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
+  public categories: categoriesInterface.RootObject;
 
   public products: Array<productsInterface.RootObject>;
   public productsFiltered: Array<productsInterface.RootObject>;
@@ -39,7 +39,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
-  private productSubscription: Subscription;
+  private productAndCategorieSubscription: Subscription;
   private analyticSubscription: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
@@ -51,8 +51,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.metaService.addTags();
 
-    this.getProducts();
-    this.getCategories();
+    this.getProductsAndCategories();
 
     this.filterInputSubscription = this.filterInput
       .valueChanges
@@ -76,10 +75,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
     // pass
   }
 
-  private getProducts(): void {
-    this.productSubscription = this.productService.products(Infinity).subscribe(
-      (res: Array<productsInterface.RootObject>) => {
-        this.products = res;
+  private getProductsAndCategories(): void {
+    this.productAndCategorieSubscription = Observable.forkJoin(
+      this.productService.products(Infinity),
+      this.productService.categories()
+    ).subscribe(
+      (res: [Array<productsInterface.RootObject>, categoriesInterface.RootObject]) => {
+        this.products = res[0];
+        this.categories = res[1];
         this.filterProducts();
       }
     );
@@ -91,10 +94,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
       product.category.includes(this.filterCategoryText)
     );
     this.changeDetectorRef.markForCheck();
-  }
-
-  private getCategories(): void {
-    this.categories = this.productService.categories();
   }
 
   public reset(): void {

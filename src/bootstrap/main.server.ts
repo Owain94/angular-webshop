@@ -9,6 +9,7 @@ import { JWTKey } from './../helpers/constants';
 const port = 8000;
 const baseUrl = `http://localhost:${port}`;
 
+const fs = require('fs');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const credential = require('credential');
@@ -402,13 +403,13 @@ app.post('/api/add_product', (req, res) => {
         return;
       }
 
-      base64Img.img(req.body.photo, imageBasePath, inserted.insertedIds[0], (err3: any, filepath: string) => {
+      base64Img.img(req.body.photo, imageBasePath, inserted.insertedId, (err3: any, filepath: string) => {
         if (err3) {
           res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
           return;
         }
 
-        collection.update({_id: new ObjectId(inserted.insertedIds[0])}, { $set: {
+        collection.update({_id: new ObjectId(inserted.insertedId)}, { $set: {
             photo: filepath.replace(imageBasePath, '')
           }
         }, (err4: any) => {
@@ -675,6 +676,12 @@ app.get('/api/range_stats', (req, res) => {
       res.send(items);
     });
   });
+});
+
+app.get('*.png', (req, res) => {
+  const img = fs.readFileSync(process.cwd() + '/dist/assets/img/no_image.jpg');
+  res.writeHead(200, {'Content-Type': 'image/jpg' });
+  res.end(img, 'binary');
 });
 
 app.get('*', (req, res) => {
