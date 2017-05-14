@@ -165,7 +165,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
               }
             }
 
-            popularProducts = popularProducts.sort(function (a, b) {
+            popularProducts = popularProducts.sort((a, b) => {
               return b.count - a.count;
             }).slice(0, 5);
 
@@ -207,7 +207,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
               }
             }
 
-            popularPages = popularPages.sort(function (a, b) {
+            popularPages = popularPages.sort((a, b) => {
               return b.count - a.count;
             }).slice(0, 5);
 
