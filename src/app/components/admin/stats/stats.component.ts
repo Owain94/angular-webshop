@@ -187,14 +187,9 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
           }
 
           Observable.forkJoin(productObservables).subscribe(
-            (combinedRes) => {
+            (combinedRes: Array<productsInterface.RootObject>) => {
               const productData: Array<any> = [];
               for (let i = 0; i < combinedRes.length; i++) {
-                console.group();
-                console.log(i);
-                console.log(combinedRes[i]);
-                console.log(popularProducts[i]);
-                console.groupEnd();
                 productData.push({data: [popularProducts[i].count], label: combinedRes[i].name});
               }
 
