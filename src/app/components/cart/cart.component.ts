@@ -11,7 +11,10 @@ import { AnalyticsService } from '../../services/analytics.service';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'app-cart',
@@ -61,18 +64,26 @@ export class CartComponent implements OnInit, OnDestroy {
 
   private getCart() {
     const products = this.cartService.getCart();
+
+    const allProductsObservables: Array<Observable<productsInterface.RootObject>> = [];
+
     for (const product in products) {
       if (products.hasOwnProperty(product)) {
-        this.productSubscriptions.push(this.productService.product(products[product][0]).subscribe((res: productsInterface.RootObject) => {
-          products[product][2] = res.name;
-          products[product][3] = Number(res.price);
-          products[product][4] = res.photo;
-        }));
+        allProductsObservables.push(this.productService.product(products[product][0]));
       }
     }
 
-    this.products = <Array<[string, number, string, number, string]>> products;
-    this.getTotalPrice();
+    Observable.forkJoin(allProductsObservables).subscribe((res: Array<productsInterface.RootObject>) => {
+      for (let i = 0; i < res.length; i++) {
+        products[i][2] = res[i].name;
+        products[i][3] = Number(res[i].price);
+        products[i][4] = res[i].photo;
+      }
+
+      this.products = <Array<[string, number, string, number, string]>> products;
+      this.getTotalPrice();
+    });
+
   }
 
   public changeAmount(id: string, event: any): void {
