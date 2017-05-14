@@ -35,6 +35,14 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
   public options: NgDateRangePickerOptions;
   public dateRange: string;
 
+
+  // tslint:disable-next-line:no-inferrable-types
+  public pagesChartUpdating: boolean = true;
+  // tslint:disable-next-line:no-inferrable-types
+  public productChartUpdating: boolean = true;
+  // tslint:disable-next-line:no-inferrable-types
+  public doughnutChartUpdating: boolean = true;
+
   public rangeDoughnutChartOptions: any = {
     responsive: true,
     maintainAspectRatio: false
@@ -122,6 +130,10 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
   }
 
   private getStatsInRange(from: number, to: number) {
+    this.pagesChartUpdating = true;
+    this.productChartUpdating = true;
+    this.doughnutChartUpdating = true;
+
     this.analyticsService.getStatsInRange(from, to).subscribe(
         (res: Array<rangeStats.RootObject>) => {
           const pages = res.filter((item: rangeStats.RootObject) => {
@@ -133,69 +145,84 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
           });
 
           this.rangeDoughnutChartData = [pages.length, products.length];
-
-          let popularProducts: Array<{'id': string, 'count': number}> = [];
-          console.log(products);
-
-          for (const product of products) {
-            if (popularProducts.find(x => x.id === product.product)) {
-              popularProducts.find(x => x.id === product.product).count += 1;
-            } else {
-              popularProducts.push(
-                {
-                  'id': product.product,
-                  'count': 1
-                }
-              );
-            }
+          if (pages.length !== 0 && products.length !== 0) {
+            this.doughnutChartUpdating = false;
           }
 
-          let popularPages: Array<{'name': string, 'count': number}> = [];
+          if (products.length > 0) {
+            let popularProducts: Array<{'id': string, 'count': number}> = [];
 
-          for (const page of pages) {
-            if (popularPages.find(x => x.name === page.page)) {
-              popularPages.find(x => x.name === page.page).count += 1;
-            } else {
-              popularPages.push(
-                {
-                  'name': page.page,
-                  'count': 1
-                }
-              );
-            }
-          }
-
-          popularProducts = popularProducts.sort(function (a, b) {
-            return b.count - a.count;
-          }).slice(0, 5);
-
-          popularPages = popularPages.sort(function (a, b) {
-            return b.count - a.count;
-          }).slice(0, 5);
-
-          const pagesData: Array<any> = [];
-          const productObservables: Array<Observable<productsInterface.RootObject>> = [];
-
-          for (const popularPage of popularPages) {
-            pagesData.push({data: [popularPage.count], label: popularPage.name});
-          }
-
-          this.rangePagesChartData = pagesData;
-
-          for (const popularProduct of popularProducts) {
-            productObservables.push(this.productService.product(popularProduct.id, true));
-          }
-
-          Observable.forkJoin(productObservables).subscribe(
-            (combinedRes: Array<productsInterface.RootObject>) => {
-              const productData: Array<any> = [];
-              for (let i = 0; i < combinedRes.length; i++) {
-                productData.push({data: [popularProducts[i].count], label: combinedRes[i].name});
+            for (const product of products) {
+              if (popularProducts.find(x => x.id === product.product)) {
+                popularProducts.find(x => x.id === product.product).count += 1;
+              } else {
+                popularProducts.push(
+                  {
+                    'id': product.product,
+                    'count': 1
+                  }
+                );
               }
-
-              this.rangeProductsChartData = productData;
             }
-          );
+
+            popularProducts = popularProducts.sort(function (a, b) {
+              return b.count - a.count;
+            }).slice(0, 5);
+
+            const productObservables: Array<Observable<productsInterface.RootObject>> = [];
+
+            for (const popularProduct of popularProducts) {
+              productObservables.push(this.productService.product(popularProduct.id, true));
+            }
+
+            Observable.forkJoin(productObservables).subscribe(
+              (combinedRes: Array<productsInterface.RootObject>) => {
+                const productData: Array<any> = [];
+                for (let i = 0; i < combinedRes.length; i++) {
+                  productData.push({data: [popularProducts[i].count], label: combinedRes[i].name});
+                }
+
+                this.rangeProductsChartData = productData;
+                this.productChartUpdating = false;
+              }
+            );
+          } else {
+            this.rangeProductsChartData = [{data: 0, label: ''}];
+            this.productChartUpdating = false;
+          }
+
+          if (pages.length > 0) {
+            let popularPages: Array<{'name': string, 'count': number}> = [];
+
+            for (const page of pages) {
+              if (popularPages.find(x => x.name === page.page)) {
+                popularPages.find(x => x.name === page.page).count += 1;
+              } else {
+                popularPages.push(
+                  {
+                    'name': page.page,
+                    'count': 1
+                  }
+                );
+              }
+            }
+
+            popularPages = popularPages.sort(function (a, b) {
+              return b.count - a.count;
+            }).slice(0, 5);
+
+            const pagesData: Array<any> = [];
+
+            for (const popularPage of popularPages) {
+              pagesData.push({data: [popularPage.count], label: popularPage.name});
+            }
+
+            this.rangePagesChartData = pagesData;
+            this.pagesChartUpdating = false;
+          } else {
+            this.rangePagesChartData = [{data: 0, label: ''}];
+            this.pagesChartUpdating = false;
+          }
         }
       );
   }

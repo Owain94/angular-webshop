@@ -25,10 +25,10 @@
     h6 Aantal bekeken producten
     div(*ngIf='rangeDoughnutChartData', app-counto='', [step]='25', [countTo]='rangeDoughnutChartData[1]', [countFrom]='0', [duration]='0.75', (countoChange)='rangeProducts = $event', [innerText]='rangeProducts | number : "1.0-0"')
 
-.row
+.row.picker-margin
   .large-4.columns.text-center(style='display: block; height: 305px')
-    canvas(*ngIf='rangeDoughnutChartData', baseChart='', [data]='rangeDoughnutChartData', [labels]='rangeDoughnutChartLabels', [options]='rangeDoughnutChartOptions', chartType='doughnut')
+    canvas(*ngIf='!doughnutChartUpdating', baseChart='', [data]='rangeDoughnutChartData', [labels]='rangeDoughnutChartLabels', [options]='rangeDoughnutChartOptions', chartType='doughnut')
   .large-4.columns.text-center(style='display: block; height: 305px')
-    canvas(*ngIf='rangePagesChartData', baseChart='', [datasets]='rangePagesChartData', [labels]='rangePagesChartLabels', [options]='rangeBarChartOptions', legend="false", chartType='bar')
+    canvas(*ngIf='!pagesChartUpdating', baseChart='', [datasets]='rangePagesChartData', [labels]='rangePagesChartLabels', [options]='rangeBarChartOptions', legend="false", chartType='bar')
   .large-4.columns.text-center(style='display: block; height: 305px')
-    canvas(*ngIf='rangeProductsChartData', baseChart='', [datasets]='rangeProductsChartData', [labels]='rangeProductsChartLabels', [options]='rangeBarChartOptions', legend="false", chartType='bar')
+    canvas(*ngIf='!productChartUpdating', baseChart='', [datasets]='rangeProductsChartData', [labels]='rangeProductsChartLabels', [options]='rangeBarChartOptions', legend="false", chartType='bar')
