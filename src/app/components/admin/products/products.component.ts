@@ -101,7 +101,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   }
 
   private getProducts(): void {
-    this.productSubscription = this.productService.products(Infinity).subscribe(
+    this.productSubscription = this.productService.products(Infinity, true).subscribe(
       (res: Array<productsInterface.RootObject>) => {
         this.products = res;
         this.filterProducts();
