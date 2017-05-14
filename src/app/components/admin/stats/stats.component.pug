@@ -5,13 +5,13 @@
 .row
   .large-4.columns.text-center
     h6 Aantal geregistreerde gebruikers
-    div(app-counto='', [step]='25', [countTo]='(totalStats | async)?.usercount', [countFrom]='0', [duration]='0.75', (countoChange)='users = $event', [innerText]='users | number : "1.0-0"')
+    div(app-counto='', [step]='25', [countTo]='totalStats?.usercount', [countFrom]='0', [duration]='0.75', (countoChange)='users = $event', [innerText]='users | number : "1.0-0"')
   .large-4.columns.text-center
     h6 Totaal aantal bekeken pagina's
-    div(app-counto='', [step]='25', [countTo]='(totalStats | async)?.pageviews', [countFrom]='0', [duration]='0.75', (countoChange)='pages = $event', [innerText]='pages | number : "1.0-0"')
+    div(app-counto='', [step]='25', [countTo]='totalStats?.pageviews', [countFrom]='0', [duration]='0.75', (countoChange)='pages = $event', [innerText]='pages | number : "1.0-0"')
   .large-4.columns.text-center
     h6 Totaal aantal bekeken producten
-    div(app-counto='', [step]='25', [countTo]='(totalStats | async)?.productviews', [countFrom]='0', [duration]='0.75', (countoChange)='products = $event', [innerText]='products | number : "1.0-0"')
+    div(app-counto='', [step]='25', [countTo]='totalStats?.productviews', [countFrom]='0', [duration]='0.75', (countoChange)='products = $event', [innerText]='products | number : "1.0-0"')
 
 .row.picker-margin
   .large-12.columns.text-center

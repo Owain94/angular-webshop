@@ -15,7 +15,7 @@ app-header([headerHeading]="['Alle producten', '']")
     .large-4.medium-6.columns
       select([formControl]="filterCategory")
         option(value="")
-        option(*ngFor="let category of (categories | async); let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
+        option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
 
     .large-2.medium-12.columns.end.text-center
       button.button((click)="reset()") Reset

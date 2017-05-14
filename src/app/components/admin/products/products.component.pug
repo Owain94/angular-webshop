@@ -13,7 +13,7 @@
   .large-5.medium-6.columns
     select([formControl]="filterCategory")
       option(value="")
-      option(*ngFor="let category of (categories | async); let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
+      option(*ngFor="let category of categories; let i = index; trackBy: trackByFn", [value]="category.category", [innerText]="category.category")
 
   .large-2.columns.end
     button.button((click)="reset()") Reset

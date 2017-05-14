@@ -5,7 +5,6 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { FormControl } from '@angular/forms';
 
 import { Log } from '../../decorators/log.decorator';
-import { LogObservable } from '../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -13,7 +12,6 @@ import { MetaService } from '../../services/meta.service';
 import { AnalyticsService } from '../../services/analytics.service';
 
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/debounceTime';
 
@@ -26,7 +24,7 @@ import 'rxjs/add/operator/debounceTime';
 @Log()
 @AutoUnsubscribe()
 export class ProductsComponent implements OnInit, OnDestroy {
-  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
+  public categories: categoriesInterface.RootObject;
 
   public products: Array<productsInterface.RootObject>;
   public productsFiltered: Array<productsInterface.RootObject>;
@@ -40,6 +38,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
   private productSubscription: Subscription;
+  private categoriesSubscription: Subscription;
   private analyticSubscription: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
@@ -94,7 +93,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   private getCategories(): void {
-    this.categories = this.productService.categories();
+    this.categoriesSubscription = this.productService.categories().subscribe(
+      (res: categoriesInterface.RootObject) => {
+        this.categories = res;
+        this.filterProducts();
+      }
+    );
   }
 
   public reset(): void {

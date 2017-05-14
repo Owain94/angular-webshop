@@ -5,7 +5,6 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 
 import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
-import { LogObservable } from '../../../decorators/log.observable.decorator';
 
 import { AnalyticsService } from '../../../services/analytics.service';
 import { ProductService } from './../../../services/product.service';
@@ -30,7 +29,7 @@ import '../../../../../node_modules/chart.js/dist/Chart.bundle.js';
 @Log()
 @AutoUnsubscribe()
 export class AdminStatsComponent implements OnInit, OnDestroy {
-  @LogObservable public totalStats: Observable<totalStats.RootObject>;
+  public totalStats: totalStats.RootObject;
 
   public options: NgDateRangePickerOptions;
   public dateRange: string;
@@ -83,6 +82,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
   public rangeProducts: any;
 
   private analyticSubscription: Subscription;
+  private totalStatsSubscription: Subscription;
 
   constructor(private adminGuard: AdminGuard,
               private productService: ProductService,
@@ -104,7 +104,11 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
 
     this.analyticSubscription = this.analyticsService.visit('AdminStats').subscribe();
 
-    this.totalStats = this.analyticsService.getTotalStats();
+    this.totalStatsSubscription = this.analyticsService.getTotalStats().subscribe(
+      (res: totalStats.RootObject) => {
+        this.totalStats = res;
+      }
+    );
 
     const date = new Date(), y = date.getFullYear(), m = date.getMonth();
 

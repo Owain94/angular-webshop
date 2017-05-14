@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
 import { Log } from '../../../decorators/log.decorator';
-import { LogObservable } from '../../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { AdminService } from '../../../services/admin.service';
@@ -34,7 +33,7 @@ import swal from 'sweetalert2';
 @Log()
 @AutoUnsubscribe()
 export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
-  @LogObservable public categories: Observable<categoriesInterface.RootObject>;
+  public categories: Observable<categoriesInterface.RootObject>;
 
   public products: Array<productsInterface.RootObject>;
   public productsFiltered: Array<productsInterface.RootObject>;

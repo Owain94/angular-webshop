@@ -1,10 +1,8 @@
-import { Observable } from 'rxjs/Observable';
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
-import { LogObservable } from '../../decorators/log.observable.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
 import { ProductService } from '../../services/product.service';
@@ -25,9 +23,10 @@ import { Subscription } from 'rxjs/Subscription';
 @AutoUnsubscribe()
 export class HomeComponent implements OnInit, OnDestroy {
   public button: [string, string];
-  @LogObservable public products: Observable<Array<productsInterface.RootObject>>;
+  public products: Array<productsInterface.RootObject>;
 
   private analyticSubscription: Subscription;
+  private productSubscription: Subscription;
 
   constructor(private authGuard: AuthGuard,
               private productService: ProductService,
@@ -41,7 +40,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.button = ['/login', 'Aanmelden'];
     }
 
-    this.products = this.productService.products(6);
+    this.productSubscription = this.productService.products(6).subscribe(
+      (res: Array<productsInterface.RootObject>) => {
+        this.products = res;
+      }
+    );
 
     this.analyticSubscription = this.analyticsService.visit('Home').subscribe();
   }
