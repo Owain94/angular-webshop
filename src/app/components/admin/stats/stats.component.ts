@@ -145,7 +145,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
           });
 
           this.rangeDoughnutChartData = [pages.length, products.length];
-          if (pages.length !== 0 && products.length !== 0) {
+          if (pages.length !== 0 || products.length !== 0) {
             this.doughnutChartUpdating = false;
           }
 
