@@ -14,7 +14,7 @@ import { AdminGuard } from '../../../guards/admin.guard';
 
 import { NgDateRangePickerOptions } from 'ng-daterangepicker';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/observable/forkJoin';
