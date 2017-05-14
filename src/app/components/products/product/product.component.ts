@@ -1,7 +1,7 @@
 /// <reference path="../../../interfaces/products/products.interface.ts" />
 
 import { Component, OnInit, AfterContentInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -31,7 +31,8 @@ export class ProductComponent implements OnInit, AfterContentInit, OnDestroy {
   private analyticSubscription: Subscription;
   private analyticProductSubscription: Subscription;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
               private productService: ProductService,
               private metaService: MetaService,
               private cartService: CartService,
@@ -46,6 +47,9 @@ export class ProductComponent implements OnInit, AfterContentInit, OnDestroy {
 
       this.productSubscription = this.productService.product(this.id).subscribe(
         (res: productsInterface.RootObject) => {
+          if (res.msg === 'Not found') {
+            this.router.navigate(['/404']);
+          }
           this.product = res;
 
           this.metaService.addTags(true, res._id, res.name, res.description, res.price);

@@ -40,13 +40,13 @@ export class ProductService {
     if (!admin) {
       return this.transferHttp.get(`${url}/api/product/${id}`)
         .map((res: productsInterface.RootObject) => {
-          return res[0];
+          return res;
         });
     }
     return this.http.get(`${url}/api/product/${id}`)
       .map((res: any) => res.json())
       .map((res: productsInterface.RootObject) => {
-        return res[0];
+        return res;
       });
   }
 
