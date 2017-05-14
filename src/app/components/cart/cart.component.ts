@@ -67,13 +67,12 @@ export class CartComponent implements OnInit, OnDestroy {
           products[product][2] = res.name;
           products[product][3] = Number(res.price);
           products[product][4] = res.photo;
-
-          this.getTotalPrice();
         }));
       }
     }
 
     this.products = <Array<[string, number, string, number, string]>> products;
+    this.getTotalPrice();
   }
 
   public changeAmount(id: string, event: any): void {
