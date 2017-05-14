@@ -9,6 +9,7 @@ import { JWTKey } from './../helpers/constants';
 const port = 8000;
 const baseUrl = `http://localhost:${port}`;
 
+const fs = require('fs');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const credential = require('credential');
@@ -675,6 +676,12 @@ app.get('/api/range_stats', (req, res) => {
       res.send(items);
     });
   });
+});
+
+app.get('*.png', (req, res) => {
+  const img = fs.readFileSync(process.cwd() + '/dist/assets/img/no_image.jpg');
+  res.writeHead(200, {'Content-Type': 'image/jpg' });
+  res.end(img, 'binary');
 });
 
 app.get('*', (req, res) => {
