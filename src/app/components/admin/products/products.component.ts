@@ -17,9 +17,10 @@ import { AdminGuard } from '../../../guards/admin.guard';
 
 import { url } from '../../../../helpers/constants';
 
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
+import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/debounceTime';
 
 import swal from 'sweetalert2';
@@ -33,7 +34,7 @@ import swal from 'sweetalert2';
 @Log()
 @AutoUnsubscribe()
 export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestroy {
-  public categories: Observable<categoriesInterface.RootObject>;
+  public categories: categoriesInterface.RootObject;
 
   public products: Array<productsInterface.RootObject>;
   public productsFiltered: Array<productsInterface.RootObject>;
@@ -47,7 +48,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   private activatedRouteParamSubscription: Subscription;
   private filterInputSubscription: Subscription;
   private filterCategorySubscription: Subscription;
-  private productSubscription: Subscription;
+  private productAndCategorieSubscription: Subscription;
   private deleteProductSubscription: Subscription;
   private analyticSubscription: Subscription;
 
@@ -62,8 +63,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
   ngOnInit(): void {
     this.adminGuard.checkRemote();
 
-    this.getProducts();
-    this.getCategories();
+    this.getProductsAndCategories();
 
     this.filterInputSubscription = this.filterInput
       .valueChanges
@@ -99,10 +99,15 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
     // pass
   }
 
-  private getProducts(): void {
-    this.productSubscription = this.productService.products(Infinity, true).subscribe(
-      (res: Array<productsInterface.RootObject>) => {
-        this.products = res;
+
+  private getProductsAndCategories(): void {
+    this.productAndCategorieSubscription = Observable.forkJoin(
+      this.productService.products(Infinity),
+      this.productService.categories()
+    ).subscribe(
+      (res: [Array<productsInterface.RootObject>, categoriesInterface.RootObject]) => {
+        this.products = res[0];
+        this.categories = res[1];
         this.filterProducts();
       }
     );
@@ -113,10 +118,6 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
       product => product.name.toLowerCase().includes(this.filterText.toLowerCase()) &&
       product.category.includes(this.filterCategoryText)
     );
-  }
-
-  private getCategories(): void {
-    this.categories = this.productService.categories(true);
   }
 
   public preview(photo: string) {
@@ -151,7 +152,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
       this.deleteProductSubscription = this.adminService.deleteProduct({'id': id}).subscribe(
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
-            this.getProducts();
+            this.getProductsAndCategories();
             this.notificationsService.success('Succesvol!', 'Product verwijderd!');
           } else {
             this.notificationsService.error('Onsuccesvol!', 'Er is een onbekende fout opgetreden, probeer het later noog eens.');
