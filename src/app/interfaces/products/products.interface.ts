@@ -7,5 +7,6 @@ declare module productsInterface {
         description: string;
         category: string;
         photo: string;
+        msg: string;
     }
 }

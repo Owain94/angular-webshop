@@ -492,17 +492,23 @@ app.get('/api/products/:amount', (req, res) => {
   });
 });
 
-
 app.get('/api/product/:id', (req, res) => {
   db.collection('products', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     }
-
-    collection.find({_id: new ObjectId(req.params.id)}).toArray((err3: any, items: any) => {
-      res.send(items);
+    if (req.params.id.length === 12 || req.params.id.length === 24) {
+    collection.findOne({_id: new ObjectId(req.params.id)}, (err3: any, items: any) => {
+      if (items) {
+        res.json(items);
+      } else {
+        res.json({'error': 'true', 'msg': 'Not found'});
+      }
     });
+    } else {
+      res.json({'error': 'true', 'msg': 'Not found'});
+    }
   });
 });
 
