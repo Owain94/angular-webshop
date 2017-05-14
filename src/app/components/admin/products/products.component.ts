@@ -102,8 +102,8 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
 
   private getProductsAndCategories(): void {
     this.productAndCategorieSubscription = Observable.forkJoin(
-      this.productService.products(Infinity),
-      this.productService.categories()
+      this.productService.products(Infinity, true),
+      this.productService.categories(true)
     ).subscribe(
       (res: [Array<productsInterface.RootObject>, categoriesInterface.RootObject]) => {
         this.products = res[0];
