@@ -122,10 +122,7 @@
   },
   "greenkeeper": {
     "branchPrefix": "dep-update-",
-    "label": "dep-update",
-    "ignore": [
-      "tslint"
-    ]
+    "label": "dep-update"
   },
   "lint-staged": {
     "*.ts": "tslint",
