@@ -99,7 +99,7 @@
     "pug-html-loader": "1.1.4",
     "pug-lint": "2.4.0",
     "purify-css": "1.2.2",
-    "purifycss-webpack": "0.6.2",
+    "purifycss-webpack": "0.7.0",
     "raw-loader": "0.5.1",
     "rimraf": "2.6.1",
     "sass-loader": "6.0.5",
