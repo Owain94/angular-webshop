@@ -1,8 +1,10 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackExcludeAssetsPlugin = require("html-webpack-exclude-assets-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
+const BrotliPlugin = require("brotli-webpack-plugin");
 
 const { CommonsChunkPlugin } = require("webpack").optimize;
 
@@ -36,7 +38,13 @@ module.exports = {
     new CompressionPlugin({
       "asset": "[path].gz[query]",
       "algorithm": "gzip",
-      "test": /\.js$|\.css$|\.png$/,
+      "test": /\.js$|\.css$/,
+      "threshold": 1024,
+      "minRatio": 0.8
+    }),
+    new BrotliPlugin({
+      "asset": "[path].br[query]",
+      "test": /\.js$|\.css$/,
       "threshold": 1024,
       "minRatio": 0.8
     }),
@@ -54,6 +62,7 @@ module.exports = {
       "showErrors": true,
       "chunks": "all",
       "excludeChunks": [],
+      "excludeAssets": [/style.*.js/],
       "chunksSortMode": function sort(left, right) {
         let leftIndex = entryPoints.indexOf(left.names[0]);
         let rightindex = entryPoints.indexOf(right.names[0]);
@@ -66,6 +75,7 @@ module.exports = {
         }
       }
     }),
+    new HtmlWebpackExcludeAssetsPlugin(),
     new ScriptExtHtmlWebpackPlugin({
       "async": "main"
     }),
