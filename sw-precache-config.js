@@ -4,14 +4,16 @@ module.exports = {
   root: "dist/",
   staticFileGlobs: [
     "dist/**/*.js",
-    "dist/**/*.html",
     "dist/**/*.css",
+    "dist/**/*.png",
     "dist/**/*.ico",
     "dist/**/*.svg",
+    "dist/**/*.json",
+    "dist/**/*.xml",
+    "dist/**/*.webapp",
     "dist/**/*.eot",
     "dist/**/*.ttf",
     "dist/**/*.woff",
-    "dist/**/*.ico",
     "dist/assets/**/*"
   ],
   runtimeCaching: [{
