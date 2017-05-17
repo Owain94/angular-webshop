@@ -39,6 +39,7 @@
     "@angular/platform-browser-dynamic": "4.1.2",
     "@angular/platform-server": "4.1.2",
     "@angular/router": "4.1.2",
+    "accept-encoding": "0.1.0",
     "angular2-jwt": "0.2.3",
     "base64-img": "1.0.3",
     "body-parser": "1.17.1",
@@ -73,6 +74,7 @@
     "@types/webpack": "2.2.15",
     "autoprefixer": "7.1.0",
     "codelyzer": "3.0.1",
+    "compression-webpack-plugin": "0.4.0",
     "css-loader": "0.28.1",
     "cssnano": "3.10.0",
     "exports-loader": "0.6.4",
@@ -135,7 +137,9 @@
   },
   "pre-commit": "lint-staged",
   "stylelint": {
-    "processors": ["stylelint-processor-html"],
+    "processors": [
+      "stylelint-processor-html"
+    ],
     "extends": [
       "stylelint-config-standard",
       "stylelint-config-recess-order"

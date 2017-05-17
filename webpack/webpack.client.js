@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const { CommonsChunkPlugin } = require("webpack").optimize;
 
@@ -32,6 +33,13 @@ module.exports = {
   },
   "target": "web",
   "plugins": [
+    new CompressionPlugin({
+      "asset": "[path].gz[query]",
+      "algorithm": "gzip",
+      "test": /\.js$|\.css$|\.png$/,
+      "threshold": 1024,
+      "minRatio": 0.8
+    }),
     new HtmlWebpackPlugin({
       "template": "./src/index.pug",
       "filename": "./index.html",

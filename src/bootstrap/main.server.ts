@@ -18,6 +18,7 @@ const ObjectId = require('mongodb').ObjectId;
 const jwt = require('jsonwebtoken');
 const speakeasy = require('speakeasy');
 const base64Img = require('base64-img');
+const accepts = require('accept-encoding');
 
 let db: any;
 const app = express();
@@ -52,6 +53,42 @@ ROUTES.forEach(route => {
       res: res
     });
   });
+});
+
+app.get('*.js', function(req, res, next) {
+  if (accepts(req, 'gzip') && fs.existsSync(req.url + '.gz')) {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    res.set('Content-Type', 'text/javascript');
+    next();
+  } else {
+    res.set('Content-Type', 'text/javascript');
+    next();
+  }
+});
+
+app.get('*.css', function(req, res, next) {
+  if (accepts(req, 'gzip') && fs.existsSync(req.url + '.gz')) {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    res.set('Content-Type', 'text/css');
+    next();
+  } else {
+    res.set('Content-Type', 'text/css');
+    next();
+  }
+});
+
+app.get('*.png', function(req, res, next) {
+  if (accepts(req, 'gzip') && fs.existsSync(req.url + '.gz')) {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    res.set('Content-Type', 'image/png');
+    next();
+  } else {
+    res.set('Content-Type', 'image/png');
+    next();
+  }
 });
 
 app.post('/api/register', (req, res) => {
@@ -676,6 +713,22 @@ app.get('/api/range_stats', (req, res) => {
       res.send(items);
     });
   });
+});
+
+app.post('/api/contact', (req, res) => {
+  /*db.collection('products', (err2: any, collection: any) => {
+    if (err2) {
+      res.json({'error': 'true', 'msg': err2.message});
+      return;
+    }
+
+    collection.deleteOne({_id: new ObjectId(req.body.id)});
+
+    res.json({'error': 'false'});
+  });*/
+
+  console.log(req.body);
+  res.json({'error': 'false'});
 });
 
 app.get('*.png', (req, res) => {
