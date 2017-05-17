@@ -109,7 +109,9 @@
     "source-map-loader": "0.2.1",
     "style-loader": "0.17.0",
     "stylelint": "7.10.1",
+    "stylelint-config-recess-order": "1.1.0",
     "stylelint-config-standard": "16.0.0",
+    "stylelint-processor-html": "1.0.0",
     "stylint": "1.5.9",
     "stylus-loader": "3.0.1",
     "sw-precache": "5.1.1",
@@ -133,7 +135,11 @@
   },
   "pre-commit": "lint-staged",
   "stylelint": {
-    "extends": "stylelint-config-standard",
+    "processors": ["stylelint-processor-html"],
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-recess-order"
+    ],
     "rules": {
       "selector-type-no-unknown": [
         true,
