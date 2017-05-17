@@ -60,19 +60,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl('/');
     }
 
-    this.registerForm = this.formBuilder.group({
-      'firstname' : [null, Validators.required],
-      'surname_prefix' : [null],
-      'surname': [null, Validators.required],
-      'streetname': [null, Validators.required],
-      'house_number': [null, Validators.required],
-      'postal_code': [null, Validators.required],
-      'city': [null, Validators.required],
-      'country': [null, Validators.required],
-      'email': [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)]],
-      'password': [null, [Validators.required, Validators.minLength(6)]],
-      'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
-    });
+    this.initForm();
 
     this.registerForm.setValidators(PasswordValidator.mismatchedPasswords());
     this.registerForm.setValidators(this.postalcode());
@@ -118,6 +106,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
     // pass
   }
 
+  private initForm(): void {
+    this.registerForm = this.formBuilder.group({
+      'firstname' : [null, Validators.required],
+      'surname_prefix' : [null],
+      'surname': [null, Validators.required],
+      'streetname': [null, Validators.required],
+      'house_number': [null, Validators.required],
+      'postal_code': [null, Validators.required],
+      'city': [null, Validators.required],
+      'country': [null, Validators.required],
+      // tslint:disable-next-line:max-line-length
+      'email': [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)]],
+      'password': [null, [Validators.required, Validators.minLength(6)]],
+      'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
+    });
+  }
+
   private postalcode = (): ValidatorFn => {
     return (group: AbstractControl): { [key: string]: any } => {
       const postalcodeField = group.get('postal_code');
@@ -148,20 +153,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.disabled = false;
 
         if (res.error === 'false') {
-          this.registerForm = this.formBuilder.group({
-            'firstname' : [null, Validators.required],
-            'surname_prefix' : [null],
-            'surname': [null, Validators.required],
-            'streetname': [null, Validators.required],
-            'house_number': [null, Validators.required],
-            'postal_code': [null, Validators.required],
-            'city': [null, Validators.required],
-            'country': [null, Validators.required],
-            // tslint:disable-next-line:max-line-length
-            'email': [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)]],
-            'password': [null, [Validators.required, Validators.minLength(6)]],
-            'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
-          });
+          this.initForm();
           this.notificationsService.success('Succesvol!', 'Uw account is succesvol aangemaakt!');
         } else {
           this.notificationsService.error('Onsuccesvol!', res.msg);
