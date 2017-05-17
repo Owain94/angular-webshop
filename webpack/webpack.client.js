@@ -37,7 +37,7 @@ module.exports = {
     new CompressionPlugin({
       "asset": "[path].gz[query]",
       "algorithm": "gzip",
-      "test": /\.js$|\.css$|\.png$/,
+      "test": /\.js$|\.css$/,
       "threshold": 1024,
       "minRatio": 0.8
     }),
