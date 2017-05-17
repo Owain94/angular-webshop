@@ -41,6 +41,38 @@ app.get('/', (req, res) => {
   res.render('index', {req});
 });
 
+app.get(['*.js', '*.css'], function(req, res, next) {
+  if (
+    (req.protocol === 'https' || process.env.NODE_ENV !== 'production') &&
+    accepts(req, 'br') && fs.existsSync('dist/' + req.url + '.br')
+  ) {
+    req.url = req.url + '.br';
+    res.set('Content-Encoding', 'br');
+    if (req.url.includes('.js')) {
+      res.set('Content-Type', 'text/javascript');
+    } else {
+      res.set('Content-Type', 'text/css');
+    }
+    next();
+  } else if (accepts(req, 'gzip') && fs.existsSync('dist/' + req.url + '.gz')) {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    if (req.url.includes('.js')) {
+      res.set('Content-Type', 'text/javascript');
+    } else {
+      res.set('Content-Type', 'text/css');
+    }
+    next();
+  } else {
+    if (req.url.includes('.js')) {
+      res.set('Content-Type', 'text/javascript');
+    } else {
+      res.set('Content-Type', 'text/css');
+    }
+    next();
+  }
+});
+
 app.use(compression());
 app.use('/', express.static('dist', {index: false}));
 app.use(bodyParser.json({limit: '5mb'}));
@@ -53,42 +85,6 @@ ROUTES.forEach(route => {
       res: res
     });
   });
-});
-
-app.get('*.js', function(req, res, next) {
-  if (accepts(req, 'gzip') && fs.existsSync(req.url + '.gz')) {
-    req.url = req.url + '.gz';
-    res.set('Content-Encoding', 'gzip');
-    res.set('Content-Type', 'text/javascript');
-    next();
-  } else {
-    res.set('Content-Type', 'text/javascript');
-    next();
-  }
-});
-
-app.get('*.css', function(req, res, next) {
-  if (accepts(req, 'gzip') && fs.existsSync(req.url + '.gz')) {
-    req.url = req.url + '.gz';
-    res.set('Content-Encoding', 'gzip');
-    res.set('Content-Type', 'text/css');
-    next();
-  } else {
-    res.set('Content-Type', 'text/css');
-    next();
-  }
-});
-
-app.get('*.png', function(req, res, next) {
-  if (accepts(req, 'gzip') && fs.existsSync(req.url + '.gz')) {
-    req.url = req.url + '.gz';
-    res.set('Content-Encoding', 'gzip');
-    res.set('Content-Type', 'image/png');
-    next();
-  } else {
-    res.set('Content-Type', 'image/png');
-    next();
-  }
 });
 
 app.post('/api/register', (req, res) => {
