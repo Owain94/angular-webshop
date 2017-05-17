@@ -5,7 +5,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const postcssUrl = require("postcss-url");
 const PurifyCSSPlugin = require("purifycss-webpack");
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 const { NoEmitOnErrorsPlugin } = require("webpack");
 
