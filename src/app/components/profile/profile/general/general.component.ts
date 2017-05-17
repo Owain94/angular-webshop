@@ -62,28 +62,28 @@ export class ProfileGeneralComponent implements OnInit, OnDestroy {
         const countryField = this.profileForm.get('country');
 
         if (firstnameField) {
-          firstnameField.setValue(res['data']['firstname']);
+          firstnameField.setValue(res.data.firstname);
         }
         if (surnamePrefixField) {
-          surnamePrefixField.setValue(res['data']['surname_prefix']);
+          surnamePrefixField.setValue(res.data.surname_prefix);
         }
         if (surnameField) {
-          surnameField.setValue(res['data']['surname']);
+          surnameField.setValue(res.data.surname);
         }
         if (streetnameField) {
-          streetnameField.setValue(res['data']['streetname']);
+          streetnameField.setValue(res.data.streetname);
         }
         if (houseNumberField) {
-          houseNumberField.setValue(res['data']['house_number']);
+          houseNumberField.setValue(res.data.house_number);
         }
         if (postalCodeField) {
-          postalCodeField.setValue(res['data']['postal_code']);
+          postalCodeField.setValue(res.data.postal_code);
         }
         if (cityField) {
-          cityField.setValue(res['data']['city']);
+          cityField.setValue(res.data.city);
         }
         if (countryField) {
-          countryField.setValue(res['data']['country']);
+          countryField.setValue(res.data.country);
         }
     });
 
