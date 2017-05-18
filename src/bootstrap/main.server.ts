@@ -42,6 +42,11 @@ app.get('/', (req, res) => {
 });
 
 app.use(compression());
+app.use('/', expressStaticGzip('dist', {
+    indexFromEmptyFile: false,
+    enableBrotli: true
+  }
+));
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
@@ -693,12 +698,6 @@ app.post('/api/contact', (req, res) => {
   console.log(req.body);
   res.json({'error': 'false'});
 });
-
-app.use('/', expressStaticGzip('dist', {
-    indexFromEmptyFile: false,
-    enableBrotli: true
-  }
-));
 
 app.get('*.png', (req, res) => {
   const img = fs.readFileSync(process.cwd() + '/dist/assets/img/no_image.jpg');
