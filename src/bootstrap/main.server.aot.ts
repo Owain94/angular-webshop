@@ -48,11 +48,6 @@ app.get('/', (req, res) => {
 });
 
 app.use(compression());
-app.use('/', expressStaticGzip('dist', {
-    indexFromEmptyFile: false,
-    enableBrotli: true
-  }
-));
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
@@ -688,6 +683,12 @@ app.get('/api/range_stats', (req, res) => {
     });
   });
 });
+
+app.use('/', expressStaticGzip('dist', {
+    indexFromEmptyFile: false,
+    enableBrotli: true
+  }
+));
 
 app.get('*.png', (req, res) => {
   const img = fs.readFileSync(process.cwd() + '/dist/assets/img/no_image.jpg');
