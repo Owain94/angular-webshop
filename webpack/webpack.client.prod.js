@@ -1,5 +1,5 @@
 const CompressionPlugin = require("compression-webpack-plugin");
-const BrotliPlugin = require('brotli-webpack-plugin');
+const BrotliPlugin = require("brotli-webpack-plugin");
 
 /**
  * This is a client prod config which should be merged on top of common config
