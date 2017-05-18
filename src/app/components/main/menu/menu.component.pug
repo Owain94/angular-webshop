@@ -21,6 +21,9 @@
             li(*ngIf="loggedIn && admin")
               a(routerLink="/admin", (click)="navBarClick(true)") Admin
 
+            li
+              a(routerLink="/contact", (click)="navBarClick(true)") Contact
+
             li.background
               a(routerLink="/cart", (click)="navBarClick(true)")
                 img.background(src="assets/img/cart.png", alt="", width="30", height="30")

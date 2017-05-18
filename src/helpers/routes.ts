@@ -1,7 +1,7 @@
 export const ROUTES: string[] = [
   '/',
-  '/lazy',
   '/404',
+  '/contact',
   '/login',
   '/register',
   '/cart',

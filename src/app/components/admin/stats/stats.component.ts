@@ -157,8 +157,10 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
             let popularProducts: Array<{'id': string, 'count': number}> = [];
 
             for (const product of products) {
-              if (popularProducts.find(x => x.id === product.product)) {
-                popularProducts.find(x => x.id === product.product).count += 1;
+              const updateProduct = popularProducts.find(x => x.id === product.product);
+
+              if (updateProduct) {
+                updateProduct.count += 1;
               } else {
                 popularProducts.push(
                   {
@@ -199,8 +201,10 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
             let popularPages: Array<{'name': string, 'count': number}> = [];
 
             for (const page of pages) {
-              if (popularPages.find(x => x.name === page.page)) {
-                popularPages.find(x => x.name === page.page).count += 1;
+              const updatePage = popularPages.find(x => x.name === page.page);
+
+              if (updatePage) {
+                updatePage.count += 1;
               } else {
                 popularPages.push(
                   {

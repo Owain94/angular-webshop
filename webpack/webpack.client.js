@@ -3,8 +3,6 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackExcludeAssetsPlugin = require("html-webpack-exclude-assets-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
-const BrotliPlugin = require("brotli-webpack-plugin");
 
 const { CommonsChunkPlugin } = require("webpack").optimize;
 
@@ -35,19 +33,6 @@ module.exports = {
   },
   "target": "web",
   "plugins": [
-    new CompressionPlugin({
-      "asset": "[path].gz[query]",
-      "algorithm": "gzip",
-      "test": /\.js$|\.css$/,
-      "threshold": 1024,
-      "minRatio": 0.8
-    }),
-    new BrotliPlugin({
-      "asset": "[path].br[query]",
-      "test": /\.js$|\.css$/,
-      "threshold": 1024,
-      "minRatio": 0.8
-    }),
     new HtmlWebpackPlugin({
       "template": "./src/index.pug",
       "filename": "./index.html",
