@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+const HtmlWebpackExcludeAssetsPlugin = require("html-webpack-exclude-assets-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 
 const { CommonsChunkPlugin } = require("webpack").optimize;
