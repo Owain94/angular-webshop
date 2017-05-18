@@ -42,7 +42,7 @@
     "accept-encoding": "0.1.0",
     "angular2-jwt": "0.2.3",
     "base64-img": "1.0.3",
-    "body-parser": "1.17.1",
+    "body-parser": "1.17.2",
     "chart.js": "2.5.0",
     "compression": "1.6.2",
     "core-js": "2.4.1",
