@@ -47,7 +47,7 @@ module.exports = {
       "preferOnline": false,
       "start_url": "/",
       "logo": "src/assets/img/icon.png",
-      "prefix": "icons/",
+      "prefix": "assets/icons/",
       "emitStats": false,
       "persistentCache": true,
       "inject": true,
