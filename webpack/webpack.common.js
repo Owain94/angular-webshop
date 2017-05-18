@@ -1,5 +1,5 @@
 const path = require("path");
-const ProgressPlugin = require("webpack/lib/ProgressPlugin");
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const postcss = require("postcss");
@@ -164,7 +164,7 @@ module.exports = {
         "ignore": "**/.gitkeep"
       }
     }),
-    new ProgressPlugin(),
+    new ProgressBarPlugin(),
     new BaseHrefWebpackPlugin({}),
     new ExtractTextPlugin({
       "filename": "[name].bundle.css",
