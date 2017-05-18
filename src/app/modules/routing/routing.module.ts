@@ -31,6 +31,10 @@ const routes: Routes = [
     loadChildren: '../../components/cart/cart.module#CartModule'
   },
   {
+    path: 'contact',
+    loadChildren: '../../components/contact/contact.module#ContactModule'
+  },
+  {
     path: 'profile',
     loadChildren: '../../components/profile/profile.module#ProfileModule',
     canActivate: [

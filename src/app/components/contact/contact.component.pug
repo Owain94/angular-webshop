@@ -1,0 +1,46 @@
+app-header([headerHeading]="['Contact', '']")
+
+.section
+  .row
+    .large-12.columns
+
+      form([formGroup]="contactForm", (ngSubmit)="submitForm(contactForm.value)")
+
+        .row
+          .large-5.medium-5.columns
+            label([ngClass]="{ 'error': !contactForm.controls['firstname'].valid && contactForm.controls['firstname'].touched }") Voornaam
+              input(type="text", [formControl]="contactForm.controls['firstname']", [ngClass]="{ 'error': !contactForm.controls['firstname'].valid && contactForm.controls['firstname'].touched }")
+            small.error(*ngIf="!contactForm.controls['firstname'].valid && contactForm.controls['firstname'].touched") Voornaam is verplicht
+
+          .large-2.medium-2.columns
+            label Tussenvoegsel
+              input(type="text", [formControl]="contactForm.controls['surname_prefix']")
+
+          .large-5.medium-5.columns
+            label([ngClass]="{ 'error': !contactForm.controls['surname'].valid && contactForm.controls['surname'].touched }") Achternaam
+              input(type="text", [formControl]="contactForm.controls['surname']", [ngClass]="{ 'error': !contactForm.controls['surname'].valid && contactForm.controls['surname'].touched }")
+            small.error(*ngIf="!contactForm.controls['surname'].valid && contactForm.controls['surname'].touched") Achternaam is verplicht
+
+        .row
+          .large-6.medium-6.columns
+            label([ngClass]="{ 'error': !contactForm.controls['email'].valid && contactForm.controls['email'].touched }") E-mail adres
+              input(type="text", [formControl]="contactForm.controls['email']", [ngClass]="{ 'error': !contactForm.controls['email'].valid && contactForm.controls['email'].touched }")
+            small.error(*ngIf="!contactForm.controls['email'].valid && contactForm.controls['email'].touched") E-mail adres is verplicht
+
+          .large-6.medium-6.columns
+            label([ngClass]="{ 'error': !contactForm.controls['subject'].valid && contactForm.controls['subject'].touched }") Onderwerp
+              input(type="text", [formControl]="contactForm.controls['subject']", [ngClass]="{ 'error': !contactForm.controls['subject'].valid && contactForm.controls['subject'].touched }")
+            small.error(*ngIf="!contactForm.controls['subject'].valid && contactForm.controls['subject'].touched") Onderwerp is verplicht
+
+        .row
+          .large-12.medium-12.columns
+            label([ngClass]="{ 'error': !contactForm.controls['message'].valid && contactForm.controls['message'].touched }") Bericht
+              textarea(type="password", [formControl]="contactForm.controls['message']", [ngClass]="{ 'error': !contactForm.controls['message'].valid && contactForm.controls['message'].touched }")
+            small.error(*ngIf="!contactForm.controls['message'].valid && contactForm.controls['message'].touched") Bericht is verplicht
+
+        .row
+          .large-12.medium-12.columns
+            a.button((click)="resetForm()") Reset
+            button.button(type="submit", [disabled]="!contactForm.valid || disabled") Versturen
+
+app-notifications
