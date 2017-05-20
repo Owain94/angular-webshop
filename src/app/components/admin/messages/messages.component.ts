@@ -1,7 +1,7 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 /// <reference path="../../../interfaces/messages/messages.interface.ts" />
 
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
