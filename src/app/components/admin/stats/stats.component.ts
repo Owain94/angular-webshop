@@ -57,7 +57,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
       yAxes: [{
         display: true,
         ticks: {
-          stepSize: 5,
+          stepSize: 25,
           beginAtZero: true
         }
       }]
@@ -173,7 +173,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
 
             popularProducts = popularProducts.sort((a, b) => {
               return b.count - a.count;
-            }).slice(0, 5);
+            }).slice(0, 10);
 
             const productObservables: Array<Observable<productsInterface.RootObject>> = [];
 
@@ -217,7 +217,7 @@ export class AdminStatsComponent implements OnInit, OnDestroy {
 
             popularPages = popularPages.sort((a, b) => {
               return b.count - a.count;
-            }).slice(0, 5);
+            }).slice(0, 10);
 
             const pagesData: Array<any> = [];
 

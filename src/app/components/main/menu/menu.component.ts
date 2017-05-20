@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
 
 import { UserService } from '../../../services/user.service';
+import { ContactService } from '../../../services/contact.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 import { AdminGuard } from '../../../guards/admin.guard';
@@ -27,21 +28,31 @@ export class MenuComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:no-inferrable-types
   public url: string = '/';
 
+  public messageCount: string;
+
+  private messageCountSubscription: Subscription;
   private routerEventsSubscription: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private router: Router,
               private authGuard: AuthGuard,
               private adminGuard: AdminGuard,
-              private userService: UserService) {}
+              private userService: UserService,
+              private contactService: ContactService) {}
 
   ngOnInit(): void {
     this.routerEventsSubscription = this.router.events.subscribe((url: any) => {
-      this.loggedIn = this.authGuard.check();
-      this.admin = this.adminGuard.checkLocal();
+      if (url instanceof NavigationEnd) {
+        if (this.admin) {
+          this.getMessageCount();
+        }
+      }
+
       if (typeof(url.url) !== 'undefined') {
         this.url = url.url;
-        this.changeDetectorRef.markForCheck();
+
+        this.loggedIn = this.authGuard.check();
+        this.admin = this.adminGuard.checkLocal();
       }
     });
 
@@ -51,6 +62,15 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // pass
+  }
+
+  private getMessageCount(): void {
+    this.messageCountSubscription = this.contactService.getMessagesCount('admin').subscribe(
+      (res: {error: boolean, count: string}) => {
+        this.messageCount = res.count;
+        this.changeDetectorRef.markForCheck();
+      }
+    );
   }
 
   public navBarClick(force: boolean = false): void {

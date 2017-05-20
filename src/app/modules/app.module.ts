@@ -14,6 +14,7 @@ import { HomeComponent } from '../components/home/home.component';
 
 import { LocalStorageService } from '../services/localstorage.service';
 import { UserService } from '../services/user.service';
+import { ContactService } from '../services/contact.service';
 import { AdminService } from '../services/admin.service';
 import { ProductService } from '../services/product.service';
 import { MetaService } from '../services/meta.service';
@@ -44,6 +45,7 @@ import { AdminGuard } from '../guards/admin.guard';
     ProductService,
     MetaService,
     AnalyticsService,
+    ContactService,
     AuthGuard,
     AdminGuard
   ],
