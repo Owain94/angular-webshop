@@ -7,7 +7,7 @@ app-header([headerHeading]="['Admin panel', '']")
         a.button(routerLink="/admin/categories") Categorieën
         a.button(routerLink="/admin/products") Producten
         a.button(routerLink="/admin/messages") Berichten
-        span.badge(*ngIf='messageCount && messageCount !== 0', routerLink="/admin/messages", [innerText]='messageCount')
+        span.badge.clickable(*ngIf='messageCount && messageCount !== 0', routerLink="/admin/messages", [innerText]='messageCount')
         a.button(routerLink="/admin/stats") Statistieken
 
   router-outlet
