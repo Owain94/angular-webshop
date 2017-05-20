@@ -3,6 +3,8 @@ import { PlatformState } from '@angular/platform-server';
 
 import { TransferState } from './transfer-state';
 
+import * as serialize from 'serialize-javascript';
+
 export function isTag(tagName: string, node: any): boolean {
   return node.type === 'tag' && node.name === tagName;
 }
@@ -19,7 +21,7 @@ export class ServerTransferState extends TransferState {
   inject() {
     try {
       const document: any = this.state.getDocument();
-      const transferStateString = JSON.stringify(this.toJson());
+      const transferStateString = serialize(this.toJson(), { isJSON: true });
       const renderer = this.rendererFactory.createRenderer(document, {
         id: '-1',
         encapsulation: ViewEncapsulation.None,
