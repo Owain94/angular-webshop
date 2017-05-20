@@ -3,6 +3,7 @@ import { AppServerModule } from './../app/modules/app.server.module';
 import { ngExpressEngine } from './../app/modules/ng-express-engine/express-engine';
 
 import * as express from 'express';
+import { Request, Response } from 'express';
 import { ROUTES } from './../helpers/routes';
 import { JWTKey } from './../helpers/constants';
 
@@ -37,7 +38,7 @@ app.engine('html', ngExpressEngine({
 app.set('view engine', 'html');
 app.set('views', 'dist');
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.render('index', {req});
 });
 
@@ -50,8 +51,8 @@ app.use('/', expressStaticGzip('dist', {
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
-ROUTES.forEach(route => {
-  app.get(route, (req, res) => {
+ROUTES.forEach((route: string) => {
+  app.get(route, (req: Request, res: Response) => {
     res.render('index', {
       req: req,
       res: res
@@ -59,7 +60,7 @@ ROUTES.forEach(route => {
   });
 });
 
-app.post('/api/register', (req, res) => {
+app.post('/api/register', (req: Request, res: Response) => {
   pww.hash(req.body.password, (err: any, hash: string) => {
     if (err) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -103,7 +104,7 @@ app.post('/api/register', (req, res) => {
   });
 });
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', (req: Request, res: Response) => {
   let verified = true;
   db.collection('users', (err2: any, collection: any) => {
     if (err2) {
@@ -146,7 +147,7 @@ app.post('/api/login', (req, res) => {
   });
 });
 
-app.post('/api/get_profile', (req, res) => {
+app.post('/api/get_profile', (req: Request, res: Response) => {
   jwt.verify(req.body.token, JWTKey, (err: any, decoded: any) => {
     if (err) {
       res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -177,7 +178,7 @@ app.post('/api/get_profile', (req, res) => {
   });
 });
 
-app.post('/api/save_profile', (req, res) => {
+app.post('/api/save_profile', (req: Request, res: Response) => {
   jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, (err: any, decoded: any) => {
     if (err) {
       res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -213,7 +214,7 @@ app.post('/api/save_profile', (req, res) => {
   });
 });
 
-app.post('/api/save_password', (req, res) => {
+app.post('/api/save_password', (req: Request, res: Response) => {
   jwt.verify(JSON.parse(req.body[0])['token'], JWTKey, (err: any, decoded: any) => {
     if (err) {
       res.json({'verify': 'false', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -265,7 +266,7 @@ app.post('/api/save_password', (req, res) => {
   });
 });
 
-app.post('/api/verify', (req, res) => {
+app.post('/api/verify', (req: Request, res: Response) => {
   jwt.verify(req.body.token, JWTKey, (err: any, decoded: any) => {
     if (err) {
       res.json({'verify': 'false'});
@@ -275,7 +276,7 @@ app.post('/api/verify', (req, res) => {
   });
 });
 
-app.post('/api/check_tfa', (req, res) => {
+app.post('/api/check_tfa', (req: Request, res: Response) => {
   db.collection('users', (err2: any, collection: any) => {
     if (err2) {
       res.json({'tfa': ''});
@@ -295,7 +296,7 @@ app.post('/api/check_tfa', (req, res) => {
   });
 });
 
-app.get('/api/generate_tfa_token', (req, res) => {
+app.get('/api/generate_tfa_token', (req: Request, res: Response) => {
   const secret = speakeasy.generateSecret({length: 32});
   res.json({
     key: secret.base32,
@@ -303,7 +304,7 @@ app.get('/api/generate_tfa_token', (req, res) => {
   });
 });
 
-app.post('/api/verify_tfa_token', (req, res) => {
+app.post('/api/verify_tfa_token', (req: Request, res: Response) => {
   jwt.verify(JSON.parse(req.body.user)['token'], JWTKey, (err: any, decoded: any) => {
     const verified = speakeasy.totp.verify({ secret: req.body.key, encoding: 'base32', token: req.body.token });
     if (err || !verified) {
@@ -334,7 +335,7 @@ app.post('/api/verify_tfa_token', (req, res) => {
   });
 });
 
-app.post('/api/disable_tfa', (req, res) => {
+app.post('/api/disable_tfa', (req: Request, res: Response) => {
   jwt.verify(req.body.token, JWTKey, (err: any, decoded: any) => {
     if (err) {
       res.json({'res': false});
@@ -362,7 +363,7 @@ app.post('/api/disable_tfa', (req, res) => {
   });
 });
 
-app.post('/api/check_admin', (req, res) => {
+app.post('/api/check_admin', (req: Request, res: Response) => {
   jwt.verify(req.body.token, JWTKey, (err: any, decoded: any) => {
     if (err) {
       res.json({'admin': 'false'});
@@ -389,7 +390,7 @@ app.post('/api/check_admin', (req, res) => {
   });
 });
 
-app.post('/api/add_product', (req, res) => {
+app.post('/api/add_product', (req: Request, res: Response) => {
   db.collection('products', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -431,7 +432,7 @@ app.post('/api/add_product', (req, res) => {
 });
 
 
-app.post('/api/update_product', (req, res) => {
+app.post('/api/update_product', (req: Request, res: Response) => {
   db.collection('products', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -464,7 +465,7 @@ app.post('/api/update_product', (req, res) => {
   });
 });
 
-app.post('/api/delete_product', (req, res) => {
+app.post('/api/delete_product', (req: Request, res: Response) => {
   db.collection('products', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': err2.message});
@@ -477,7 +478,7 @@ app.post('/api/delete_product', (req, res) => {
   });
 });
 
-app.get('/api/products/:amount', (req, res) => {
+app.get('/api/products/:amount', (req: Request, res: Response) => {
   // tslint:disable-next-line:radix
   const amount = parseInt(req.params.amount);
 
@@ -498,7 +499,7 @@ app.get('/api/products/:amount', (req, res) => {
   });
 });
 
-app.get('/api/product/:id', (req, res) => {
+app.get('/api/product/:id', (req: Request, res: Response) => {
   db.collection('products', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -518,7 +519,7 @@ app.get('/api/product/:id', (req, res) => {
   });
 });
 
-app.get('/api/categories', (req, res) => {
+app.get('/api/categories', (req: Request, res: Response) => {
   db.collection('categories', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -531,7 +532,7 @@ app.get('/api/categories', (req, res) => {
   });
 });
 
-app.post('/api/add_category', (req, res) => {
+app.post('/api/add_category', (req, res: Response) => {
   db.collection('categories', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -546,7 +547,7 @@ app.post('/api/add_category', (req, res) => {
   });
 });
 
-app.post('/api/update_category', (req, res) => {
+app.post('/api/update_category', (req: Request, res: Response) => {
   db.collection('categories', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true'});
@@ -568,7 +569,7 @@ app.post('/api/update_category', (req, res) => {
   });
 });
 
-app.post('/api/delete_category', (req, res) => {
+app.post('/api/delete_category', (req: Request, res: Response) => {
   db.collection('categories', (err2: any, collection: any) => {
     if (err2) {
       res.json({'error': 'true', 'msg': err2.message});
@@ -581,7 +582,7 @@ app.post('/api/delete_category', (req, res) => {
   });
 });
 
-app.post('/api/stats_page', (req, res) => {
+app.post('/api/stats_page', (req: Request, res: Response) => {
   db.collection('stats', (err: any, collection: any) => {
     if (err) {
       res.json({'error': 'true', 'msg': err.message});
@@ -602,7 +603,7 @@ app.post('/api/stats_page', (req, res) => {
   });
 });
 
-app.post('/api/stats_product', (req, res) => {
+app.post('/api/stats_product', (req: Request, res: Response) => {
   db.collection('stats', (err: any, collection: any) => {
     if (err) {
       res.json({'error': 'true', 'msg': err.message});
@@ -623,7 +624,7 @@ app.post('/api/stats_product', (req, res) => {
   });
 });
 
-app.get('/api/total_stats', (req, res) => {
+app.get('/api/total_stats', (req: Request, res: Response) => {
   db.collection('users', (err: any, collection: any) => {
     if (err) {
       res.json({'error': 'true', 'msg': err.message});
@@ -662,7 +663,7 @@ app.get('/api/total_stats', (req, res) => {
   });
 });
 
-app.get('/api/range_stats', (req, res) => {
+app.get('/api/range_stats', (req: Request, res: Response) => {
   const from: string = req.query.from.replace('/', '');
   const to: string = req.query.to.replace('/', '');
 
@@ -683,7 +684,7 @@ app.get('/api/range_stats', (req, res) => {
   });
 });
 
-app.post('/api/contact', (req, res) => {
+app.post('/api/contact', (req: Request, res: Response) => {
   db.collection('messages', (err: any, collection: any) => {
     if (err) {
       res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
@@ -711,7 +712,7 @@ app.post('/api/contact', (req, res) => {
   });
 });
 
-app.get('/api/get_messages/:receiver', (req, res) => {
+app.get('/api/get_messages/:receiver', (req: Request, res: Response) => {
   const receiver = req.params.receiver;
 
   db.collection('messages', (err: any, collection: any) => {
@@ -727,7 +728,7 @@ app.get('/api/get_messages/:receiver', (req, res) => {
   });
 });
 
-app.get('/api/get_unread_messages/:receiver', (req, res) => {
+app.get('/api/get_unread_messages/:receiver', (req: Request, res: Response) => {
   const receiver = req.params.receiver;
 
   db.collection('messages', (err: any, collection: any) => {
@@ -747,7 +748,7 @@ app.get('/api/get_unread_messages/:receiver', (req, res) => {
   });
 });
 
-app.get('/api/mark_read_messages/:id', (req, res) => {
+app.get('/api/mark_read_messages/:id', (req: Request, res: Response) => {
   db.collection('messages', (err: any, collection: any) => {
     if (err) {
       res.json({'error': 'true'});
@@ -768,13 +769,13 @@ app.get('/api/mark_read_messages/:id', (req, res) => {
   });
 });
 
-app.get('*.png', (req, res) => {
+app.get('*.png', (req: Request, res: Response) => {
   const img = fs.readFileSync(process.cwd() + '/dist/assets/img/no_image.jpg');
   res.writeHead(200, {'Content-Type': 'image/jpg' });
   res.end(img, 'binary');
 });
 
-app.get('*', (req, res) => {
+app.get('*', (req: Request, res: Response) => {
   res.redirect('/404');
 });
 
