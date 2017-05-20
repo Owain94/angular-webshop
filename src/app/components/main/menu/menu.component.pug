@@ -20,6 +20,7 @@
 
             li(*ngIf="loggedIn && admin")
               a(routerLink="/admin", (click)="navBarClick(true)") Admin
+              span.badge(*ngIf='messageCount && messageCount !== 0', routerLink="/admin/messages", [innerText]='messageCount')
 
             li
               a(routerLink="/contact", (click)="navBarClick(true)") Contact

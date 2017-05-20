@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { Log } from '../../decorators/log.decorator';
 
@@ -26,8 +27,10 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   private messageCountSubscription: Subscription;
   private analyticSubscription: Subscription;
+  private routerEventsSubscription: Subscription;
 
-  constructor(private adminGuard: AdminGuard,
+  constructor(private router: Router,
+              private adminGuard: AdminGuard,
               private contactService: ContactService,
               private analyticsService: AnalyticsService,
               private metaService: MetaService) {}
@@ -35,6 +38,12 @@ export class AdminComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.metaService.addTags();
     this.adminGuard.checkRemote();
+
+    this.routerEventsSubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.getMessageCount();
+      }
+    });
 
     this.getMessageCount();
 
