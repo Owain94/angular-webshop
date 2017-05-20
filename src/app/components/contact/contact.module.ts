@@ -11,6 +11,7 @@ import { ContactComponent } from './contact.component';
 import { MetaService } from '../../services/meta.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { UserService } from '../../services/user.service';
+import { ContactService } from '../../services/contact.service';
 
 import { AuthGuard } from '../../guards/auth.guard';
 
@@ -39,6 +40,7 @@ import { AuthGuard } from '../../guards/auth.guard';
     MetaService,
     AnalyticsService,
     UserService,
+    ContactService,
     AuthGuard
   ]
 })

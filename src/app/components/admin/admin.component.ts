@@ -6,6 +6,7 @@ import { AdminGuard } from '../../guards/admin.guard';
 
 import { MetaService } from '../../services/meta.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ContactService } from '../../services/contact.service';
 
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
 
@@ -14,14 +15,20 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.pug',
+  styleUrls: ['./admin.component.styl'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 @Log()
 @AutoUnsubscribe()
 export class AdminComponent implements OnInit, OnDestroy {
+
+  public messageCount: string;
+
+  private messageCountSubscription: Subscription;
   private analyticSubscription: Subscription;
 
   constructor(private adminGuard: AdminGuard,
+              private contactService: ContactService,
               private analyticsService: AnalyticsService,
               private metaService: MetaService) {}
 
@@ -29,7 +36,17 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.metaService.addTags();
     this.adminGuard.checkRemote();
 
+    this.getMessageCount();
+
     this.analyticSubscription = this.analyticsService.visit('Admin').subscribe();
+  }
+
+  private getMessageCount(): void {
+    this.messageCountSubscription = this.contactService.getMessagesCount('admin').subscribe(
+      (res: {error: boolean, count: string}) => {
+        this.messageCount = res.count;
+      }
+    );
   }
 
   ngOnDestroy(): void {

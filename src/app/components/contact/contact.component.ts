@@ -1,3 +1,5 @@
+/// <reference path="../../interfaces/generic.interface.ts" />
+
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -7,6 +9,7 @@ import { MetaService } from '../../services/meta.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { UserService } from '../../services/user.service';
+import { ContactService } from '../../services/contact.service';
 
 import { AuthGuard } from '../../guards/auth.guard';
 
@@ -32,12 +35,13 @@ export class ContactComponent implements OnInit, OnDestroy {
   public contactData: profileInterface.RootObject;
 
   private profileDataSubscription: Subscription;
-  private registerSubscription: Subscription;
+  private contactSubscription: Subscription;
 
   private analyticSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
+              private contactService: ContactService,
               private authGuard: AuthGuard,
               private metaService: MetaService,
               private analyticsService: AnalyticsService,
@@ -115,8 +119,8 @@ export class ContactComponent implements OnInit, OnDestroy {
       value['email'] = this.contactData.data.email;
     }
 
-    this.registerSubscription = this.userService.contact(value).subscribe(
-      (res: any) => {
+    this.contactSubscription = this.contactService.contact(value).subscribe(
+      (res: genericInterface.RootObject) => {
           this.disabled = false;
 
         if (res.error === 'false') {

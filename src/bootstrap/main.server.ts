@@ -684,19 +684,87 @@ app.get('/api/range_stats', (req, res) => {
 });
 
 app.post('/api/contact', (req, res) => {
-  /*db.collection('products', (err2: any, collection: any) => {
-    if (err2) {
-      res.json({'error': 'true', 'msg': err2.message});
+  db.collection('messages', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
       return;
     }
 
-    collection.deleteOne({_id: new ObjectId(req.body.id)});
+    collection.insertOne({
+      to: 'admin',
+      firstname: req.body.firstname,
+      surname_prefix: req.body.surname_prefix,
+      surname: req.body.surname,
+      email: req.body.email,
+      subject: req.body.subject,
+      message: req.body.message,
+      read: false
+    }, (err2: any, inserted: any) => {
+      if (err2) {
+        res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+        return;
+      }
 
-    res.json({'error': 'false'});
-  });*/
+      res.json({'error': 'false'});
+    });
+  });
+});
 
-  console.log(req.body);
-  res.json({'error': 'false'});
+app.get('/api/get_messages/:receiver', (req, res) => {
+  const receiver = req.params.receiver;
+
+  db.collection('messages', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.find({'to': receiver}).sort({_id: -1}).toArray((err2: any, items: any) => {
+      res.send(items);
+    });
+
+  });
+});
+
+app.get('/api/get_unread_messages/:receiver', (req, res) => {
+  const receiver = req.params.receiver;
+
+  db.collection('messages', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true', 'msg': 'Een onbekende fout is opgetreden, probeer het later nog eens.'});
+      return;
+    }
+
+    collection.find({'to': receiver, read: false}).count({}, (err2: any, numOfDocs: any) => {
+      if (err2) {
+        res.json({'error': 'true', 'msg': err2.message});
+        return;
+      }
+
+      res.json({'error': 'false', 'count': numOfDocs});
+    });
+  });
+});
+
+app.get('/api/mark_read_messages/:id', (req, res) => {
+  db.collection('messages', (err: any, collection: any) => {
+    if (err) {
+      res.json({'error': 'true'});
+      return;
+    }
+
+    collection.update({_id: new ObjectId(req.params.id)}, { $set: {
+        read: true
+      }
+    }, (err2: any) => {
+      if (err2) {
+        res.json({'error': 'true'});
+        return;
+      }
+
+      res.json({'error': 'false'});
+    });
+  });
 });
 
 app.get('*.png', (req, res) => {

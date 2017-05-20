@@ -128,14 +128,6 @@ export class UserService implements OnDestroy {
       });
   }
 
-  public contact(data: Object): Observable<tfaTokenInterface.RootObject> {
-    return this.http.post(`${url}/api/contact/`, data, this.options)
-      .map((res: any) => res.json())
-      .map((res: any) => {
-        return res;
-      });
-  }
-
   public logout(): void {
     this.localStorageService.remove('user');
     this.router.navigateByUrl('/login');

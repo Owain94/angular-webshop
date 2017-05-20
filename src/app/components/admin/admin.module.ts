@@ -17,10 +17,12 @@ import { AdminCategoriesComponent } from './categories/categories.component';
 import { AdminProductsComponent } from './products/products.component';
 import { AdminAddProductComponent } from './products/add/add.product.component';
 import { AdminEditProductComponent } from './products/edit/edit.product.component';
+import { AdminMessagesComponent } from './messages/messages.component';
 import { AdminStatsComponent } from './stats/stats.component';
 
 import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
+import { ContactService } from '../../services/contact.service';
 import { AdminService } from '../../services/admin.service';
 import { MetaService } from '../../services/meta.service';
 import { AnalyticsService } from '../../services/analytics.service';
@@ -55,6 +57,10 @@ const routes: Routes =
           component: AdminEditProductComponent
         },
         {
+          path: 'messages',
+          component: AdminMessagesComponent
+        },
+        {
           path: 'stats',
           component: AdminStatsComponent
         }
@@ -69,6 +75,7 @@ const routes: Routes =
     AdminProductsComponent,
     AdminAddProductComponent,
     AdminEditProductComponent,
+    AdminMessagesComponent,
     AdminStatsComponent
   ],
   imports: [
@@ -91,6 +98,7 @@ const routes: Routes =
   providers: [
     ProductService,
     UserService,
+    ContactService,
     MetaService,
     AdminService,
     AdminGuard,
