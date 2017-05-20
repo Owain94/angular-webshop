@@ -21,7 +21,7 @@ export class ServerTransferState extends TransferState {
   inject() {
     try {
       const document: any = this.state.getDocument();
-      const transferStateString = serialize(this.toJson());
+      const transferStateString = serialize(this.toJson(), { isJSON: true });
       const renderer = this.rendererFactory.createRenderer(document, {
         id: '-1',
         encapsulation: ViewEncapsulation.None,
