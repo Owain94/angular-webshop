@@ -692,6 +692,7 @@ app.post('/api/contact', (req, res) => {
 
     collection.insertOne({
       to: 'admin',
+      date: new Date(),
       firstname: req.body.firstname,
       surname_prefix: req.body.surname_prefix,
       surname: req.body.surname,

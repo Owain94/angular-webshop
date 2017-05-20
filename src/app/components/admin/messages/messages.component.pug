@@ -6,6 +6,10 @@ div(*ngFor='let message of messages; let i = index; trackBy: trackByFn')
   .row(*ngIf='message.read === false')
     .large-12.medium-12.small-12.columns
       h5 Ongelezen!
+  .row(*ngIf='message.read === false')
+    .large-12.medium-12.small-12.columns
+     span Datum:&nbsp;
+     span([innerText]='message.date | date:"dd / MM / yyyy"')
   .row
     .large-4.medium-4.columns
       span Naam:&nbsp;
