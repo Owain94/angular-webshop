@@ -15,13 +15,13 @@ const expressStaticGzip = require('express-static-gzip');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const credential = require('credential');
-const mongo = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 const ObjectId = require('mongodb').ObjectId;
 const jwt = require('jsonwebtoken');
 const speakeasy = require('speakeasy');
 const base64Img = require('base64-img');
 
-let db: any;
+const db = mongoose.connection;
 const app = express();
 const pww = credential();
 
@@ -779,12 +779,13 @@ app.get('*', (req: Request, res: Response) => {
   res.redirect('/404');
 });
 
-mongo.connect('mongodb://localhost:27017/ingrid', (err: any, database: any) => {
+mongoose.connect('mongodb://localhost:27017/ingrid');
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', (err: any, database: any) => {
   if (err) {
     return console.log(err);
   }
 
-  db = database;
   app.listen(port, () => {
     console.log(`Listening at ${baseUrl}`);
   });
