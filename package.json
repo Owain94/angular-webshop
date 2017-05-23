@@ -126,7 +126,7 @@
     "tslint": "4.5.1",
     "tslint-language-service": "0.9.6",
     "tsserver-plugins": "0.2.0",
-    "typescript": "2.3.2",
+    "typescript": "2.3.3",
     "url-loader": "0.5.8",
     "webpack-dev-server": "2.4.5"
   },
