@@ -74,10 +74,22 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     Observable.forkJoin(allProductsObservables).subscribe((res: Array<productsInterface.RootObject>) => {
+      const deleted: Array<number> = [];
+
       for (let i = 0; i < res.length; i++) {
         products[i][2] = res[i].name;
         products[i][3] = Number(res[i].price);
-        products[i][4] = res[i].photo;
+        products[i][4] = res[i]._id + '.' + res[i].type;
+
+        if (res[i].name === 'Verwijderd') {
+          deleted.push(i);
+        }
+      }
+
+      deleted.sort((a, b) => b - a);
+
+      for (const index of deleted) {
+        products.splice(index, 1);
       }
 
       this.products = <Array<[string, number, string, number, string]>> products;

@@ -30,23 +30,23 @@ export class AdminService {
   }
 
   public addCategory(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/add_category/`, data, this.options)
+    return this.http.post(`${url}/api/categories/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
       });
   }
 
-  public updateCategory(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/update_category/`, data, this.options)
+  public updateCategory(id: string, data: Object): Observable<genericInterface.RootObject> {
+    return this.http.put(`${url}/api/categories/${id}`, data, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
       });
   }
 
-  public deleteCategory(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/delete_category/`, data, this.options)
+  public deleteCategory(id: string): Observable<genericInterface.RootObject> {
+    return this.http.delete(`${url}/api/categories/${id}`, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
@@ -54,23 +54,23 @@ export class AdminService {
   }
 
   public addProduct(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/add_product/`, data, this.options)
+    return this.http.post(`${url}/api/products/product/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
       });
   }
 
-  public updateProduct(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/update_product/`, data, this.options)
+  public updateProduct(id: string, data: Object): Observable<genericInterface.RootObject> {
+    return this.http.put(`${url}/api/products/product/${id}`, data, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
       });
   }
 
-  public deleteProduct(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/delete_product/`, data, this.options)
+  public deleteProduct(id: string): Observable<genericInterface.RootObject> {
+    return this.http.delete(`${url}/api/products/product/${id}`, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;

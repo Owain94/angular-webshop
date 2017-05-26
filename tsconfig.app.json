@@ -13,6 +13,7 @@
   ],
   "exclude": [
     "./src/bootstrap/main.server.aot.ts",
-    "./src/bootstrap/main.server.ts"
+    "./src/bootstrap/main.server.ts",
+    "./src/server/**/*"
   ]
 }

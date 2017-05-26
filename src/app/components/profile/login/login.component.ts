@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     tfaField.updateValueAndValidity();
                   }
                   this.tfa = res;
-                this.changeDetectorRef.markForCheck();
+                  this.changeDetectorRef.markForCheck();
                 }
               );
             }
@@ -110,6 +110,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public submitForm(value: Object): void {
+    this.notificationsService.info('Inloggen...', 'Even geduld alstublieft!');
     this.disabled = true;
     this.loginSubscription = this.userService.login(value).subscribe(
       (res: genericInterface.RootObject) => {
@@ -119,6 +120,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('/');
         } else {
           this.notificationsService.error('Oeps!', res.msg);
+          this.changeDetectorRef.markForCheck();
         }
       });
   }

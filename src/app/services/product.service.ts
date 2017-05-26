@@ -38,12 +38,12 @@ export class ProductService {
 
   public product(id: string, admin: boolean = false): Observable<productsInterface.RootObject> {
     if (!admin) {
-      return this.transferHttp.get(`${url}/api/product/${id}`)
+      return this.transferHttp.get(`${url}/api/products/product/${id}`)
         .map((res: productsInterface.RootObject) => {
           return res;
         });
     }
-    return this.http.get(`${url}/api/product/${id}`)
+    return this.http.get(`${url}/api/products/product/${id}`)
       .map((res: any) => res.json())
       .map((res: productsInterface.RootObject) => {
         return res;

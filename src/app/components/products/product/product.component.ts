@@ -43,15 +43,15 @@ export class ProductComponent implements OnInit, AfterContentInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRouteParamSubscription = this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
-      this.analyticProductSubscription = this.analyticsService.product(this.id).subscribe();
 
       this.productSubscription = this.productService.product(this.id).subscribe(
         (res: productsInterface.RootObject) => {
-          if (res.msg === 'Not found') {
+          if (res.error === 'true') {
             this.router.navigate(['/404']);
           }
           this.product = res;
 
+          this.analyticProductSubscription = this.analyticsService.product(this.id).subscribe();
           this.metaService.addTags(true, res._id, res.name, res.description, res.price);
         }
       );

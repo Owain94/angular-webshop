@@ -44,7 +44,7 @@ export class UserService implements OnDestroy {
   }
 
   public checkTfa(email: string): Observable<boolean> {
-    return this.http.post(`${url}/api/check_tfa/`, { email: email }, this.options)
+    return this.http.post(`${url}/api/users/check_tfa/`, { email: email }, this.options)
       .map((res: any) => res.json())
       .map((res: checkTfaInterface.RootObject) => {
         return <boolean> (res.tfa.length > 0);
@@ -52,7 +52,7 @@ export class UserService implements OnDestroy {
   }
 
   public login(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/login/`, data, this.options)
+    return this.http.post(`${url}/api/users/login/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
@@ -60,7 +60,7 @@ export class UserService implements OnDestroy {
   }
 
   public profileData(): Observable<profileInterface.RootObject> {
-    return this.http.post(`${url}/api/get_profile/`, this.localStorageService.get('user'), this.options)
+    return this.http.post(`${url}/api/users/profile/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: profileInterface.RootObject) => {
         return res;
@@ -68,7 +68,7 @@ export class UserService implements OnDestroy {
   }
 
   public saveProfileData(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/save_profile/`, [this.localStorageService.get('user'), data], this.options)
+    return this.http.put(`${url}/api/users/`, {'user': this.localStorageService.get('user'), 'data': data}, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
@@ -76,7 +76,7 @@ export class UserService implements OnDestroy {
   }
 
   public saveProfilePassword(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/save_password/`, [this.localStorageService.get('user'), data], this.options)
+    return this.http.put(`${url}/api/users/password/`, {'user': this.localStorageService.get('user'), 'data': data}, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
@@ -84,7 +84,7 @@ export class UserService implements OnDestroy {
   }
 
   public verify(): Observable<boolean> {
-    return this.http.post(`${url}/api/verify/`, this.localStorageService.get('user'), this.options)
+    return this.http.post(`${url}/api/users/verify/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: any) => {
         return res.verify;
@@ -92,7 +92,7 @@ export class UserService implements OnDestroy {
   }
 
   public verifyLogout(): void {
-    this.verifyLogoutSubscription = this.http.post(`${url}/api/verify/`, this.localStorageService.get('user'), this.options)
+    this.verifyLogoutSubscription = this.http.post(`${url}/api/users/verify/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: userVerifyInterface.RootObject) => {
         return <string> res.verify;
@@ -104,27 +104,27 @@ export class UserService implements OnDestroy {
   }
 
   public tfaToken(): Observable<tfaTokenInterface.RootObject> {
-    return this.http.get(`${url}/api/generate_tfa_token/`, this.options)
+    return this.http.get(`${url}/api/users/tfa/`, this.options)
       .map((res: any) => res.json())
       .map((res: tfaTokenInterface.RootObject) => {
         return res;
       });
   }
 
-  public verifyTfaToken(key: string, token: string): Observable<boolean> {
+  public verifyTfaAndSave(key: string, token: string): Observable<string> {
     // tslint:disable-next-line:max-line-length
-    return this.http.post(`${url}/api/verify_tfa_token/`, { key: key, token: token, user: this.localStorageService.get('user') }, this.options)
+    return this.http.post(`${url}/api/users/tfa/`, { key: key, token: token, user: this.localStorageService.get('user') }, this.options)
       .map((res: any) => res.json())
-      .map((res: {verified: boolean}) => {
-        return res.verified;
+      .map((res: {error: string}) => {
+        return res.error;
       });
   }
 
-  public disableTfa(): Observable<boolean> {
-    return this.http.post(`${url}/api/disable_tfa/`, this.localStorageService.get('user'), this.options)
+  public disableTfa(): Observable<string> {
+    return this.http.put(`${url}/api/users/tfa/`, {'user': this.localStorageService.get('user'), 'data': {tfatoken: ''}}, this.options)
       .map((res: any) => res.json())
-      .map((res: {res: boolean}) => {
-        return res.res;
+      .map((res: {error: string}) => {
+        return res.error;
       });
   }
 

@@ -103,9 +103,9 @@ export class ProfileGeneralComponent implements OnInit, OnDestroy {
         this.disabledProfileForm = false;
 
         if (res.error === 'false') {
-          this.notificationsService.success('Succesvol!', res.data);
+          this.notificationsService.success('Succesvol!', 'Uw account is succesvol geüpdatet!');
         } else {
-          this.notificationsService.error('Onsuccesvol!', res.data);
+          this.notificationsService.error('Onsuccesvol!', 'Een onbekende fout is opgetreden, probeer het later nog eens.');
         }
       });
   }

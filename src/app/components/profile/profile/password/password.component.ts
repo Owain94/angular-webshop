@@ -63,7 +63,7 @@ export class ProfilePasswordComponent implements OnInit, OnDestroy {
         this.disabledPasswordForm = false;
 
         if (res.error === 'false') {
-          this.notificationsService.success('Succesvol!', res.data);
+          this.notificationsService.success('Succesvol!', 'Uw wachtwoord is succesvol geüpdatet!');
 
           this.passwordForm = this.formBuilder.group({
             'old_password': [null, [Validators.required, Validators.minLength(6)]],
@@ -71,7 +71,7 @@ export class ProfilePasswordComponent implements OnInit, OnDestroy {
             'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
           });
         } else {
-          this.notificationsService.error('Onsuccesvol!', res.data);
+          this.notificationsService.error('Onsuccesvol!', res.msg);
         }
       });
   }

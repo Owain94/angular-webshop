@@ -35,6 +35,8 @@ import swal from 'sweetalert2';
 export class AdminEditProductComponent implements OnInit, OnDestroy {
   @ViewChild('cropper') cropper: ImageCropperComponent;
 
+  private id: string;
+
   public data: any;
   public cropperSettings: CropperSettings;
   public croppedWidth: number;
@@ -90,7 +92,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
     this.adminGuard.checkRemote();
 
     this.routeParamSubscription = this.route.params.subscribe(params => {
-      const id = params['id'];
+      const id = this.id = params['id'];
 
       this.productSubscription = this.productService.product(id, true).subscribe(
         (res: productsInterface.RootObject) => {
@@ -112,7 +114,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
             descriptionField.setValue(res.description);
           }
           if (photoField) {
-            photoField.setValue(res.photo);
+            photoField.setValue(res._id + '.' + res.type);
           }
           if (priceField) {
             priceField.setValue(res.price);
@@ -124,11 +126,11 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
             idField.setValue(id);
           }
 
-          this.data.image = res.photo;
+          this.data.image = res._id + '.' + res.type;
 
           const image: any = new Image();
 
-          this.toDataUrl(`${url}/assets/products/${res.photo}`, (base64: string) => {
+          this.toDataUrl(`${url}/assets/products/${res._id + '.' + res.type}`, (base64: string) => {
             image.src = base64;
             this.cropper.setImage(image);
           });
@@ -218,7 +220,7 @@ export class AdminEditProductComponent implements OnInit, OnDestroy {
 
   public submitForm(value: Object): void {
     this.disabled = true;
-    this.updateProductSubscription = this.adminService.updateProduct(value).subscribe(
+    this.updateProductSubscription = this.adminService.updateProduct(this.id, value).subscribe(
       (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {

@@ -19,7 +19,7 @@ export class ContactService {
   }
 
   public contact(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/contact/`, data, this.options)
+    return this.http.post(`${url}/api/messages/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;
@@ -27,7 +27,7 @@ export class ContactService {
   }
 
   public getMessages(receiver: string): Observable<messagesInterface.RootObject> {
-    return this.http.get(`${url}/api/get_messages/${receiver}`)
+    return this.http.get(`${url}/api/messages/${receiver}`)
       .map((res: any) => res.json())
       .map((res: messagesInterface.RootObject) => {
         return res;
@@ -35,7 +35,7 @@ export class ContactService {
   }
 
   public getMessagesCount(receiver: string): Observable<{error: boolean, count: string}> {
-    return this.http.get(`${url}/api/get_unread_messages/${receiver}`)
+    return this.http.get(`${url}/api/messages/${receiver}/unreadcount`)
       .map((res: any) => res.json())
       .map((res: {error: boolean, count: string}) => {
         return res;
@@ -43,7 +43,7 @@ export class ContactService {
   }
 
   public markMessageAsRead(id: string): Observable<genericInterface.RootObject> {
-    return this.http.get(`${url}/api/mark_read_messages/${id}`)
+    return this.http.put(`${url}/api/messages/${id}/read`, {'read': true}, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;

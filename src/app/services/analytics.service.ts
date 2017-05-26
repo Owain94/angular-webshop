@@ -9,6 +9,7 @@ import { RequestOptions, Http, Headers } from '@angular/http';
 import { url } from '../../helpers/constants';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AnalyticsService {
@@ -23,7 +24,7 @@ export class AnalyticsService {
 
   public visit(page: string): Observable<boolean> {
     if (process.env.NODE_ENV === 'production' && isPlatformBrowser(this.platformId)) {
-      return this.http.post(`${url}/api/stats_page/`, {'page': page}, this.options)
+      return this.http.post(`${url}/api/page/`, {'page': page}, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return Boolean(res.error);
@@ -34,7 +35,7 @@ export class AnalyticsService {
 
   public product(id: string): Observable<boolean> {
     if (process.env.NODE_ENV === 'production' && isPlatformBrowser(this.platformId)) {
-      return this.http.post(`${url}/api/stats_product/`, {'product': id}, this.options)
+      return this.http.post(`${url}/api/stats/`, {'product': id}, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return Boolean(res.error);
@@ -44,7 +45,7 @@ export class AnalyticsService {
   }
 
   public getTotalStats(): Observable<totalStats.RootObject> {
-    return this.http.get(`${url}/api/total_stats/`, this.options)
+    return this.http.get(`${url}/api/stats/total`, this.options)
     .map((res: any) => res.json())
     .map((res: totalStats.RootObject) => {
       return {
@@ -55,11 +56,19 @@ export class AnalyticsService {
     }).share();
   }
 
+  private _serverError(err: any) {
+    console.log('sever error:', err);  // debug
+    if (err instanceof Response) {
+      return Observable.throw(err.json() || 'backend server error');
+    }
+    return Observable.throw(err || 'backend server error');
+  }
+
   public getStatsInRange(from: number, to: number): Observable<Array<rangeStats.RootObject>> {
-    return this.http.get(`${url}/api/range_stats?from=${from}&to=${to}/`, this.options)
+    return this.http.get(`${url}/api/stats/range?from=${from}&to=${to}/`, this.options)
     .map((res: any) => res.json())
     .map((res: Array<rangeStats.RootObject>) => {
       return res;
-    }).share();
+    }).catch(this._serverError).share();
   }
 }
