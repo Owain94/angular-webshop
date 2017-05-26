@@ -19,6 +19,7 @@ class UsersRoutes {
     router.post('/', controller.create);
     router.post('/login', controller.login);
     router.post('/check_tfa', controller.checkTfa);
+    router.post('/check_admin', controller.checkAdmin);
     router.post('/profile', controller.findByEmail);
     router.post('/verify', controller.verify);
     router.post('/tfa', controller.verifyTokenAndSave);

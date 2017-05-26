@@ -290,6 +290,39 @@ class UsersController implements IBaseController<UsersBusiness> {
     }
   }
 
+  async checkAdmin(req: Request, res: Response) {
+    try {
+      const userJwt: string = req.body.token;
+
+      const email = await new Promise((resolve, reject) => {
+        jwt.verify(userJwt, JWTKey, (error: any, decoded: any) => {
+          if (error) {
+            reject(new Error('Error decoding JWT'));
+          } else {
+            resolve(decoded.data['email']);
+          }
+        });
+      });
+
+      const userBusiness = new UsersBusiness();
+
+      const user = await new Promise((resolve, reject) => {
+        userBusiness.findByEmail(String(email), (error, result) => {
+          if (error) {
+            reject(new Error('User not found'));
+          } else {
+            resolve(result.admin);
+          }
+        });
+      });
+
+      res.send({'admin': String(user)});
+    } catch (e) {
+      console.log(e);
+      res.send({'error': 'true'});
+    }
+  }
+
   async login(req: Request, res: Response) {
     try {
       let verified = true;

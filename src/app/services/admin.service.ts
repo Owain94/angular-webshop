@@ -22,7 +22,7 @@ export class AdminService {
   }
 
   public checkAdmin(): Observable<boolean> {
-    return this.http.post(`${url}/api/check_admin/`, this.localStorageService.get('user'), this.options)
+    return this.http.post(`${url}/api/users/check_admin/`, this.localStorageService.get('user'), this.options)
       .map((res: any) => res.json())
       .map((res: adminVerify.RootObject) => {
         return <boolean> res.admin;
