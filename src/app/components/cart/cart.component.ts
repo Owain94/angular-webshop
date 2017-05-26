@@ -1,6 +1,6 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
 
@@ -20,7 +20,7 @@ import 'rxjs/add/observable/forkJoin';
   selector: 'app-cart',
   templateUrl: './cart.component.pug',
   styleUrls: ['./cart.component.styl'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 @Log()
 @AutoUnsubscribe()
@@ -38,8 +38,7 @@ export class CartComponent implements OnInit, OnDestroy {
     return Number(Math.round(Number(`${num}e+2`)) + 'e-2');
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private metaService: MetaService,
+  constructor(private metaService: MetaService,
               private cartService: CartService,
               private analyticsService: AnalyticsService,
               private productService: ProductService) {}
@@ -133,8 +132,6 @@ export class CartComponent implements OnInit, OnDestroy {
     this.price[0] = price;
     this.price[1] = CartComponent.roundToTwo(price / 121 * 100);
     this.price[2] = CartComponent.roundToTwo(price / 121 * 21);
-
-    this.changeDetectorRef.markForCheck();
   }
 }
 

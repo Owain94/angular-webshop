@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { AutoUnsubscribe } from '../../../decorators/auto.unsubscribe.decorator';
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs/Subscription';
   selector: 'app-menu',
   templateUrl: './menu.component.pug',
   styleUrls: ['./menu.component.styl'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 @AutoUnsubscribe()
@@ -33,8 +33,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private messageCountSubscription: Subscription;
   private routerEventsSubscription: Subscription;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private router: Router,
+  constructor(private router: Router,
               private authGuard: AuthGuard,
               private adminGuard: AdminGuard,
               private userService: UserService,
@@ -68,7 +67,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.messageCountSubscription = this.contactService.getMessagesCount('admin').subscribe(
       (res: {error: boolean, count: string}) => {
         this.messageCount = res.count;
-        this.changeDetectorRef.markForCheck();
       }
     );
   }

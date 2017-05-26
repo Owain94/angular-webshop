@@ -51,15 +51,19 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
 
     this.getCategories();
 
-    this.addCategoryForm = this.formBuilder.group({
-      'category': [null, Validators.required]
-    });
+    this.initForm();
 
     this.analyticSubscription = this.analyticsService.visit('AdminCategories').subscribe();
   }
 
   ngOnDestroy(): void {
     // pass
+  }
+
+  private initForm(): void {
+    this.addCategoryForm = this.formBuilder.group({
+      'category': [null, Validators.required]
+    });
   }
 
   private getCategories(): void {
@@ -76,9 +80,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
-          this.addCategoryForm = this.formBuilder.group({
-            'category': [null, Validators.required]
-          });
+          this.initForm();
         }
 
         if (res.error === 'false') {

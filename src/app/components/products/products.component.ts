@@ -1,7 +1,7 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 /// <reference path="../../interfaces/products/categories.interface.ts" />
 
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Log } from '../../decorators/log.decorator';
@@ -21,7 +21,7 @@ import 'rxjs/add/operator/debounceTime';
   selector: 'app-products',
   templateUrl: './products.component.pug',
   styleUrls: ['./products.component.styl'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 @Log()
 @AutoUnsubscribe()
@@ -42,8 +42,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private productAndCategorieSubscription: Subscription;
   private analyticSubscription: Subscription;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private productService: ProductService,
+  constructor(private productService: ProductService,
               private analyticsService: AnalyticsService,
               private metaService: MetaService) {
   }
@@ -93,7 +92,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
       product => product.name.toLowerCase().includes(this.filterText.toLowerCase()) &&
       product.category.includes(this.filterCategoryText)
     );
-    this.changeDetectorRef.markForCheck();
   }
 
   public reset(): void {
@@ -101,8 +99,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.filterCategory.setValue('');
     this.filterText = '';
     this.filterCategoryText = '';
-
-    this.changeDetectorRef.markForCheck();
   }
 
   public trackByFn(index: number, item: productsInterface.RootObject | categoriesInterface.RootObject): string {

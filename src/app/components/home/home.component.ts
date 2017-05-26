@@ -1,6 +1,6 @@
 /// <reference path="../../interfaces/products/products.interface.ts" />
 
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Log } from '../../decorators/log.decorator';
 import { AutoUnsubscribe } from '../../decorators/auto.unsubscribe.decorator';
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs/Subscription';
   selector: 'app-home',
   templateUrl: './home.component.pug',
   styleUrls: ['./home.component.styl'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 @Log()
 @AutoUnsubscribe()
@@ -28,8 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private analyticSubscription: Subscription;
   private productSubscription: Subscription;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private authGuard: AuthGuard,
+  constructor(private authGuard: AuthGuard,
               private productService: ProductService,
               private metaService: MetaService,
               private analyticsService: AnalyticsService) {}
@@ -44,7 +43,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.productSubscription = this.productService.products(6).subscribe(
       (res: Array<productsInterface.RootObject>) => {
         this.products = res;
-        this.changeDetectorRef.markForCheck();
       }
     );
 
