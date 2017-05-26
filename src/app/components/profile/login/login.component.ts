@@ -1,6 +1,6 @@
 /// <reference path="../../../interfaces/generic.interface.ts" />
 
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -23,7 +23,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.pug',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 @Log()
 @AutoUnsubscribe()
@@ -39,8 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private checkTfaSubscription: Subscription;
   private analyticSubscription: Subscription;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private router: Router,
+  constructor(private router: Router,
               private formBuilder: FormBuilder,
               private userService: UserService,
               private authGuard: AuthGuard,
@@ -94,7 +93,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                     tfaField.updateValueAndValidity();
                   }
                   this.tfa = res;
-                this.changeDetectorRef.markForCheck();
                 }
               );
             }
@@ -110,6 +108,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public submitForm(value: Object): void {
+    this.notificationsService.info('Inloggen...', 'Even geduld alstublieft!');
     this.disabled = true;
     this.loginSubscription = this.userService.login(value).subscribe(
       (res: genericInterface.RootObject) => {

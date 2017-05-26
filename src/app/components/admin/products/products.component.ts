@@ -149,7 +149,7 @@ export class AdminProductsComponent implements OnInit, AfterContentInit, OnDestr
       confirmButtonText: 'Verwijderen',
       cancelButtonText: 'Annuleer',
     }).then(() => {
-      this.deleteProductSubscription = this.adminService.deleteProduct({'id': id}).subscribe(
+      this.deleteProductSubscription = this.adminService.deleteProduct(id).subscribe(
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getProductsAndCategories();

@@ -119,6 +119,8 @@ export class ContactComponent implements OnInit, OnDestroy {
       value['email'] = this.contactData.data.email;
     }
 
+    value['to'] = 'admin';
+
     this.contactSubscription = this.contactService.contact(value).subscribe(
       (res: genericInterface.RootObject) => {
           this.disabled = false;

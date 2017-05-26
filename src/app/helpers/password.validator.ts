@@ -1,18 +1,34 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
-export class PasswordValidator {
-  public static mismatchedPasswords = (): ValidatorFn => {
-    return (group: AbstractControl): { [key: string]: any } => {
-      const passwordField = group.get('password');
-      const passwordConfirmField = group.get('password_confirm');
+export function mismatchedPasswords(otherControlName: string) {
+  let thisControl: FormControl;
+  let otherControl: FormControl;
+  return function matchOtherValidate (control: FormControl) {
+    if (!control.parent) {
+      return null;
+    }
 
-      if (passwordField && passwordConfirmField && passwordField.value !== passwordConfirmField.value) {
-        passwordConfirmField.setErrors({ 'mismatchedPasswords': true });
-        return { 'mismatchedPasswords': true };
-      } else if (passwordField && passwordConfirmField && passwordField.value === passwordConfirmField.value) {
-        return { 'mismatchedPasswords': false };
+    if (!thisControl) {
+      thisControl = control;
+      otherControl = control.parent.get(otherControlName) as FormControl;
+      if (!otherControl) {
+        throw new Error('matchOtherValidator(): other control is not found in parent group');
       }
-      return { 'mismatchedPasswords': true };
-    };
-  }
+      otherControl.valueChanges.subscribe(() => {
+        thisControl.updateValueAndValidity();
+      });
+    }
+
+    if (!otherControl) {
+      return null;
+    }
+
+    if (otherControl.value !== thisControl.value) {
+      return {
+        matchOther: true
+      };
+    }
+
+    return null;
+  };
 }

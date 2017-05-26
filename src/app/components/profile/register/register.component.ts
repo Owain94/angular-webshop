@@ -15,7 +15,7 @@ import { AnalyticsService } from '../../../services/analytics.service';
 
 import { AuthGuard } from '../../../guards/auth.guard';
 
-import { PasswordValidator } from '../../../helpers/password.validator';
+import { mismatchedPasswords } from '../../../helpers/password.validator';
 
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -62,7 +62,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     this.initForm();
 
-    this.registerForm.setValidators(PasswordValidator.mismatchedPasswords());
     this.registerForm.setValidators(this.postalcode());
 
     const countryField = this.registerForm.get('country');
@@ -119,7 +118,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line:max-line-length
       'email': [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)]],
       'password': [null, [Validators.required, Validators.minLength(6)]],
-      'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
+      'password_confirm': [null, [Validators.required, Validators.minLength(6), mismatchedPasswords('password')]]
     });
   }
 
@@ -150,7 +149,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.disabled = true;
     this.registerSubscription = this.userService.register(value).subscribe(
       (res: genericInterface.RootObject) => {
-          this.disabled = false;
+        this.disabled = false;
 
         if (res.error === 'false') {
           this.initForm();

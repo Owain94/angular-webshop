@@ -51,15 +51,19 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
 
     this.getCategories();
 
-    this.addCategoryForm = this.formBuilder.group({
-      'name': [null, Validators.required]
-    });
+    this.initForm();
 
     this.analyticSubscription = this.analyticsService.visit('AdminCategories').subscribe();
   }
 
   ngOnDestroy(): void {
     // pass
+  }
+
+  private initForm(): void {
+    this.addCategoryForm = this.formBuilder.group({
+      'category': [null, Validators.required]
+    });
   }
 
   private getCategories(): void {
@@ -76,9 +80,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       (res: genericInterface.RootObject) => {
         this.disabled = false;
         if (res.error === 'false') {
-          this.addCategoryForm = this.formBuilder.group({
-            'name': [null, Validators.required]
-          });
+          this.initForm();
         }
 
         if (res.error === 'false') {
@@ -102,7 +104,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       cancelButtonText: 'Annuleer',
       inputValue: category
     }).then((result: string) => {
-      this.updateCategorySubscription = this.adminService.updateCategory({'category': result, 'id': id}).subscribe(
+      this.updateCategorySubscription = this.adminService.updateCategory(id, {'category': result}).subscribe(
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getCategories();
@@ -127,7 +129,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Verwijderen',
       cancelButtonText: 'Annuleer',
     }).then(() => {
-      this.deleteCategorySubscription = this.adminService.deleteCategory({'id': id}).subscribe(
+      this.deleteCategorySubscription = this.adminService.deleteCategory(id).subscribe(
         (res: genericInterface.RootObject) => {
           if (res.error === 'false') {
             this.getCategories();

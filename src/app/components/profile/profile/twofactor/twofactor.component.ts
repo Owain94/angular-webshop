@@ -78,8 +78,8 @@ export class ProfileTfaComponent implements OnInit, OnDestroy {
   public TfaSave(): void {
     if (this.twoFactorInitial && !this.twoFactorShow) {
       this.disableTfaSubscription = this.userService.disableTfa().subscribe(
-        (res: boolean) => {
-          if (res) {
+        (res: string) => {
+          if (res === 'false') {
             this.notificationsService.success('Succesvol!', 'Two Factor authenticatie uitgeschakeld!');
             this.twoFactorInitial = false;
           } else {
@@ -94,9 +94,10 @@ export class ProfileTfaComponent implements OnInit, OnDestroy {
     if (token.length !== 6) {
       this.notificationsService.error('Onsuccesvol!', 'Foutieve token invoer!');
     } else {
-      this.verifyTfaTokenSubscription = this.userService.verifyTfaToken(this.twoFactorKey, token).subscribe(
-        (res: boolean) => {
-          if (res) {
+      this.verifyTfaTokenSubscription = this.userService.verifyTfaAndSave(this.twoFactorKey, token).subscribe(
+        (res: string) => {
+          console.log(res);
+          if (res === 'false') {
             this.notificationsService.success('Succesvol!', 'Two Factor authenticatie ingeschakeld!');
             this.twoFactorInitial = true;
           } else {

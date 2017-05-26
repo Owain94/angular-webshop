@@ -10,7 +10,7 @@ import { UserService } from '../../../../services/user.service';
 import { NotificationsService } from '../../../../services/notifications.service';
 import { AnalyticsService } from '../../../../services/analytics.service';
 
-import { PasswordValidator } from '../../../../helpers/password.validator';
+import { mismatchedPasswords } from '../../../../helpers/password.validator';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -39,19 +39,21 @@ export class ProfilePasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.passwordForm = this.formBuilder.group({
-      'old_password': [null, [Validators.required, Validators.minLength(6)]],
-      'password': [null, [Validators.required, Validators.minLength(6)]],
-      'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
-    });
-
-    this.passwordForm.setValidators(PasswordValidator.mismatchedPasswords());
+    this.initForm();
 
     this.analyticSubscription = this.analyticsService.visit('ProfilePassword').subscribe();
   }
 
   ngOnDestroy(): void {
     // pass
+  }
+
+  private initForm(): void {
+    this.passwordForm = this.formBuilder.group({
+      'old_password': [null, [Validators.required, Validators.minLength(6)]],
+      'password': [null, [Validators.required, Validators.minLength(6)]],
+      'password_confirm': [null, [Validators.required, Validators.minLength(6), mismatchedPasswords('password')]]
+    });
   }
 
   public submitPasswordForm(value: Object): void {
@@ -63,15 +65,10 @@ export class ProfilePasswordComponent implements OnInit, OnDestroy {
         this.disabledPasswordForm = false;
 
         if (res.error === 'false') {
-          this.notificationsService.success('Succesvol!', res.data);
-
-          this.passwordForm = this.formBuilder.group({
-            'old_password': [null, [Validators.required, Validators.minLength(6)]],
-            'password': [null, [Validators.required, Validators.minLength(6)]],
-            'password_confirm': [null, [Validators.required, Validators.minLength(6)]]
-          });
+          this.notificationsService.success('Succesvol!', 'Uw wachtwoord is succesvol geüpdatet!');
+          this.initForm();
         } else {
-          this.notificationsService.error('Onsuccesvol!', res.data);
+          this.notificationsService.error('Onsuccesvol!', res.msg);
         }
       });
   }

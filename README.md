@@ -5,6 +5,7 @@
 [![dependencies Status](https://david-dm.org/Owain94/angular-webshop/status.svg)](https://david-dm.org/Owain94/angular-webshop)
 [![devDependencies Status](https://david-dm.org/Owain94/angular-webshop/dev-status.svg)](https://david-dm.org/Owain94/angular-webshop?type=dev)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f629b2903a744811b991f04646b84ec0)](https://www.codacy.com/app/Owain94/angular-webshop?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Owain94/angular-webshop&amp;utm_campaign=Badge_Grade)
+[![Codebeat badge](https://codebeat.co/badges/b430ee94-175f-4116-87af-9f70267b0f36)](https://codebeat.co/projects/github-com-owain94-angular-webshop-master)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.1.
 

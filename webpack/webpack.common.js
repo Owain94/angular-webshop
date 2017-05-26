@@ -129,6 +129,7 @@ module.exports = {
     ]
   },
   "plugins": [
+    new webpack.IgnorePlugin(/vertx/),
     new LoaderOptionsPlugin({
       "sourceMap": false,
       "options": {
