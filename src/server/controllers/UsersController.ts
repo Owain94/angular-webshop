@@ -13,13 +13,55 @@ import IUsersModel = require('../app/model/interfaces/IUsersModel');
 const pww = credential();
 
 class UsersController implements IBaseController<UsersBusiness> {
-  create(req: Request, res: Response): void {
+  private static capitalizeFirstLetter(string: string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  async create(req: Request, res: Response) {
     try {
       const user: IUsersModel = <IUsersModel>req.body;
+      const email = user.email.toLowerCase();
+
       const userBusiness = new UsersBusiness();
-      userBusiness.create(user, (error, result) => {
-        res.send({'error': error ? 'true' : 'false'});
+
+      const userCount = await new Promise((resolve, reject) => {
+        userBusiness.findByEmail(email, (error, result) => {
+          if (error) {
+            reject(new Error('User not found'));
+          } else {
+            resolve(result);
+          }
+        });
       });
+
+      console.log(userCount);
+
+      if (Number(userCount) === 0) {
+        const hash = await new Promise((resolve, reject) => {
+          pww.hash(user.password, (error: any, hashed: string) => {
+            if (error) {
+              reject(new Error('Dit email adres is al geregistreerd!'));
+            } else {
+              resolve(hashed);
+            }
+          });
+        });
+
+        user.firstname = UsersController.capitalizeFirstLetter(user.firstname.toLowerCase());
+        user.surname_prefix = user.surname_prefix.toLowerCase();
+        user.surname = UsersController.capitalizeFirstLetter(user.surname.toLowerCase());
+        user.streetname = user.streetname.toLowerCase();
+        user.email = email;
+        user.password = String(hash);
+        user.tfatoken = '';
+        user.admin = false;
+
+        userBusiness.create(user, (error, result) => {
+          res.send({'error': error ? 'true' : 'false'});
+        });
+      } else {
+        res.send({'error': 'true', 'msg': 'Dit email adres is al geregistreerd!'});
+      }
     } catch (e)  {
       console.log(e);
       res.send({'error': 'true'});
@@ -254,7 +296,6 @@ class UsersController implements IBaseController<UsersBusiness> {
 
       const email: string = req.body.email.toLowerCase();
       const password: string = req.body.password.toLowerCase();
-      const token: string = req.body.tfa.toLowerCase();
 
       const userBusiness = new UsersBusiness();
       const user = await new Promise((resolve, reject) => {
@@ -268,6 +309,7 @@ class UsersController implements IBaseController<UsersBusiness> {
       });
 
       if (user['tfatoken'].length > 0) {
+        const token: string = req.body.tfa;
         verified = speakeasy.totp.verify({ secret: user['tfatoken'], encoding: 'base32', token: token });
       }
 

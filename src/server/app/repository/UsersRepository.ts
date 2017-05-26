@@ -16,6 +16,10 @@ class UsersRepository extends RepositoryBase<IUsersModel> {
   findByEmail(email: string, callback: (error: any, result: IUsersModel) => void) {
     this.usersModel.findOne({'email': email.toLowerCase()}, callback);
   }
+
+  countByEmail(email: string, callback: (error: any, result: number) => void) {
+    this.usersModel.count({'email': email.toLowerCase()}, callback);
+  }
 }
 
 Object.seal(UsersRepository);

@@ -36,7 +36,7 @@ export class UserService implements OnDestroy {
   }
 
   public register(data: Object): Observable<genericInterface.RootObject> {
-    return this.http.post(`${url}/api/register/`, data, this.options)
+    return this.http.post(`${url}/api/users/`, data, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return res;

@@ -48,6 +48,10 @@ class UsersBusiness implements IUsersBusiness {
   findByEmail(email: string, callback: (error: any, result: IUsersModel) => void) {
     this.usersRepository.findByEmail(email, callback);
   }
+
+  countByEmail(email: string, callback: (error: any, result: number) => void) {
+    this.usersRepository.countByEmail(email, callback);
+  }
 }
 
 Object.seal(UsersBusiness);
