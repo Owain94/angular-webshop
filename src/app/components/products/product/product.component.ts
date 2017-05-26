@@ -51,7 +51,7 @@ export class ProductComponent implements OnInit, AfterContentInit, OnDestroy {
           }
           this.product = res;
 
-          this.analyticProductSubscription = this.analyticsService.product(this.id).subscribe();
+          this.analyticProductSubscription = this.analyticsService.visit(this.id, false).subscribe();
           this.metaService.addTags(true, res._id, res.name, res.description, res.price);
         }
       );

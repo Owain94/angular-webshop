@@ -22,20 +22,17 @@ export class AnalyticsService {
     this.options = new RequestOptions({ headers: headers });
   }
 
-  public visit(page: string): Observable<boolean> {
+  public visit(page: string, type: boolean = true): Observable<boolean> {
     if (process.env.NODE_ENV === 'production' && isPlatformBrowser(this.platformId)) {
-      return this.http.post(`${url}/api/page/`, {'page': page}, this.options)
-      .map((res: any) => res.json())
-      .map((res: genericInterface.RootObject) => {
-        return Boolean(res.error);
-      });
-    }
-    return Observable.of(false);
-  }
+      let obj: Object;
 
-  public product(id: string): Observable<boolean> {
-    if (process.env.NODE_ENV === 'production' && isPlatformBrowser(this.platformId)) {
-      return this.http.post(`${url}/api/stats/`, {'product': id}, this.options)
+      if (type) {
+        obj = {'page': page};
+      } else {
+        obj = {'product': page};
+      }
+
+      return this.http.post(`${url}/api/stats/`, obj, this.options)
       .map((res: any) => res.json())
       .map((res: genericInterface.RootObject) => {
         return Boolean(res.error);
