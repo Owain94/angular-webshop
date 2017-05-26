@@ -19,7 +19,7 @@ module.exports = {
     "rules": [
       {
         "test": /\.node$/,
-        "loader": 'node-loader'
+        "loader": "node-loader"
       }
     ]
   },
@@ -30,7 +30,7 @@ module.exports = {
     "path": path.join(process.cwd(), "dist"),
     "filename": "[name].server.bundle.js",
     "chunkFilename": "[id].server.chunk.js",
-    "libraryTarget": 'commonjs'
+    "libraryTarget": "commonjs"
   },
   "target": "node"
 };
