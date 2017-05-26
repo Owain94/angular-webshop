@@ -87,7 +87,7 @@ class ProductController implements IBaseController<ProductBusiness> {
         }
       });
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       res.send({'error': 'true'});
     }
   }
@@ -105,7 +105,7 @@ class ProductController implements IBaseController<ProductBusiness> {
         }
       });
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       res.send({'error': 'true'});
     }
   }

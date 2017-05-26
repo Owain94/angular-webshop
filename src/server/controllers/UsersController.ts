@@ -129,7 +129,6 @@ class UsersController implements IBaseController<UsersBusiness> {
         if (error) {
           res.send({'error': 'true'});
         } else {
-          console.log(result);
           res.send(result);
         }
       });
@@ -205,8 +204,6 @@ class UsersController implements IBaseController<UsersBusiness> {
           }
         });
       });
-
-      console.log(email);
 
       const verified = speakeasy.totp.verify({ secret: key, encoding: 'base32', token: token });
 
