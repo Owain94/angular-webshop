@@ -103,7 +103,7 @@
     "node-loader": "0.6.0",
     "nodemon": "1.11.0",
     "postcss-loader": "2.0.5",
-    "postcss-url": "6.4.1",
+    "postcss-url": "7.0.0",
     "pre-commit": "1.2.2",
     "progress-bar-webpack-plugin": "1.9.3",
     "protractor": "5.1.2",
