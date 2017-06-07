@@ -63,7 +63,7 @@
     "speakeasy": "2.0.0",
     "sweetalert2": "6.6.5",
     "web-animations-js": "2.2.5",
-    "zone.js": "0.8.11"
+    "zone.js": "0.8.12"
   },
   "devDependencies": {
     "@angular/cli": "1.1.0",
