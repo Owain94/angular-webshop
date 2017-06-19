@@ -50,7 +50,7 @@
     "express-static-gzip": "0.2.3",
     "fastclick": "1.0.6",
     "jsonwebtoken": "7.4.1",
-    "mongodb": "2.2.28",
+    "mongodb": "2.2.29",
     "mongoose": "4.10.7",
     "ng-daterangepicker": "0.2.0",
     "ng2-charts": "1.6.0",
