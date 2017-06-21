@@ -89,7 +89,7 @@
     "html-webpack-exclude-assets-plugin": "0.0.5",
     "istanbul-instrumenter-loader": "2.0.0",
     "jasmine-core": "2.6.4",
-    "jasmine-spec-reporter": "4.1.0",
+    "jasmine-spec-reporter": "4.1.1",
     "json-loader": "0.5.4",
     "karma": "1.7.0",
     "karma-chrome-launcher": "2.1.1",
