@@ -120,7 +120,7 @@
     "source-map-loader": "0.2.1",
     "style-loader": "0.18.2",
     "stylelint": "7.12.0",
-    "stylelint-config-recess-order": "1.2.0",
+    "stylelint-config-recess-order": "1.2.1",
     "stylelint-config-standard": "16.0.0",
     "stylelint-processor-html": "1.0.0",
     "stylint": "1.5.9",
