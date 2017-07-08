@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,6 +28,8 @@ import { MetaService } from '../../services/meta.service';
 import { AnalyticsService } from '../../services/analytics.service';
 
 import { AdminGuard } from '../../guards/admin.guard';
+
+import * as Raven from 'raven-js';
 
 const routes: Routes =
   [
@@ -68,6 +70,24 @@ const routes: Routes =
     }
   ];
 
+Raven
+  .config('https://03d884b718be42638de950df2a94a5d3@sentry.io/189340')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    Raven.captureException(err.originalError);
+  }
+}
+
+export function provideErrorHandler() {
+  if (process.env.NODE_ENV === 'production') {
+    return new RavenErrorHandler();
+  } else {
+    return new ErrorHandler();
+  }
+}
+
 @NgModule({
   declarations: [
     AdminComponent,
@@ -96,6 +116,10 @@ const routes: Routes =
     )
   ],
   providers: [
+    {
+      provide: ErrorHandler,
+      useFactory: provideErrorHandler
+    },
     ProductService,
     UserService,
     ContactService,

@@ -1,7 +1,7 @@
 declare module adminVerify {
 
-    export interface RootObject {
-        admin: boolean;
-    }
+  export interface RootObject {
+    admin: boolean;
+  }
 
 }

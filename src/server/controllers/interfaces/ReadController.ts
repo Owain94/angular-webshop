@@ -1,4 +1,4 @@
-import { RequestHandler } from '@types/express';
+import { RequestHandler } from 'express';
 
 interface ReadController {
     retrieve: RequestHandler;
