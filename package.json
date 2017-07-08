@@ -132,7 +132,7 @@
     "tsserver-plugins": "0.2.0",
     "typescript": "2.4.1",
     "url-loader": "0.5.9",
-    "webpack-dev-server": "2.5.0"
+    "webpack-dev-server": "2.5.1"
   },
   "greenkeeper": {
     "branchPrefix": "dep-update-",
