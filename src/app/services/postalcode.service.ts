@@ -12,7 +12,7 @@ export class PostalcodeService {
 
   constructor(private http: Http) {}
 
-  public getPostalcodeData(postalcode: string): Observable<[string, string]> {
+  public getPostalcodeData(postalcode: string): Observable<Array<string>> {
     const headers = new Headers();
     headers.append('X-Api-Key', postalKey);
     const options = new RequestOptions({ headers: headers });

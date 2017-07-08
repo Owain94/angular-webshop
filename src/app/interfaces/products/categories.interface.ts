@@ -1,7 +1,7 @@
 declare module categoriesInterface {
-    export interface RootObject {
-        _id: string;
-        category: string;
-    }
+  export interface RootObject {
+    _id: string;
+    category: string;
+  }
 }
 

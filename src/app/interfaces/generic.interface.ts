@@ -1,7 +1,7 @@
 declare module genericInterface {
-    export interface RootObject {
-        error: string;
-        data: string;
-        msg: string;
-    }
+  export interface RootObject {
+    error: string;
+    data: string;
+    msg: string;
+  }
 }
