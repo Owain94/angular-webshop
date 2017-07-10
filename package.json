@@ -106,7 +106,7 @@
     "postcss-loader": "2.0.6",
     "postcss-url": "7.0.0",
     "pre-commit": "1.2.2",
-    "progress-bar-webpack-plugin": "1.9.3",
+    "progress-bar-webpack-plugin": "1.10.0",
     "protractor": "5.1.2",
     "pug": "2.0.0-rc.2",
     "pug-html-loader": "1.1.5",
