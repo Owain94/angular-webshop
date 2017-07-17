@@ -35,16 +35,6 @@ run build:all:aot]]></param>
       </build-trigger>
     </build-triggers>
     <build-extensions>
-      <extension id="BUILD_EXT_1" type="commit-status-publisher">
-        <parameters>
-          <param name="publisherId" value="upsourcePublisher" />
-          <param name="secure:upsourcePassword" value="zxxc72f1d3bc9eb969b775d03cbe80d301b" />
-          <param name="upsourceProjectId" value="angular-webshop" />
-          <param name="upsourceServerUrl" value="http://136.144.141.239:8082" />
-          <param name="upsourceUsername" value="owain" />
-          <param name="vcsRootId" value="AngularWebshop_HttpsGithubComOwain94angularWebshopRefsHeadsMaster" />
-        </parameters>
-      </extension>
       <extension id="BUILD_EXT_2" type="commit-status-publisher">
         <parameters>
           <param name="github_authentication_type" value="token" />
