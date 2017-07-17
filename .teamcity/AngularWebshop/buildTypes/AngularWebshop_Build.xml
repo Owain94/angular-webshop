@@ -56,6 +56,9 @@ run build:all:aot]]></param>
           <param name="vcsRootId" value="AngularWebshop_HttpsGithubComOwain94angularWebshopRefsHeadsMaster" />
         </parameters>
       </extension>
+      <extension id="perfmon" type="perfmon">
+        <parameters />
+      </extension>
     </build-extensions>
     <cleanup>
       <policy type="days" cleanup-level="EVERYTHING">
