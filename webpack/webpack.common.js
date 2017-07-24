@@ -1,7 +1,7 @@
 const path = require("path");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const postcss = require("postcss");
 const url = require("postcss-url");
@@ -155,10 +155,10 @@ module.exports = {
       }
     }),
     new CopyWebpackPlugin([
-        { from: 'src/assets', to: 'assets' },
+        { from: "src/assets", to: "assets" },
       ], {
         ignore: [
-          '**/.*'
+          "**/.*"
         ],
         copyUnmodified: true
       }
