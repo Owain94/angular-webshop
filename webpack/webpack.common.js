@@ -1,13 +1,13 @@
 const path = require("path");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require("autoprefixer");
 const postcss = require("postcss");
 const url = require("postcss-url");
 const webpack = require("webpack");
 
 const { LoaderOptionsPlugin } = require("webpack");
-const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require("@angular/cli/plugins/webpack");
 const { AotPlugin } = require("@ngtools/webpack");
 
 module.exports = {
@@ -154,19 +154,16 @@ module.exports = {
         "context": ""
       }
     }),
-    new GlobCopyWebpackPlugin({
-      "patterns": [
-        "assets",
-        "favicon.ico"
-      ],
-      "globOptions": {
-        "cwd": path.join(process.cwd(), "src"),
-        "dot": true,
-        "ignore": "**/.gitkeep"
+    new CopyWebpackPlugin([
+        { from: 'src/assets', to: 'assets' },
+      ], {
+        ignore: [
+          '**/.*'
+        ],
+        copyUnmodified: true
       }
-    }),
+    ),
     new ProgressBarPlugin(),
-    new BaseHrefWebpackPlugin({}),
     new ExtractTextPlugin({
       "filename": "[name].bundle.css",
       "allChunks": true
