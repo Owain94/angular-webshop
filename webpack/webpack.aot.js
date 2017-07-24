@@ -25,7 +25,7 @@ const mainPath = {
 function getAotPlugin(platform, aot) {
   return new AotPlugin({
     "mainPath": mainPath[platform],
-    "tsConfigPath":aot ? tsConfigAot[platform] : tsConfig[platform],
+    "tsConfigPath": aot ? tsConfigAot[platform] : tsConfig[platform],
     "skipCodeGeneration": !aot
   });
 }
