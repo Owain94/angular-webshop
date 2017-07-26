@@ -91,7 +91,7 @@
     "file-loader": "0.11.2",
     "html-webpack-exclude-assets-plugin": "0.0.5",
     "html-webpack-plugin": "2.29.0",
-    "istanbul-instrumenter-loader": "2.0.0",
+    "istanbul-instrumenter-loader": "3.0.0",
     "jasmine-core": "2.6.4",
     "jasmine-spec-reporter": "4.1.1",
     "json-loader": "0.5.7",
