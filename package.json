@@ -51,7 +51,7 @@
     "fastclick": "1.0.6",
     "jsonwebtoken": "7.4.2",
     "mongodb": "2.2.31",
-    "mongoose": "4.11.6",
+    "mongoose": "4.11.7",
     "ng-daterangepicker": "0.2.0",
     "ng2-charts": "1.6.0",
     "ng2-img-cropper": "0.13.0",
