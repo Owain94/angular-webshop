@@ -71,7 +71,7 @@
     "@angular/language-service": "4.3.5",
     "@ngtools/webpack": "1.6.1",
     "@types/express": "4.0.37",
-    "@types/jasmine": "2.5.53",
+    "@types/jasmine": "2.5.54",
     "@types/mongodb": "2.2.10",
     "@types/mongoose": "4.7.20",
     "@types/node": "8.0.24",
