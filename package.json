@@ -114,7 +114,7 @@
     "protractor": "5.1.2",
     "pug": "2.0.0-rc.3",
     "pug-html-loader": "1.1.5",
-    "pug-lint": "2.4.0",
+    "pug-lint": "2.5.0",
     "purify-css": "1.2.6",
     "purifycss-webpack": "0.7.0",
     "raw-loader": "0.5.1",
