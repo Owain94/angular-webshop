@@ -124,7 +124,7 @@
     "script-loader": "0.7.0",
     "source-map-loader": "0.2.1",
     "style-loader": "0.18.2",
-    "stylelint": "8.0.0",
+    "stylelint": "8.1.1",
     "stylelint-config-recess-order": "1.2.2",
     "stylelint-config-standard": "17.0.0",
     "stylelint-processor-html": "1.0.0",
