@@ -41,7 +41,7 @@
     "@angular/router": "4.4.0-RC.0",
     "angular2-jwt": "0.2.3",
     "base64-img": "1.0.3",
-    "body-parser": "1.17.2",
+    "body-parser": "1.18.1",
     "chart.js": "2.7.0",
     "compression": "1.7.0",
     "core-js": "2.5.1",
