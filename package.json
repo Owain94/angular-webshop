@@ -42,7 +42,7 @@
     "angular2-jwt": "0.2.3",
     "base64-img": "1.0.3",
     "body-parser": "1.17.2",
-    "chart.js": "2.6.0",
+    "chart.js": "2.7.0",
     "compression": "1.7.0",
     "core-js": "2.5.1",
     "credential": "2.0.0",
