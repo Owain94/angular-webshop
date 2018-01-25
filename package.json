@@ -38,7 +38,7 @@
     "@angular/platform-browser": "4.4.4",
     "@angular/platform-browser-dynamic": "4.4.4",
     "@angular/platform-server": "4.4.4",
-    "@angular/router": "4.4.4",
+    "@angular/router": "5.2.2",
     "angular2-jwt": "0.2.3",
     "base64-img": "1.0.3",
     "body-parser": "1.18.2",
