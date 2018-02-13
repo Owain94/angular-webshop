@@ -40,7 +40,7 @@
     "@angular/platform-server": "4.4.4",
     "@angular/router": "4.4.4",
     "angular2-jwt": "0.2.3",
-    "base64-img": "1.0.3",
+    "base64-img": "1.0.4",
     "body-parser": "1.18.2",
     "chart.js": "2.7.0",
     "compression": "1.7.1",
