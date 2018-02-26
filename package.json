@@ -130,7 +130,7 @@
     "stylelint-processor-html": "1.0.0",
     "stylint": "1.5.9",
     "stylus": "0.54.5",
-    "stylus-loader": "3.0.1",
+    "stylus-loader": "3.0.2",
     "sw-precache": "5.2.0",
     "ts-node": "3.3.0",
     "tslint": "5.7.0",
