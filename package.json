@@ -123,7 +123,7 @@
     "script-ext-html-webpack-plugin": "1.8.5",
     "script-loader": "0.7.2",
     "source-map-loader": "0.2.2",
-    "style-loader": "0.19.0",
+    "style-loader": "0.20.3",
     "stylelint": "8.2.0",
     "stylelint-config-recess-order": "1.2.2",
     "stylelint-config-standard": "17.0.0",
