@@ -126,7 +126,7 @@
     "style-loader": "0.19.0",
     "stylelint": "8.2.0",
     "stylelint-config-recess-order": "1.2.2",
-    "stylelint-config-standard": "17.0.0",
+    "stylelint-config-standard": "18.3.0",
     "stylelint-processor-html": "1.0.0",
     "stylint": "1.5.9",
     "stylus": "0.54.5",
