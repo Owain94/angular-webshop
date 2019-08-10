@@ -47,7 +47,7 @@
     "core-js": "2.5.1",
     "credential": "2.0.0",
     "express": "5.0.0-alpha.6",
-    "express-static-gzip": "0.3.0",
+    "express-static-gzip": "2.0.1",
     "fastclick": "1.0.6",
     "jsonwebtoken": "8.1.0",
     "mongodb": "2.2.31",
