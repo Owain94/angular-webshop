@@ -132,7 +132,7 @@
     "stylus": "0.54.5",
     "stylus-loader": "3.0.1",
     "sw-precache": "5.2.0",
-    "ts-node": "3.3.0",
+    "ts-node": "8.4.1",
     "tslint": "5.7.0",
     "tslint-language-service": "0.9.6",
     "tsserver-plugins": "0.2.0",
