@@ -44,7 +44,7 @@
     "body-parser": "1.18.2",
     "chart.js": "2.7.0",
     "compression": "1.7.1",
-    "core-js": "2.5.1",
+    "core-js": "3.4.4",
     "credential": "2.0.0",
     "express": "5.0.0-alpha.6",
     "express-static-gzip": "0.3.0",
